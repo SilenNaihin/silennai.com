@@ -27,7 +27,7 @@ export const books: Book[] = [
     author: 'Richard Dawkins',
     cover: '/books/selfish-gene.jpg',
     spineColor: '#8B4513',
-    rating: 5,
+    rating: 9,
     reflections:
       'A groundbreaking work that changed how we think about evolution and genetics. The gene-centered view of evolution is both elegant and profound.',
   },
@@ -151,7 +151,7 @@ export const podcasts: Podcast[] = [
   {
     title: 'Sample Podcast 1',
     cover: '/podcasts/podcast1.jpg',
-    rating: 4,
+    rating: 8,
     reflections:
       'Great insights on technology and society. The host brings unique perspectives to complex topics.',
   },
