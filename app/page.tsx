@@ -1,65 +1,115 @@
-import Image from "next/image";
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
+    <main className="max-w-2xl mx-auto px-4 md:px-8 py-8">
+      <section className="mb-4">
+        <h2 className="font-bold mb-3">Some of my journey</h2>
+        <ul className="space-y-3 list-disc pl-5 text-gray-700">
+          <li>
+            I&apos;m doing work on the{' '}
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="https://www.whitehouse.gov/presidential-actions/2025/11/launching-the-genesis-mission/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-900"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
+              Genesis Mission
+            </a>{' '}
+            to accelerate scientific discovery with AI. Akin to the Manhattan
+            project.
+          </li>
+          <li>
+            My time is focused on expanding the frontier of human knowledge.
+          </li>
+          <li>
+            I ran a company that was in YC (StackwiseAI) for two years. Before
+            that, I helped build{' '}
             <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="https://github.com/Significant-Gravitas/Auto-GPT"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-900"
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+              AutoGPT
+            </a>
+            , built the first{' '}
+            <a
+              href="https://github.com/Significant-Gravitas/Auto-GPT-Benchmarks"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-900"
+            >
+              agentic benchmark
+            </a>
+            , and published a{' '}
+            <a
+              href="https://neurips.cc/virtual/2023/78940"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-900"
+            >
+              paper
+            </a>{' '}
+            on a portion of that work. I&apos;ve also done various ML and AI eng
+            jobs as a contractor/founding engineer. I dropped out of a cs degree
+            at Minerva University.
+          </li>
+        </ul>
+      </section>
+
+      <section className="mb-4">
+        <h2 className="font-bold mb-3">Some of my thoughts</h2>
+        <ul className="space-y-3 list-disc pl-5 text-gray-700">
+          <li>
+            My worldview combines experiential verifiability with biologically
+            grounded utilitarianism. Through this lens I practice Stoic
+            asceticism: a good life is virtuous, disciplined, and conviction
+            driven.
+          </li>
+          <li>
+            Happiness is a function of eudaemonia and hedonia (if you choose to
+            live within society).
+          </li>
+          <li>
+            I&apos;m hyper aware of my dopamine and regulate my environment as
+            such. I did 12 dopamine fasts in 2025 (no eating, talking, reading,
+            devices for 36 hours).
+          </li>
+        </ul>
+      </section>
+
+      <section className="mb-4">
+        <h2 className="font-bold mb-3">Some of my interests</h2>
+        <ul className="space-y-3 list-disc pl-5 text-gray-700">
+          <li>
+            I particularly enjoy{' '}
+            <Link href="/content" className="underline hover:text-gray-900">
+              history through late antiquity
+            </Link>
+            . The past is the present unrolled for understanding. The present is
+            the past rolled up for action.
+          </li>
+          <li>
+            I&apos;m currently working on hitting the 1000lb club and a 3 plate
+            bench press. I&apos;m relatively close.
+          </li>
+          <li>
+            I&apos;ve visited 30+ countries across 6 continents. I&apos;ve lived
+            in several places including in a desert (van + starlink) for 4
+            months.
+          </li>
+          <li>
+            I have interest in quantum computing, neuroscience, bio
+            nanorobotics, and aerospace. I&apos;ve explored each at{' '}
+            <Link href="/blog" className="underline hover:text-gray-900">
+              varying levels of depth
+            </Link>
+            . Alongside AI, these are the last frontiers towards humanity
+            immortality.
+          </li>
+        </ul>
+      </section>
+    </main>
   );
 }
