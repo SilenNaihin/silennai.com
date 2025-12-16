@@ -25,7 +25,7 @@ export const books: Book[] = [
   {
     title: 'The Selfish Gene',
     author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    cover: '/books/selfish-gene.png',
     spineColor: '#8B4513',
     rating: 9,
     reflections:

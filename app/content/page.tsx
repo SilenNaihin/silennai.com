@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { books, podcasts, links, Book, Podcast, Link } from './data';
 
 type Section = 'books' | 'podcasts' | 'links';
@@ -71,8 +70,15 @@ export default function Content() {
           {activeSection === 'books' && (
             <BooksSection
               onSelect={(book, index) => {
-                setSelectedItem(book);
-                setSelectedBookIndex(index);
+                if (selectedBookIndex === index) {
+                  // Click on same book - deselect
+                  setSelectedItem(null);
+                  setSelectedBookIndex(null);
+                } else {
+                  // Click on different book - select
+                  setSelectedItem(book);
+                  setSelectedBookIndex(index);
+                }
               }}
               selectedIndex={selectedBookIndex}
             />
@@ -80,8 +86,15 @@ export default function Content() {
           {activeSection === 'podcasts' && (
             <PodcastsSection
               onSelect={(podcast, index) => {
-                setSelectedItem(podcast);
-                setSelectedPodcastIndex(index);
+                if (selectedPodcastIndex === index) {
+                  // Click on same podcast - deselect
+                  setSelectedItem(null);
+                  setSelectedPodcastIndex(null);
+                } else {
+                  // Click on different podcast - select
+                  setSelectedItem(podcast);
+                  setSelectedPodcastIndex(index);
+                }
               }}
               selectedIndex={selectedPodcastIndex}
             />
@@ -90,59 +103,38 @@ export default function Content() {
             <LinksSection onSelect={setSelectedItem} />
           )}
         </div>
-      </main>
 
-      {/* Detail Popup - fades in at bottom with gradient edges */}
-      {selectedItem && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
-          <div
-            className="w-full max-w-2xl pointer-events-auto"
-            style={{
-              animation: 'fadeSlideUp 0.3s ease-out forwards',
-            }}
-          >
-            {/* Gradient fade at top */}
+        {/* Detail Section - inline below content */}
+        <div
+          className="mt-8 border-t border-gray-200 pt-6 transition-all duration-300"
+          style={{
+            minHeight: '200px',
+            maxHeight: selectedItem ? 'none' : '200px',
+          }}
+        >
+          {selectedItem ? (
             <div
-              className="h-16"
               style={{
-                background:
-                  'linear-gradient(to bottom, transparent 0%, white 100%)',
+                animation: 'fadeIn 0.3s ease-out',
               }}
-            />
-
-            {/* Content */}
-            <div className="bg-white px-8 pb-8">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex-1">
-                  <div className="flex items-baseline gap-3 mb-1">
-                    <h2 className="text-xl font-bold">
-                      {'title' in selectedItem
-                        ? selectedItem.title
-                        : selectedItem.name}
-                    </h2>
-                    {'rating' in selectedItem && selectedItem.rating && (
-                      <span className="text-gray-600 text-sm">
-                        {selectedItem.rating}/10
-                      </span>
-                    )}
-                  </div>
-                  {'author' in selectedItem && (
-                    <p className="text-gray-600 text-sm mb-2">
-                      {selectedItem.author}
-                    </p>
-                  )}
-                </div>
-                <button
-                  onClick={() => {
-                    setSelectedItem(null);
-                    setSelectedBookIndex(null);
-                    setSelectedPodcastIndex(null);
-                  }}
-                  className="text-gray-400 hover:text-gray-600 text-xl ml-4"
-                >
-                  ×
-                </button>
+            >
+              <div className="flex items-baseline gap-3 mb-2">
+                <h2 className="text-xl font-bold">
+                  {'title' in selectedItem
+                    ? selectedItem.title
+                    : selectedItem.name}
+                </h2>
+                {'rating' in selectedItem && selectedItem.rating && (
+                  <span className="text-gray-600 text-sm">
+                    {selectedItem.rating}/10
+                  </span>
+                )}
               </div>
+              {'author' in selectedItem && (
+                <p className="text-gray-600 text-sm mb-4">
+                  {selectedItem.author}
+                </p>
+              )}
 
               {'reflections' in selectedItem && selectedItem.reflections && (
                 <p className="text-gray-700 leading-relaxed text-sm">
@@ -163,9 +155,13 @@ export default function Content() {
                 </div>
               )}
             </div>
-          </div>
+          ) : (
+            <div className="flex items-center justify-center h-full text-gray-400 text-sm">
+              Select an item to view details
+            </div>
+          )}
         </div>
-      )}
+      </main>
     </div>
   );
 }
@@ -177,65 +173,62 @@ function BooksSection({
   onSelect: (item: Book, index: number) => void;
   selectedIndex: number | null;
 }) {
-  const booksPerRow = 5;
-  const rows = 4;
+  const shelves = 3;
+  const booksPerShelf = Math.ceil(books.length / shelves);
 
   return (
     <div className="relative w-full">
-      <div className="relative w-full">
-        {/* Bookshelf Background */}
-        <div className="relative">
-          <Image
-            src="/bookshelf.avif"
-            alt="Bookshelf"
-            width={1200}
-            height={800}
-            className="w-full h-auto"
-            priority
-          />
+      {/* 3 simple shelves */}
+      <div className="space-y-6">
+        {Array.from({ length: shelves }).map((_, shelfIndex) => {
+          const shelfBooks = books.slice(
+            shelfIndex * booksPerShelf,
+            (shelfIndex + 1) * booksPerShelf
+          );
 
-          {/* Books Grid Overlay */}
-          <div className="absolute inset-0 grid grid-rows-4 gap-y-2 p-8">
-            {Array.from({ length: rows }).map((_, rowIndex) => (
+          return (
+            <div
+              key={shelfIndex}
+              className="relative flex flex-col items-center"
+            >
+              {/* Books on this shelf */}
               <div
-                key={rowIndex}
-                className="flex justify-start gap-4 items-end px-6"
+                className="flex justify-center gap-2 pb-1 items-end"
+                style={{
+                  perspective: '2000px',
+                  transformStyle: 'preserve-3d',
+                }}
               >
-                {books
-                  .slice(rowIndex * booksPerRow, (rowIndex + 1) * booksPerRow)
-                  .map((book, bookIndex) => {
-                    const globalIndex = rowIndex * booksPerRow + bookIndex;
-                    const isSelected = selectedIndex === globalIndex;
-                    const isInSameRow =
-                      selectedIndex !== null &&
-                      Math.floor(selectedIndex / booksPerRow) === rowIndex;
-                    const selectedPositionInRow =
-                      selectedIndex !== null ? selectedIndex % booksPerRow : -1;
+                {shelfBooks.map((book, bookIndex) => {
+                  const globalIndex = shelfIndex * booksPerShelf + bookIndex;
+                  const isSelected = selectedIndex === globalIndex;
 
-                    // Calculate offset for books in the same row
-                    let offset = 0;
-                    if (isInSameRow && !isSelected) {
-                      if (bookIndex < selectedPositionInRow) {
-                        offset = -30; // Move left
-                      } else if (bookIndex > selectedPositionInRow) {
-                        offset = 30; // Move right
-                      }
-                    }
-
-                    return (
-                      <Book3D
-                        key={`${rowIndex}-${bookIndex}`}
-                        book={book}
-                        onClick={() => onSelect(book, globalIndex)}
-                        isSelected={isSelected}
-                        offset={offset}
-                      />
-                    );
-                  })}
+                  return (
+                    <Book3D
+                      key={`${shelfIndex}-${bookIndex}`}
+                      book={book}
+                      onClick={() => onSelect(book, globalIndex)}
+                      isSelected={isSelected}
+                    />
+                  );
+                })}
               </div>
-            ))}
-          </div>
-        </div>
+
+              {/* Simple 3D shelf line - same width for all shelves */}
+              <div
+                className="relative h-2 rounded-sm"
+                style={{
+                  width: `${
+                    booksPerShelf * 50 + (booksPerShelf - 1) * 8 + 40
+                  }px`,
+                  background: 'linear-gradient(to bottom, #d4d4d4, #a3a3a3)',
+                  boxShadow:
+                    '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.5)',
+                }}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -245,49 +238,41 @@ function Book3D({
   book,
   onClick,
   isSelected,
-  offset,
 }: {
   book: (typeof books)[0];
   onClick: () => void;
   isSelected: boolean;
-  offset: number;
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
-      className="relative group cursor-pointer transition-all duration-500"
+      className={`relative cursor-pointer transition-all duration-500 ${
+        isSelected || isHovered ? 'z-50' : 'z-0'
+      }`}
       style={{
-        perspective: '2000px',
         width: '50px',
         height: '180px',
-        transform: `translateX(${offset}px)`,
+        transformStyle: 'preserve-3d',
+        transform: isSelected
+          ? 'translateZ(100px) rotateY(-35deg)'
+          : isHovered
+          ? 'translateZ(40px) rotateY(-35deg)'
+          : 'translateZ(0px)',
+        transformOrigin: 'left center',
       }}
       onMouseEnter={() => !isSelected && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
     >
+      {/* Book Spine (front face) */}
       <div
-        className="relative transition-all duration-500 ease-out"
+        className="absolute top-0 left-0 flex items-center justify-center text-white text-xs font-semibold"
         style={{
-          transformStyle: 'preserve-3d',
           width: '50px',
           height: '180px',
-          transformOrigin: 'left center',
-          transform:
-            isHovered || isSelected
-              ? 'rotateY(-35deg) translateZ(20px)'
-              : 'rotateY(0deg)',
-        }}
-      >
-        {/* Book Spine (front face) */}
-        <div
-          className="absolute top-0 left-0 flex items-center justify-center text-white text-xs font-semibold"
-          style={{
-            width: '50px',
-            height: '180px',
-            background: book.spineColor,
-            backgroundImage: `
+          background: book.spineColor,
+          backgroundImage: `
               linear-gradient(135deg, 
                 ${book.spineColor} 0%, 
                 ${book.spineColor}ee 45%, 
@@ -304,49 +289,59 @@ function Book3D({
               ),
               url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E")
             `,
-            borderRadius: '2px 0 0 2px',
-            boxShadow:
-              'inset 3px 0 6px rgba(0,0,0,0.3), inset -2px 0 4px rgba(0,0,0,0.2), inset 0 0 20px rgba(0,0,0,0.1)',
-            transformStyle: 'preserve-3d',
-          }}
-        >
-          <div
-            className="whitespace-nowrap text-[10px] tracking-tight font-bold"
-            style={{
-              writingMode: 'vertical-rl',
-              transform: 'rotate(180deg)',
-              maxHeight: '170px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
-            }}
-          >
-            {book.title}
-          </div>
-        </div>
-
-        {/* Book Cover (right face) */}
+          borderRadius: '2px 0 0 2px',
+          boxShadow:
+            'inset 3px 0 6px rgba(0,0,0,0.3), inset -2px 0 4px rgba(0,0,0,0.2), inset 0 0 20px rgba(0,0,0,0.1)',
+          transformStyle: 'preserve-3d',
+        }}
+      >
         <div
-          className="absolute top-0 left-0 overflow-hidden"
+          className="whitespace-nowrap text-[10px] tracking-tight font-bold"
           style={{
-            width: '160px',
-            height: '180px',
-            transform: 'rotateY(90deg) translateZ(25px)',
-            transformOrigin: 'left center',
-            transformStyle: 'preserve-3d',
-            opacity: isHovered || isSelected ? 1 : 0,
-            transition: 'opacity 0.3s ease-out',
-            boxShadow: '0 15px 40px rgba(0,0,0,0.6)',
-            borderRadius: '0 2px 2px 0',
+            writingMode: 'vertical-rl',
+            transform: 'rotate(180deg)',
+            maxHeight: '170px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
           }}
         >
+          {book.title}
+        </div>
+      </div>
+
+      {/* Book Cover (right face) */}
+      <div
+        className="absolute top-0 left-0 overflow-hidden"
+        style={{
+          width: '160px',
+          height: '180px',
+          transform: 'rotateY(90deg) translateZ(25px)',
+          transformOrigin: 'left center',
+          transformStyle: 'preserve-3d',
+          opacity: isHovered || isSelected ? 1 : 0,
+          transition: 'opacity 0.3s ease-out',
+          boxShadow: '0 15px 40px rgba(0,0,0,0.6)',
+          borderRadius: '0 2px 2px 0',
+        }}
+      >
+        {book.cover ? (
+          <img
+            src={book.cover}
+            alt={`${book.title} cover`}
+            className="w-full h-full object-contain"
+            style={{
+              boxShadow: 'inset 0 0 30px rgba(0,0,0,0.2)',
+            }}
+          />
+        ) : (
           <div
             className="w-full h-full bg-linear-to-br from-gray-300 to-gray-400 flex items-center justify-center p-4"
             style={{
               backgroundImage: `
-                linear-gradient(to bottom right, #d1d5db, #9ca3af),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.25'/%3E%3C/svg%3E")
-              `,
+                  linear-gradient(to bottom right, #d1d5db, #9ca3af),
+                  url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.25'/%3E%3C/svg%3E")
+                `,
               boxShadow: 'inset 0 0 30px rgba(0,0,0,0.2)',
             }}
           >
@@ -357,34 +352,34 @@ function Book3D({
               <p className="text-xs text-gray-600">{book.author}</p>
             </div>
           </div>
-        </div>
-
-        {/* Book Top Edge */}
-        <div
-          className="absolute top-0 left-0"
-          style={{
-            width: '50px',
-            height: '30px',
-            background: `linear-gradient(to bottom, ${book.spineColor}dd, ${book.spineColor}88)`,
-            transform: 'rotateX(90deg) translateZ(0px)',
-            transformOrigin: 'top center',
-            transformStyle: 'preserve-3d',
-          }}
-        />
-
-        {/* Book Bottom Edge */}
-        <div
-          className="absolute bottom-0 left-0"
-          style={{
-            width: '50px',
-            height: '30px',
-            background: `linear-gradient(to top, ${book.spineColor}cc, ${book.spineColor}66)`,
-            transform: 'rotateX(-90deg) translateZ(0px)',
-            transformOrigin: 'bottom center',
-            transformStyle: 'preserve-3d',
-          }}
-        />
+        )}
       </div>
+
+      {/* Book Top Edge */}
+      <div
+        className="absolute top-0 left-0"
+        style={{
+          width: '50px',
+          height: '30px',
+          background: `linear-gradient(to bottom, ${book.spineColor}dd, ${book.spineColor}88)`,
+          transform: 'rotateX(90deg) translateZ(0px)',
+          transformOrigin: 'top center',
+          transformStyle: 'preserve-3d',
+        }}
+      />
+
+      {/* Book Bottom Edge */}
+      <div
+        className="absolute bottom-0 left-0"
+        style={{
+          width: '50px',
+          height: '30px',
+          background: `linear-gradient(to top, ${book.spineColor}cc, ${book.spineColor}66)`,
+          transform: 'rotateX(-90deg) translateZ(0px)',
+          transformOrigin: 'bottom center',
+          transformStyle: 'preserve-3d',
+        }}
+      />
     </div>
   );
 }
@@ -569,51 +564,6 @@ function PodcastCover({
         {isHovered && !isSelected && (
           <div
             className="absolute inset-0 bg-linear-to-br from-white/30 to-transparent pointer-events-none rounded-lg"
-            style={{
-              transform: 'translateZ(1px)',
-            }}
-          />
-        )}
-        {/* Podcast Cover Art */}
-        <div
-          className="w-full h-full bg-linear-to-br from-gray-300 to-gray-500 flex items-center justify-center p-6"
-          style={{
-            backgroundImage: `
-              linear-gradient(to bottom right, #d1d5db, #6b7280),
-              repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255,255,255,0.03) 10px,
-                rgba(255,255,255,0.03) 20px
-              ),
-              url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E")
-            `,
-            boxShadow: 'inset 0 0 40px rgba(0,0,0,0.15)',
-          }}
-        >
-          <div className="text-center relative z-10">
-            <p className="text-lg font-bold text-gray-800 drop-shadow-sm">
-              {podcast.title}
-            </p>
-          </div>
-        </div>
-
-        {/* Vinyl texture overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: `
-              radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%)
-            `,
-            mixBlendMode: 'overlay',
-          }}
-        />
-
-        {/* Shine effect on hover */}
-        {isHovered && (
-          <div
-            className="absolute inset-0 bg-linear-to-br from-white/30 to-transparent pointer-events-none"
             style={{
               transform: 'translateZ(1px)',
             }}
