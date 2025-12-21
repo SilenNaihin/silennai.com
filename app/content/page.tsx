@@ -1,7 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { books, podcasts, links, Book, Podcast, Link } from './data';
+
+// Hook to calculate responsive shelf count based on screen height
+function useResponsiveShelfCount() {
+  const [shelfCount, setShelfCount] = useState(3);
+
+  useEffect(() => {
+    const calculateShelfCount = () => {
+      const viewportHeight = window.innerHeight;
+      // Each shelf is roughly 260px (240px book + 20px shelf/gap)
+      // Reserve ~350px for header, detail section, and padding
+      const availableHeight = viewportHeight - 350;
+      const shelfHeight = 260;
+      const count = Math.max(1, Math.floor(availableHeight / shelfHeight));
+      setShelfCount(Math.min(count, 4)); // Cap at 4 shelves max
+    };
+
+    calculateShelfCount();
+    window.addEventListener('resize', calculateShelfCount);
+    return () => window.removeEventListener('resize', calculateShelfCount);
+  }, []);
+
+  return shelfCount;
+}
 
 type Section = 'books' | 'podcasts' | 'links';
 type SelectedItem = Book | Podcast | Link | null;
@@ -106,7 +129,7 @@ export default function Content() {
 
         {/* Detail Section - inline below content */}
         <div
-          className="mt-8 border-t border-gray-200 pt-6 transition-all duration-300"
+          className="border-t border-gray-200 pt-6 transition-all duration-300"
           style={{
             minHeight: '200px',
             maxHeight: selectedItem ? 'none' : '200px',
@@ -175,8 +198,29 @@ function BooksSection({
 }) {
   // Track which book is being hovered (separate from selection)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const shelves = 3;
-  const booksPerShelf = Math.ceil(books.length / shelves);
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const scrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Responsive shelf count determines max visible height
+  const visibleShelves = useResponsiveShelfCount();
+
+  // Calculate books per shelf to fit within content width
+  const booksPerShelf = 8;
+
+  // Calculate total shelves needed
+  const totalShelves = Math.ceil(books.length / booksPerShelf);
+
+  // Calculate max height and scroll bounds
+  // Each shelf is ~260px (240px book + 20px gap)
+  const shelfHeight = 260;
+  const maxHeight = visibleShelves * shelfHeight;
+  // Account for pt-12 (48px) on first shelf and pb-4 (16px) on last shelf + 16 from somewhere else
+  const totalHeight = totalShelves * shelfHeight + 48 + 16 + 16;
+  const maxScrollOffset = Math.max(0, totalHeight - maxHeight);
+
+  const canScrollUp = scrollOffset > 0;
+  const canScrollDown = scrollOffset < maxScrollOffset - 1; // -1 for floating point tolerance
+  const hasMultipleShelves = totalShelves > visibleShelves;
 
   // Clicking anywhere on the bookshelf background deselects the selected book
   // (Individual books stop propagation so clicking them doesn't trigger this)
@@ -187,69 +231,230 @@ function BooksSection({
     }
   };
 
+  const startScrolling = (direction: 'up' | 'down') => {
+    if (scrollIntervalRef.current) {
+      clearInterval(scrollIntervalRef.current);
+    }
+
+    const interval = setInterval(() => {
+      setScrollOffset((prev) => {
+        const newOffset =
+          direction === 'up'
+            ? Math.max(0, prev - 3) // Scroll up by 3px per frame
+            : Math.min(maxScrollOffset, prev + 3); // Scroll down by 3px per frame
+        return newOffset;
+      });
+    }, 16); // ~60fps
+
+    scrollIntervalRef.current = interval;
+  };
+
+  const stopScrolling = () => {
+    if (scrollIntervalRef.current) {
+      clearInterval(scrollIntervalRef.current);
+      scrollIntervalRef.current = null;
+    }
+  };
+
   return (
-    <div className="relative w-full" onClick={handleBackgroundClick}>
-      {/* 3 simple shelves */}
-      <div className="space-y-6">
-        {Array.from({ length: shelves }).map((_, shelfIndex) => {
-          const shelfBooks = books.slice(
-            shelfIndex * booksPerShelf,
-            (shelfIndex + 1) * booksPerShelf
-          );
-
-          return (
-            <div
-              key={shelfIndex}
-              className="relative flex flex-col items-center"
+    <div className="relative w-full -mt-12" onClick={handleBackgroundClick}>
+      {/* Navigation arrows - positioned on the right */}
+      {hasMultipleShelves && (
+        <nav className="hidden md:block absolute left-full ml-4 top-1/2 -translate-y-1/2 z-50">
+          <div className="flex flex-col gap-2">
+            <button
+              onMouseEnter={() => canScrollUp && startScrolling('up')}
+              onMouseLeave={stopScrolling}
+              onClick={(e) => e.stopPropagation()}
+              disabled={!canScrollUp}
+              className={`w-8 h-8 rounded flex items-center justify-center transition-all ${
+                !canScrollUp
+                  ? 'text-gray-300 cursor-not-allowed'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+              aria-label="Scroll up"
             >
-              {/* Books on this shelf */}
-              <div
-                className="flex justify-center gap-2 pb-1 items-end"
-                style={{
-                  // perspective: '2000px',
-                  transformStyle: 'preserve-3d',
-                }}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                {shelfBooks.map((book, bookIndex) => {
-                  const globalIndex = shelfIndex * booksPerShelf + bookIndex;
-                  const isSelected = selectedIndex === globalIndex;
-                  const shelfStartIndex = shelfIndex * booksPerShelf;
-                  const shelfEndIndex = shelfStartIndex + shelfBooks.length - 1;
+                <polyline points="18 15 12 9 6 15" />
+              </svg>
+            </button>
+            <button
+              onMouseEnter={() => canScrollDown && startScrolling('down')}
+              onMouseLeave={stopScrolling}
+              onClick={(e) => e.stopPropagation()}
+              disabled={!canScrollDown}
+              className={`w-8 h-8 rounded flex items-center justify-center transition-all ${
+                !canScrollDown
+                  ? 'text-gray-300 cursor-not-allowed'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+              aria-label="Scroll down"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+          </div>
+        </nav>
+      )}
 
-                  return (
-                    <Book3D
-                      key={`${shelfIndex}-${bookIndex}`}
-                      book={book}
-                      onClick={() => onSelect(book, globalIndex)}
-                      isSelected={isSelected}
-                      globalIndex={globalIndex}
-                      hoveredIndex={hoveredIndex}
-                      selectedIndex={selectedIndex}
-                      shelfStartIndex={shelfStartIndex}
-                      shelfEndIndex={shelfEndIndex}
-                      onHoverChange={setHoveredIndex}
-                    />
-                  );
-                })}
-              </div>
+      {/* Fixed-height container with hidden overflow */}
+      <div
+        className="relative overflow-hidden"
+        style={{
+          height: `${maxHeight}px`,
+        }}
+      >
+        {/* Inner content that moves based on scroll offset */}
+        <div
+          className="space-y-6"
+          style={{
+            transform: `translateY(-${scrollOffset}px)`,
+            willChange: 'transform',
+          }}
+        >
+          {Array.from({ length: totalShelves }).map((_, shelfIndex) => {
+            const shelfBooks = books.slice(
+              shelfIndex * booksPerShelf,
+              (shelfIndex + 1) * booksPerShelf
+            );
 
-              {/* Simple 3D shelf line - same width for all shelves */}
+            // Calculate if selected or hovered book is on this shelf
+            const shelfStartIndex = shelfIndex * booksPerShelf;
+            const shelfEndIndex = shelfStartIndex + shelfBooks.length - 1;
+            const hasSelectedBook =
+              selectedIndex !== null &&
+              selectedIndex >= shelfStartIndex &&
+              selectedIndex <= shelfEndIndex;
+            const hasHoveredBook =
+              hoveredIndex !== null &&
+              hoveredIndex >= shelfStartIndex &&
+              hoveredIndex <= shelfEndIndex;
+
+            // Calculate shift to keep books centered when one opens
+            // Books translate RIGHT when opened, so we shift the container LEFT to compensate
+            let shelfShift = 0;
+            if (hasSelectedBook && hasHoveredBook) {
+              shelfShift = -52; // Half of 105px max translation
+            } else if (hasSelectedBook) {
+              shelfShift = -45; // Half of 90px selected translation
+            } else if (hasHoveredBook) {
+              shelfShift = -7; // Half of 15px hover translation
+            }
+
+            return (
               <div
-                className="relative h-2 rounded-sm"
-                style={{
-                  width: `${
-                    booksPerShelf * 50 + (booksPerShelf - 1) * 8 + 40
-                  }px`,
-                  background: 'linear-gradient(to bottom, #d4d4d4, #a3a3a3)',
-                  boxShadow:
-                    '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.5)',
-                  zIndex: -1,
-                }}
-              />
-            </div>
-          );
-        })}
+                key={shelfIndex}
+                className={`relative flex flex-col items-center w-full${
+                  shelfIndex === 0 ? ' pt-12' : ''
+                }${shelfIndex === totalShelves - 1 ? ' pb-4' : ''}`}
+              >
+                {/* Books container - shifts left when book opens to stay centered */}
+                <div
+                  className="flex justify-center gap-2 pb-1 items-end transition-transform duration-500"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: `translateX(${shelfShift}px)`,
+                  }}
+                >
+                  {shelfBooks.map((book, bookIndex) => {
+                    const globalIndex = shelfIndex * booksPerShelf + bookIndex;
+                    const isSelected = selectedIndex === globalIndex;
+
+                    return (
+                      <Book3D
+                        key={`${shelfIndex}-${bookIndex}`}
+                        book={book}
+                        onClick={() => onSelect(book, globalIndex)}
+                        isSelected={isSelected}
+                        globalIndex={globalIndex}
+                        hoveredIndex={hoveredIndex}
+                        selectedIndex={selectedIndex}
+                        shelfStartIndex={shelfStartIndex}
+                        shelfEndIndex={shelfEndIndex}
+                        onHoverChange={setHoveredIndex}
+                      />
+                    );
+                  })}
+                </div>
+
+                {/* Shelf - full width */}
+                <div
+                  className="relative h-2 rounded-sm w-full"
+                  style={{
+                    background: 'linear-gradient(to bottom, #d4d4d4, #a3a3a3)',
+                    boxShadow:
+                      '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.5)',
+                    zIndex: -1,
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
+
+      {/* Mobile navigation controls */}
+      {hasMultipleShelves && (
+        <div className="md:hidden flex justify-center items-center gap-4 mt-4">
+          <button
+            onTouchStart={() => canScrollUp && startScrolling('up')}
+            onTouchEnd={stopScrolling}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (canScrollUp) {
+                setScrollOffset((prev) => Math.max(0, prev - shelfHeight));
+              }
+            }}
+            disabled={!canScrollUp}
+            className={`p-2 rounded ${
+              !canScrollUp ? 'text-gray-300' : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            ↑
+          </button>
+          <button
+            onTouchStart={() => canScrollDown && startScrolling('down')}
+            onTouchEnd={stopScrolling}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (canScrollDown) {
+                setScrollOffset((prev) =>
+                  Math.min(maxScrollOffset, prev + shelfHeight)
+                );
+              }
+            }}
+            disabled={!canScrollDown}
+            className={`p-2 rounded ${
+              !canScrollDown
+                ? 'text-gray-300'
+                : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            ↓
+          </button>
+        </div>
+      )}
     </div>
   );
 }
