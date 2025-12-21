@@ -31,10 +31,8 @@ type SelectedItem = Book | Podcast | Link | null;
 
 export default function Content() {
   const [activeSection, setActiveSection] = useState<Section>('books');
-  const [selectedItem, setSelectedItem] = useState<SelectedItem>(null);
-  const [selectedBookIndex, setSelectedBookIndex] = useState<number | null>(
-    null
-  );
+  const [selectedItem, setSelectedItem] = useState<SelectedItem>(books[0]);
+  const [selectedBookIndex, setSelectedBookIndex] = useState<number | null>(0);
   const [selectedPodcastIndex, setSelectedPodcastIndex] = useState<
     number | null
   >(null);
