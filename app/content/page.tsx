@@ -257,7 +257,7 @@ function BooksSection({
   };
 
   return (
-    <div className="relative w-full -mt-12" onClick={handleBackgroundClick}>
+    <div className="relative w-full -mt-6" onClick={handleBackgroundClick}>
       {/* Navigation arrows - positioned on the right */}
       {hasMultipleShelves && (
         <nav className="hidden md:block absolute left-full ml-4 top-1/2 -translate-y-1/2 z-50">
