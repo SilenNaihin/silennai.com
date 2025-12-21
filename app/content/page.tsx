@@ -173,12 +173,22 @@ function BooksSection({
   onSelect: (item: Book, index: number) => void;
   selectedIndex: number | null;
 }) {
+  // Track which book is being hovered (separate from selection)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const shelves = 3;
   const booksPerShelf = Math.ceil(books.length / shelves);
 
+  // Clicking anywhere on the bookshelf background deselects the selected book
+  // (Individual books stop propagation so clicking them doesn't trigger this)
+  const handleBackgroundClick = () => {
+    if (selectedIndex !== null) {
+      // Toggle off by clicking the same book again
+      onSelect(books[selectedIndex], selectedIndex);
+    }
+  };
+
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" onClick={handleBackgroundClick}>
       {/* 3 simple shelves */}
       <div className="space-y-6">
         {Array.from({ length: shelves }).map((_, shelfIndex) => {
@@ -244,6 +254,15 @@ function BooksSection({
   );
 }
 
+/**
+ * Book3D Component - Renders a 3D book with spine and cover
+ *
+ * Animation System:
+ * - Hover: Book pulls forward slightly (translateZ) and rotates to show cover
+ * - Click: Book opens fully (more translateZ, more rotation, scale up)
+ * - Books to the right shift right to make space for opened/hovered books
+ * - Each book has its own perspective to ensure consistent rotation across the shelf
+ */
 function Book3D({
   book,
   onClick,
@@ -265,21 +284,43 @@ function Book3D({
   shelfEndIndex: number;
   onHoverChange: (index: number | null) => void;
 }) {
-  const isHovered = hoveredIndex === globalIndex;
+  // This book is hovered only if it's the hovered book AND not already selected
+  const isHovered = hoveredIndex === globalIndex && !isSelected;
 
-  // Check if this book should be pushed to the right due to hover
+  // shouldShiftRightHover: Books to the right of a hovered book shift 15px
+  // This includes the selected book if it's to the right of the hover
   const shouldShiftRightHover =
     hoveredIndex !== null &&
     hoveredIndex >= shelfStartIndex &&
     hoveredIndex <= shelfEndIndex &&
     globalIndex > hoveredIndex;
 
-  // Check if this book should be pushed to the right due to selection (push further)
+  // shouldShiftRightSelected: Books to the right of a selected book shift 90px
   const shouldShiftRightSelected =
     selectedIndex !== null &&
     selectedIndex >= shelfStartIndex &&
     selectedIndex <= shelfEndIndex &&
     globalIndex > selectedIndex;
+
+  const handleClick = (e: React.MouseEvent) => {
+    // Prevent click from bubbling to background (which would deselect)
+    e.stopPropagation();
+    // Clear hover state when clicking to prevent double-shifting
+    onHoverChange(null);
+    onClick();
+  };
+
+  const handleMouseEnter = () => {
+    // Allow hover on any book except the selected one
+    if (!isSelected) {
+      onHoverChange(globalIndex);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    // Clear hover state when mouse leaves
+    onHoverChange(null);
+  };
 
   return (
     <div
@@ -289,24 +330,40 @@ function Book3D({
       style={{
         width: '50px',
         height: '240px',
-        perspective: '2000px',
+        perspective: '2000px', // Each book has its own perspective for consistent rotation
         transformStyle: 'preserve-3d',
-        transform: isSelected
-          ? 'translateZ(150px) translateX(-10px) rotateY(-45deg) scale(1.15)'
-          : isHovered
-          ? 'translateZ(50px) translateX(-5px) rotateY(-10deg) scale(1.03)'
-          : shouldShiftRightSelected
-          ? 'translateX(90px)'
-          : shouldShiftRightHover
-          ? 'translateX(15px)'
-          : 'translateZ(0px) scale(1)',
+        // Transform logic (evaluated in order):
+        // 1. Selected book + another book is hovered to its left: Shift +15px (from -10 to +5)
+        // 2. Selected book (no hover interference): Come forward, rotate -45deg, scale 1.15
+        // 3. Hovered book + already shifted right due to selection: Come forward at shifted position (90-5=85px)
+        // 4. Hovered book (normal): Come forward, rotate -10deg, scale 1.03
+        // 5. Book to right of BOTH selected AND hovered: Shift 105px (90+15)
+        // 6. Book to right of selected only: Shift 90px
+        // 7. Book to right of hovered only: Shift 15px
+        // 8. Default: No transform
+        transform:
+          isSelected && shouldShiftRightHover
+            ? 'translateZ(150px) translateX(5px) rotateY(-45deg) scale(1.15)'
+            : isSelected
+            ? 'translateZ(150px) translateX(-10px) rotateY(-45deg) scale(1.15)'
+            : isHovered && shouldShiftRightSelected
+            ? 'translateZ(50px) translateX(85px) rotateY(-10deg) scale(1.03)'
+            : isHovered
+            ? 'translateZ(50px) translateX(-5px) rotateY(-10deg) scale(1.03)'
+            : shouldShiftRightSelected && shouldShiftRightHover
+            ? 'translateX(105px)'
+            : shouldShiftRightSelected
+            ? 'translateX(90px)'
+            : shouldShiftRightHover
+            ? 'translateX(15px)'
+            : 'translateZ(0px) scale(1)',
         transformOrigin: 'center center',
       }}
-      onMouseEnter={() => !isSelected && onHoverChange(globalIndex)}
-      onMouseLeave={() => onHoverChange(null)}
-      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     >
-      {/* Book Spine (front face) */}
+      {/* Book Spine (front face) - 50px wide x 240px tall */}
       <div
         className="absolute top-0 left-0 flex items-center justify-center text-white text-xs font-semibold"
         style={{
@@ -351,7 +408,9 @@ function Book3D({
         </div>
       </div>
 
-      {/* Book Cover (right face) - flush with the right edge of spine */}
+      {/* Book Cover (right face) - 160px wide x 240px tall (2:3 aspect ratio)
+          Positioned at left: 50px to align flush with the right edge of spine
+          Recommended cover image resolution: 800x1200px or 1600x2400px for retina */}
       <div
         className="absolute top-0 overflow-hidden"
         style={{
