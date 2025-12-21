@@ -26,13 +26,13 @@ export const books: Book[] = [
     title: 'The Selfish Gene',
     author: 'Richard Dawkins',
     cover: '/books/selfish-gene.png',
-    spineColor: '#8B4513',
+    spineColor: '#333331',
     rating: 9,
     reflections:
       'A groundbreaking work that changed how we think about evolution and genetics. The gene-centered view of evolution is both elegant and profound.',
   },
   {
-    title: 'The Selfish Gene',
+    title: 'The Selfish Gene: A New Perspective on Evolution',
     author: 'Richard Dawkins',
     cover: '/books/selfish-gene.jpg',
     spineColor: '#8B4513',

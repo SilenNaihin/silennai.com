@@ -173,6 +173,7 @@ function BooksSection({
   onSelect: (item: Book, index: number) => void;
   selectedIndex: number | null;
 }) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const shelves = 3;
   const booksPerShelf = Math.ceil(books.length / shelves);
 
@@ -195,13 +196,15 @@ function BooksSection({
               <div
                 className="flex justify-center gap-2 pb-1 items-end"
                 style={{
-                  perspective: '2000px',
+                  // perspective: '2000px',
                   transformStyle: 'preserve-3d',
                 }}
               >
                 {shelfBooks.map((book, bookIndex) => {
                   const globalIndex = shelfIndex * booksPerShelf + bookIndex;
                   const isSelected = selectedIndex === globalIndex;
+                  const shelfStartIndex = shelfIndex * booksPerShelf;
+                  const shelfEndIndex = shelfStartIndex + shelfBooks.length - 1;
 
                   return (
                     <Book3D
@@ -209,6 +212,12 @@ function BooksSection({
                       book={book}
                       onClick={() => onSelect(book, globalIndex)}
                       isSelected={isSelected}
+                      globalIndex={globalIndex}
+                      hoveredIndex={hoveredIndex}
+                      selectedIndex={selectedIndex}
+                      shelfStartIndex={shelfStartIndex}
+                      shelfEndIndex={shelfEndIndex}
+                      onHoverChange={setHoveredIndex}
                     />
                   );
                 })}
@@ -224,6 +233,7 @@ function BooksSection({
                   background: 'linear-gradient(to bottom, #d4d4d4, #a3a3a3)',
                   boxShadow:
                     '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.5)',
+                  zIndex: -1,
                 }}
               />
             </div>
@@ -238,12 +248,38 @@ function Book3D({
   book,
   onClick,
   isSelected,
+  globalIndex,
+  hoveredIndex,
+  selectedIndex,
+  shelfStartIndex,
+  shelfEndIndex,
+  onHoverChange,
 }: {
   book: (typeof books)[0];
   onClick: () => void;
   isSelected: boolean;
+  globalIndex: number;
+  hoveredIndex: number | null;
+  selectedIndex: number | null;
+  shelfStartIndex: number;
+  shelfEndIndex: number;
+  onHoverChange: (index: number | null) => void;
 }) {
-  const [isHovered, setIsHovered] = useState(false);
+  const isHovered = hoveredIndex === globalIndex;
+
+  // Check if this book should be pushed to the right due to hover
+  const shouldShiftRightHover =
+    hoveredIndex !== null &&
+    hoveredIndex >= shelfStartIndex &&
+    hoveredIndex <= shelfEndIndex &&
+    globalIndex > hoveredIndex;
+
+  // Check if this book should be pushed to the right due to selection (push further)
+  const shouldShiftRightSelected =
+    selectedIndex !== null &&
+    selectedIndex >= shelfStartIndex &&
+    selectedIndex <= shelfEndIndex &&
+    globalIndex > selectedIndex;
 
   return (
     <div
@@ -252,17 +288,22 @@ function Book3D({
       }`}
       style={{
         width: '50px',
-        height: '180px',
+        height: '240px',
+        perspective: '2000px',
         transformStyle: 'preserve-3d',
         transform: isSelected
-          ? 'translateZ(100px) rotateY(-35deg)'
+          ? 'translateZ(150px) translateX(-10px) rotateY(-45deg) scale(1.15)'
           : isHovered
-          ? 'translateZ(40px) rotateY(-35deg)'
-          : 'translateZ(0px)',
-        transformOrigin: 'left center',
+          ? 'translateZ(50px) translateX(-5px) rotateY(-10deg) scale(1.03)'
+          : shouldShiftRightSelected
+          ? 'translateX(90px)'
+          : shouldShiftRightHover
+          ? 'translateX(15px)'
+          : 'translateZ(0px) scale(1)',
+        transformOrigin: 'center center',
       }}
-      onMouseEnter={() => !isSelected && setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => !isSelected && onHoverChange(globalIndex)}
+      onMouseLeave={() => onHoverChange(null)}
       onClick={onClick}
     >
       {/* Book Spine (front face) */}
@@ -270,7 +311,7 @@ function Book3D({
         className="absolute top-0 left-0 flex items-center justify-center text-white text-xs font-semibold"
         style={{
           width: '50px',
-          height: '180px',
+          height: '240px',
           background: book.spineColor,
           backgroundImage: `
               linear-gradient(135deg, 
@@ -296,11 +337,11 @@ function Book3D({
         }}
       >
         <div
-          className="whitespace-nowrap text-[10px] tracking-tight font-bold"
+          className="whitespace-nowrap text-[14px] tracking-tight font-bold"
           style={{
             writingMode: 'vertical-rl',
             transform: 'rotate(180deg)',
-            maxHeight: '170px',
+            maxHeight: '230px',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
@@ -310,13 +351,14 @@ function Book3D({
         </div>
       </div>
 
-      {/* Book Cover (right face) */}
+      {/* Book Cover (right face) - flush with the right edge of spine */}
       <div
-        className="absolute top-0 left-0 overflow-hidden"
+        className="absolute top-0 overflow-hidden"
         style={{
+          left: '50px',
           width: '160px',
-          height: '180px',
-          transform: 'rotateY(90deg) translateZ(25px)',
+          height: '240px',
+          transform: 'rotateY(90deg)',
           transformOrigin: 'left center',
           transformStyle: 'preserve-3d',
           opacity: isHovered || isSelected ? 1 : 0,
@@ -329,7 +371,7 @@ function Book3D({
           <img
             src={book.cover}
             alt={`${book.title} cover`}
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover"
             style={{
               boxShadow: 'inset 0 0 30px rgba(0,0,0,0.2)',
             }}
@@ -354,32 +396,6 @@ function Book3D({
           </div>
         )}
       </div>
-
-      {/* Book Top Edge */}
-      <div
-        className="absolute top-0 left-0"
-        style={{
-          width: '50px',
-          height: '30px',
-          background: `linear-gradient(to bottom, ${book.spineColor}dd, ${book.spineColor}88)`,
-          transform: 'rotateX(90deg) translateZ(0px)',
-          transformOrigin: 'top center',
-          transformStyle: 'preserve-3d',
-        }}
-      />
-
-      {/* Book Bottom Edge */}
-      <div
-        className="absolute bottom-0 left-0"
-        style={{
-          width: '50px',
-          height: '30px',
-          background: `linear-gradient(to top, ${book.spineColor}cc, ${book.spineColor}66)`,
-          transform: 'rotateX(-90deg) translateZ(0px)',
-          transformOrigin: 'bottom center',
-          transformStyle: 'preserve-3d',
-        }}
-      />
     </div>
   );
 }
