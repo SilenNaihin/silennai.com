@@ -149,8 +149,8 @@ export const books: Book[] = [
 
 export const podcasts: Podcast[] = [
   {
-    title: 'Sample Podcast 1',
-    cover: '/podcasts/podcast1.jpg',
+    title: 'Fall of Civilizations',
+    cover: '/podcasts/FoC.jpg',
     rating: 8,
     reflections:
       'Great insights on technology and society. The host brings unique perspectives to complex topics.',

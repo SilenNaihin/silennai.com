@@ -398,11 +398,29 @@ function BooksSection({
 
                 {/* Shelf - full width */}
                 <div
-                  className="relative h-2 rounded-sm w-full"
+                  className="relative w-full"
                   style={{
-                    background: 'linear-gradient(to bottom, #d4d4d4, #a3a3a3)',
+                    height: '12px',
+                    backgroundImage: `
+                      linear-gradient(to bottom, 
+                        rgba(255,255,255,0.15) 0%, 
+                        rgba(255,255,255,0.05) 20%, 
+                        transparent 40%,
+                        rgba(0,0,0,0.1) 100%
+                      ),
+                      url('/books/wood_side.jpeg')
+                    `,
+                    backgroundSize: 'auto 100%, auto 100%',
+                    backgroundRepeat: 'repeat-x, repeat-x',
+                    backgroundPosition: 'center, center',
                     boxShadow:
-                      '0 2px 4px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.5)',
+                      '0 -1px 2px rgba(139,69,19,0.3), 0 4px 12px rgba(0,0,0,0.25), 0 8px 24px rgba(0,0,0,0.15), 0 12px 40px rgba(0,0,0,0.1), inset 0 1px 1px rgba(255,255,255,0.4), inset 0 -2px 3px rgba(0,0,0,0.3)',
+                    border: '1px solid rgba(101,67,33,0.4)',
+                    borderTop: '1px solid rgba(139,90,43,0.6)',
+                    borderBottom: '1px solid rgba(61,47,23,0.5)',
+                    borderRadius: '2px',
+                    transform: 'perspective(1000px) rotateX(-2deg)',
+                    transformStyle: 'preserve-3d',
                     zIndex: -1,
                   }}
                 />
@@ -693,6 +711,20 @@ function PodcastCover({
   isSelected: boolean;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [showPlayer, setShowPlayer] = useState(false);
+
+  // Show player immediately when opening starts
+  // Hide player only after closing animation completes
+  useEffect(() => {
+    if (isSelected) {
+      // Show player immediately when opening starts
+      setShowPlayer(true);
+    } else {
+      // Hide player after hinge closes (700ms animation)
+      const timer = setTimeout(() => setShowPlayer(false), 700);
+      return () => clearTimeout(timer);
+    }
+  }, [isSelected]);
 
   return (
     <div
@@ -724,30 +756,47 @@ function PodcastCover({
             zIndex: isSelected ? 2 : 1,
           }}
         >
-          {/* Front of left cover */}
+          {/* Front of left cover - Show podcast cover image */}
           <div
-            className="absolute inset-0 bg-linear-to-br from-gray-300 to-gray-500 flex items-center justify-center p-6"
+            className="absolute inset-0 flex items-center justify-center"
             style={{
-              backgroundImage: `
-                linear-gradient(to bottom right, #d1d5db, #6b7280),
-                repeating-linear-gradient(
-                  45deg,
-                  transparent,
-                  transparent 10px,
-                  rgba(255,255,255,0.03) 10px,
-                  rgba(255,255,255,0.03) 20px
-                ),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E")
-              `,
-              boxShadow: 'inset 0 0 40px rgba(0,0,0,0.15)',
               backfaceVisibility: 'hidden',
             }}
           >
-            <div className="text-center relative z-10">
-              <p className="text-lg font-bold text-gray-800 drop-shadow-sm">
-                {podcast.title}
-              </p>
-            </div>
+            {podcast.cover ? (
+              <img
+                src={podcast.cover}
+                alt={`${podcast.title} cover`}
+                className="w-full h-full object-cover rounded-lg"
+                style={{
+                  boxShadow: 'inset 0 0 40px rgba(0,0,0,0.15)',
+                }}
+              />
+            ) : (
+              <div
+                className="w-full h-full bg-linear-to-br from-gray-300 to-gray-500 flex items-center justify-center p-6"
+                style={{
+                  backgroundImage: `
+                    linear-gradient(to bottom right, #d1d5db, #6b7280),
+                    repeating-linear-gradient(
+                      45deg,
+                      transparent,
+                      transparent 10px,
+                      rgba(255,255,255,0.03) 10px,
+                      rgba(255,255,255,0.03) 20px
+                    ),
+                    url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E")
+                  `,
+                  boxShadow: 'inset 0 0 40px rgba(0,0,0,0.15)',
+                }}
+              >
+                <div className="text-center relative z-10">
+                  <p className="text-lg font-bold text-gray-800 drop-shadow-sm">
+                    {podcast.title}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Inside left of cover */}
@@ -775,7 +824,7 @@ function PodcastCover({
         </div>
 
         {/* Right side - CD/Disc holder */}
-        {isSelected && (
+        {showPlayer && (
           <div
             className="absolute left-0 top-0 w-48 h-48 bg-gray-900 rounded-lg flex items-center justify-center"
             style={{
