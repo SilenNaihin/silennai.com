@@ -5,6 +5,8 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import {
   books,
   podcasts,
+  guestDependentPodcasts,
+  standalonePodcasts,
   links,
   projects,
   Book,
@@ -197,8 +199,8 @@ export default function Content() {
           )}
         </div>
 
-        {/* Detail Section - only shown for non-project sections */}
-        {activeSection !== 'projects' && (
+        {/* Detail Section - only shown for books and links */}
+        {activeSection !== 'projects' && activeSection !== 'podcasts' && (
           <div
             className="border-t border-gray-200 pt-6 transition-all duration-300"
             style={{
@@ -801,16 +803,234 @@ function PodcastsSection({
   onSelect: (item: Podcast, index: number) => void;
   selectedIndex: number | null;
 }) {
+  const [podcastPositions, setPodcastPositions] = useState<
+    { top: number; bottom: number }[]
+  >([]);
+  const [isExiting, setIsExiting] = useState(false);
+  const [displayedIndex, setDisplayedIndex] = useState<number | null>(null);
+  const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
+  const podcastRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Handle selection changes with exit animation
+  useEffect(() => {
+    if (selectedIndex !== null && displayedIndex === null) {
+      // First selection - animate in
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDisplayedIndex(selectedIndex);
+      setIsExiting(false);
+      setHasAnimatedIn(false);
+      // Mark as animated after the animation completes
+      const timer = setTimeout(() => setHasAnimatedIn(true), 400);
+      return () => clearTimeout(timer);
+    } else if (selectedIndex !== null && displayedIndex !== null) {
+      // Switching between items - just update (will transition)
+      setDisplayedIndex(selectedIndex);
+    } else if (selectedIndex === null && displayedIndex !== null) {
+      // Deselecting - trigger exit animation
+      setIsExiting(true);
+      const timer = setTimeout(() => {
+        setDisplayedIndex(null);
+        setIsExiting(false);
+        setHasAnimatedIn(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedIndex, displayedIndex]);
+
+  // Update podcast positions when selection changes or on resize
+  useEffect(() => {
+    const updatePositions = () => {
+      if (!containerRef.current) return;
+      const containerRect = containerRef.current.getBoundingClientRect();
+
+      const positions = podcastRefs.current.map((ref) => {
+        if (!ref) return { top: 0, bottom: 0 };
+        const rect = ref.getBoundingClientRect();
+        const relativeTop = rect.top - containerRect.top;
+        const relativeBottom = rect.bottom - containerRect.top;
+        return { top: relativeTop, bottom: relativeBottom };
+      });
+      setPodcastPositions(positions);
+    };
+
+    updatePositions();
+    window.addEventListener('resize', updatePositions);
+    return () => window.removeEventListener('resize', updatePositions);
+  }, [selectedIndex]);
+
+  const displayedPodcast =
+    displayedIndex !== null ? podcasts[displayedIndex] : null;
+  const displayedPosition =
+    selectedIndex !== null
+      ? podcastPositions[selectedIndex]
+      : displayedIndex !== null
+      ? podcastPositions[displayedIndex]
+      : null;
+
+  // Clicking background deselects
+  const handleBackgroundClick = () => {
+    if (selectedIndex !== null) {
+      onSelect(podcasts[selectedIndex], selectedIndex);
+    }
+  };
+
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-      {podcasts.map((podcast, index) => (
-        <PodcastCover
-          key={index}
-          podcast={podcast}
-          onClick={() => onSelect(podcast, index)}
-          isSelected={selectedIndex === index}
-        />
-      ))}
+    <div className="space-y-12">
+      {/* Main record player podcasts */}
+      <div
+        ref={containerRef}
+        className="relative"
+        onClick={handleBackgroundClick}
+      >
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 relative">
+          {podcasts.map((podcast, index) => (
+            <div
+              key={index}
+              ref={(el) => {
+                podcastRefs.current[index] = el;
+              }}
+              className="relative"
+              style={{
+                zIndex: selectedIndex === index ? 40 : 'auto',
+              }}
+            >
+              <PodcastCover
+                podcast={podcast}
+                onClick={() => onSelect(podcast, index)}
+                isSelected={selectedIndex === index}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Rising detail panel */}
+        {displayedPodcast && displayedPosition && (
+          <div
+            className="absolute bg-white z-30"
+            style={{
+              left: '-48px',
+              right: '-48px',
+              top: `${displayedPosition.bottom + 16}px`,
+              bottom: '-100vh',
+              background:
+                'linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.99) 32px)',
+              backdropFilter: 'blur(2px)',
+              maskImage:
+                'linear-gradient(to bottom, transparent 0%, black 12px, black 100%)',
+              WebkitMaskImage:
+                'linear-gradient(to bottom, transparent 0%, black 12px, black 100%)',
+              animation:
+                !hasAnimatedIn && !isExiting
+                  ? 'slideUp 0.4s ease-out forwards'
+                  : 'none',
+              transition: 'top 0.3s ease-out, opacity 0.3s ease-out',
+              opacity: isExiting ? 0 : 1,
+            }}
+          >
+            {/* Content */}
+            <div className="p-6 pt-8">
+              <div className="flex items-center justify-between gap-3 mb-3">
+                <div className="flex items-center gap-3">
+                  <h2 className="text-xl font-bold text-gray-900">
+                    {displayedPodcast.title}
+                  </h2>
+                  <span className="text-gray-600 font-medium">
+                    {displayedPodcast.rating}
+                  </span>
+                </div>
+                <a
+                  href={displayedPodcast.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline text-sm whitespace-nowrap"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Listen →
+                </a>
+              </div>
+
+              <div className="space-y-3 text-sm">
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Summary</h3>
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                    {displayedPodcast.summary}
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">
+                    Recommendations
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    {displayedPodcast.recommendations}
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">
+                    Episodes Listened
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    {displayedPodcast.episodes}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Empty state prompt */}
+        {selectedIndex === null && (
+          <div className="text-center text-gray-400 text-sm mt-8 relative z-10">
+            Click a record to view details
+          </div>
+        )}
+      </div>
+
+      {/* Guest/Topic Dependent Podcasts */}
+      <div className="border-t border-gray-200 pt-8">
+        <h3 className="text-lg font-bold mb-4 text-gray-900">
+          Guest/Topic Dependent Podcasts
+        </h3>
+        <div className="space-y-4">
+          {guestDependentPodcasts.map((podcast, index) => (
+            <div key={index} className="space-y-1">
+              <h4 className="font-semibold text-gray-800">{podcast.name}</h4>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {podcast.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Standalone Episodes */}
+      <div className="border-t border-gray-200 pt-8">
+        <h3 className="text-lg font-bold mb-4 text-gray-900">
+          Stand Alone Episodes
+        </h3>
+        <ul className="space-y-2">
+          {standalonePodcasts.map((podcast, index) => (
+            <li key={index}>
+              {podcast.url ? (
+                <a
+                  href={podcast.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-700 hover:text-gray-900 hover:underline transition-all inline-flex items-center gap-2"
+                >
+                  <span className="text-gray-400">→</span>
+                  {podcast.name}
+                </a>
+              ) : (
+                <div className="inline-flex items-center gap-2">
+                  <span className="text-gray-400">→</span>
+                  <span className="text-gray-700">{podcast.name}</span>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
@@ -825,21 +1045,11 @@ function PodcastCover({
   isSelected: boolean;
 }) {
   const [isHovered, setIsHovered] = useState(false);
-  const [showPlayer, setShowPlayer] = useState(false);
 
-  // Show player immediately when opening starts
-  // Hide player only after closing animation completes
-  useEffect(() => {
-    if (isSelected) {
-      // Show player immediately when opening starts
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setShowPlayer(true);
-    } else {
-      // Hide player after hinge closes (700ms animation)
-      const timer = setTimeout(() => setShowPlayer(false), 700);
-      return () => clearTimeout(timer);
-    }
-  }, [isSelected]);
+  const handleCoverClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onClick();
+  };
 
   return (
     <div
@@ -847,7 +1057,7 @@ function PodcastCover({
       style={{ perspective: '1500px', height: '200px' }}
       onMouseEnter={() => !isSelected && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
+      onClick={handleCoverClick}
     >
       <div
         className="relative w-48 h-48 mx-auto transition-all duration-700 ease-out"
@@ -855,6 +1065,107 @@ function PodcastCover({
           transformStyle: 'preserve-3d',
         }}
       >
+        {/* CD/Vinyl holder - always present underneath */}
+        <div
+          className="absolute left-0 top-0 w-48 h-48 bg-gray-900 rounded-lg flex items-center justify-center"
+          style={{
+            boxShadow: 'inset 0 0 30px rgba(0,0,0,0.5)',
+            zIndex: 1,
+          }}
+        >
+          {/* CD/Disc with donut cover */}
+          <div
+            className="relative w-36 h-36 rounded-full cursor-pointer"
+            style={{
+              background:
+                'radial-gradient(circle at 40% 40%, #4a4a4a 0%, #3d3d3d 20%, #2d2d2d 50%, #1d1d1d 80%, #151515 100%)',
+              boxShadow:
+                '0 8px 20px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,255,255,0.15), inset 0 -1px 3px rgba(0,0,0,0.3)',
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(podcast.url, '_blank', 'noopener noreferrer');
+            }}
+          >
+            {/* Vinyl Grooves (behind the donut) */}
+            <div className="absolute inset-0 rounded-full opacity-30">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute rounded-full border border-gray-600"
+                  style={{
+                    top: `${12 + i * 6}%`,
+                    left: `${12 + i * 6}%`,
+                    right: `${12 + i * 6}%`,
+                    bottom: `${12 + i * 6}%`,
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Donut-shaped cover image overlay */}
+            {podcast.cover && (
+              <div
+                className="absolute inset-0 rounded-full overflow-hidden"
+                style={{
+                  maskImage:
+                    'radial-gradient(circle at center, transparent 0%, transparent 22%, black 22%, black 100%)',
+                  WebkitMaskImage:
+                    'radial-gradient(circle at center, transparent 0%, transparent 22%, black 22%, black 100%)',
+                }}
+              >
+                <img
+                  src={podcast.cover}
+                  alt={`${podcast.title} cover`}
+                  className="w-full h-full object-cover"
+                  style={{
+                    filter: 'brightness(0.95) contrast(1.1)',
+                  }}
+                />
+                {/* Shine overlay on donut */}
+                <div
+                  className="absolute inset-0 rounded-full pointer-events-none"
+                  style={{
+                    background:
+                      'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%, rgba(255,255,255,0.1) 100%)',
+                    mixBlendMode: 'overlay',
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Center label */}
+            <div
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full flex items-center justify-center pointer-events-none"
+              style={{
+                background:
+                  'radial-gradient(circle at 30% 30%, #3a3a3a 0%, #2a2a2a 50%, #1a1a1a 100%)',
+                boxShadow:
+                  'inset 0 2px 8px rgba(0,0,0,0.6), 0 2px 4px rgba(0,0,0,0.4)',
+              }}
+            >
+              {/* Center hole */}
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{
+                  background: '#000',
+                  boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.9)',
+                }}
+              />
+            </div>
+
+            {/* Vinyl shine effect */}
+            <div
+              className="absolute inset-0 rounded-full pointer-events-none"
+              style={{
+                background:
+                  'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(255,255,255,0.08) 100%)',
+                mixBlendMode: 'overlay',
+              }}
+            />
+          </div>
+        </div>
+
         {/* Left Cover (opens like a book) */}
         <div
           className="absolute left-0 top-0 w-48 h-48 rounded-lg overflow-hidden shadow-xl"
@@ -862,13 +1173,13 @@ function PodcastCover({
             transformStyle: 'preserve-3d',
             transformOrigin: 'left center',
             transform: isSelected
-              ? 'rotateY(-140deg)'
+              ? 'rotateY(-140deg) scale(1.02)'
               : isHovered
-              ? 'rotateY(-10deg)'
-              : 'rotateY(0deg)',
+              ? 'rotateY(-25deg) scale(1.01)'
+              : 'rotateY(0deg) scale(1)',
             transition: 'transform 0.7s ease-out',
             boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-            zIndex: isSelected ? 2 : 1,
+            zIndex: isSelected ? 2 : isHovered ? 2 : 3,
           }}
         >
           {/* Front of left cover - Show podcast cover image */}
@@ -938,79 +1249,17 @@ function PodcastCover({
           </div>
         </div>
 
-        {/* Right side - CD/Disc holder */}
-        {showPlayer && (
-          <div
-            className="absolute left-0 top-0 w-48 h-48 bg-gray-900 rounded-lg flex items-center justify-center"
-            style={{
-              boxShadow: 'inset 0 0 30px rgba(0,0,0,0.5)',
-              zIndex: 1,
-            }}
-          >
-            {/* CD/Disc */}
-            <div
-              className="relative w-36 h-36 rounded-full"
-              style={{
-                background:
-                  'radial-gradient(circle at 50% 50%, #e5e7eb 0%, #d1d5db 30%, #9ca3af 60%, #6b7280 100%)',
-                boxShadow:
-                  '0 8px 20px rgba(0,0,0,0.4), inset 0 0 20px rgba(255,255,255,0.3)',
-              }}
-            >
-              {/* CD Grooves */}
-              <div className="absolute inset-0 rounded-full opacity-40">
-                {Array.from({ length: 15 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute rounded-full border border-gray-400"
-                    style={{
-                      top: `${10 + i * 5}%`,
-                      left: `${10 + i * 5}%`,
-                      right: `${10 + i * 5}%`,
-                      bottom: `${10 + i * 5}%`,
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Center hole */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gray-800 shadow-inner" />
-
-              {/* Shine effect */}
-              <div
-                className="absolute inset-0 rounded-full"
-                style={{
-                  background:
-                    'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%, rgba(255,255,255,0.2) 100%)',
-                  mixBlendMode: 'overlay',
-                }}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Vinyl texture overlay */}
-        {!isSelected && (
-          <div
-            className="absolute inset-0 pointer-events-none rounded-lg"
-            style={{
-              backgroundImage: `
-                radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%)
-              `,
-              mixBlendMode: 'overlay',
-            }}
-          />
-        )}
-
-        {/* Shine effect on hover */}
-        {isHovered && !isSelected && (
-          <div
-            className="absolute inset-0 bg-linear-to-br from-white/30 to-transparent pointer-events-none rounded-lg"
-            style={{
-              transform: 'translateZ(1px)',
-            }}
-          />
-        )}
+        {/* Shine effect on hover - slower transition */}
+        <div
+          className="absolute inset-0 pointer-events-none rounded-lg"
+          style={{
+            zIndex: 4,
+            opacity: isHovered && !isSelected ? 1 : 0,
+            transition: 'opacity 1.2s ease-out',
+            background:
+              'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.15) 30%, transparent 60%)',
+          }}
+        />
       </div>
     </div>
   );
