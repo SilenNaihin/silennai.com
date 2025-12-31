@@ -1,6 +1,7 @@
 import { buildResponseHeadersFromUpstream } from '../proxy-headers';
 import { maybeInjectNotionDebug } from '../inject-debug';
 import { maybeInjectMsgstoreRewrite } from '../inject-msgstore';
+import { maybeInjectOriginGuard } from '../inject-origin-guard';
 
 const NOTION_PAGE_URL = process.env.NOTION_PAGE_URL;
 
@@ -26,6 +27,15 @@ function rewriteNotionHtmlToLocalProxy(html: string) {
     .replaceAll('https://www.notion.so/', '/notion-proxy/')
     .replaceAll('https://notion.so/', '/notion-proxy/');
 
+  // Also rewrite the configured public Notion origin (e.g. https://silen.notion.site)
+  // so clicks inside the iframe don't navigate to Notion's domain (CSP blocks framing).
+  const configuredOrigin = getNotionOrigin();
+  if (configuredOrigin) {
+    html = html
+      .replaceAll(`${configuredOrigin}/`, '/notion-proxy/')
+      .replaceAll(configuredOrigin, '/notion-proxy');
+  }
+
   return html;
 }
 
@@ -33,6 +43,15 @@ function getNotionOrigin() {
   if (!NOTION_PAGE_URL) return null;
   try {
     return new URL(NOTION_PAGE_URL).origin; // usually https://www.notion.so
+  } catch {
+    return null;
+  }
+}
+
+function getNotionHost() {
+  if (!NOTION_PAGE_URL) return null;
+  try {
+    return new URL(NOTION_PAGE_URL).host;
   } catch {
     return null;
   }
@@ -73,7 +92,10 @@ export async function GET(
   if (contentType.includes('text/html')) {
     const raw = await upstream.text();
     const html = maybeInjectNotionDebug(
-      maybeInjectMsgstoreRewrite(rewriteNotionHtmlToLocalProxy(raw))
+      maybeInjectOriginGuard(
+        maybeInjectMsgstoreRewrite(rewriteNotionHtmlToLocalProxy(raw)),
+        { configuredHost: getNotionHost() }
+      )
     );
 
     const headers = buildResponseHeadersFromUpstream(upstream.headers, {

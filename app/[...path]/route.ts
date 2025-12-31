@@ -3,6 +3,7 @@ const NOTION_PAGE_URL = process.env.NOTION_PAGE_URL;
 import { buildResponseHeadersFromUpstream } from '../notion-proxy/proxy-headers';
 import { maybeInjectNotionDebug } from '../notion-proxy/inject-debug';
 import { maybeInjectMsgstoreRewrite } from '../notion-proxy/inject-msgstore';
+import { maybeInjectOriginGuard } from '../notion-proxy/inject-origin-guard';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -11,6 +12,15 @@ function getNotionOrigin() {
   if (!NOTION_PAGE_URL) return null;
   try {
     return new URL(NOTION_PAGE_URL).origin; // e.g. https://silen.notion.site
+  } catch {
+    return null;
+  }
+}
+
+function getNotionHost() {
+  if (!NOTION_PAGE_URL) return null;
+  try {
+    return new URL(NOTION_PAGE_URL).host; // e.g. silen.notion.site
   } catch {
     return null;
   }
@@ -51,6 +61,16 @@ function rewriteNotionHtmlToLocalProxy(html: string) {
     .replaceAll('https://notion.so/icons/', '/icons/')
     .replaceAll('https://www.notion.so/images/', '/images/')
     .replaceAll('https://notion.so/images/', '/images/');
+
+  // Critical: ensure client-side navigations don't escape to the public Notion domain
+  // (which forbids being framed via CSP frame-ancestors). Rewrite the configured
+  // public origin to same-origin URLs.
+  const configuredOrigin = getNotionOrigin();
+  if (configuredOrigin) {
+    html = html
+      .replaceAll(`${configuredOrigin}/`, '/')
+      .replaceAll(configuredOrigin, '');
+  }
 
   return html;
 }
@@ -95,7 +115,10 @@ export async function GET(
   if (contentType.includes('text/html')) {
     const raw = await upstream.text();
     const html = maybeInjectNotionDebug(
-      maybeInjectMsgstoreRewrite(rewriteNotionHtmlToLocalProxy(raw))
+      maybeInjectOriginGuard(
+        maybeInjectMsgstoreRewrite(rewriteNotionHtmlToLocalProxy(raw)),
+        { configuredHost: getNotionHost() }
+      )
     );
     const headers = buildResponseHeadersFromUpstream(upstream.headers, {
       includeSetCookie: true,

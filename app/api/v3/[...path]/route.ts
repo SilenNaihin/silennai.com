@@ -183,6 +183,18 @@ async function proxy(
   let requestedPageId: string | null = null;
   let requestedPageIdNoDashes: string | null = null;
 
+  // Only normalize dashed UUIDs → 32-hex for endpoints that are known to use
+  // Notion's internal 32-hex identifiers. Some public endpoints (notably
+  // getPublicSpaceData) appear to validate and can 400 when we over-normalize.
+  const shouldNormalizeRequestIds =
+    endpoint === 'getPublicPageDataForDomain' ||
+    endpoint === 'getPublicPageData' ||
+    endpoint === 'loadCachedPageChunkV2' ||
+    endpoint === 'loadCachedPageChunks' ||
+    endpoint === 'loadCachedPageChunksV2' ||
+    endpoint.startsWith('syncRecordValues') ||
+    endpoint.startsWith('syncRecordValuesV2');
+
   let body: ArrayBuffer | undefined;
   if (hasBody) {
     const raw = await req.arrayBuffer();
@@ -224,8 +236,10 @@ async function proxy(
           parsedRequestJson ??
           (JSON.parse(new TextDecoder().decode(raw)) as unknown);
 
-        // First: normalize dashed UUIDs → 32-hex ids for upstream Notion internals.
-        let outgoingReqJson: unknown = normalizeDashedUuidsDeep(json);
+        // First (sometimes): normalize dashed UUIDs → 32-hex ids for upstream Notion internals.
+        let outgoingReqJson: unknown = shouldNormalizeRequestIds
+          ? normalizeDashedUuidsDeep(json)
+          : json;
 
         // Then: rewrite domain/origin hints so Notion resolves the correct public space.
         if (configuredHost && configuredOrigin) {
