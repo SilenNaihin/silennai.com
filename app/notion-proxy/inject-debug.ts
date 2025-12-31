@@ -103,9 +103,9 @@ export function maybeInjectNotionDebug(html: string) {
   }
 
   // Fallback: inject before </head> if possible, otherwise before </body>.
-  if (html.includes('</head>')) return html.replace('</head>', `${snippet}</head>`);
-  if (html.includes('</body>')) return html.replace('</body>', `${snippet}</body>`);
+  if (html.includes('</head>'))
+    return html.replace('</head>', `${snippet}</head>`);
+  if (html.includes('</body>'))
+    return html.replace('</body>', `${snippet}</body>`);
   return `${html}\n${snippet}`;
 }
-
-
