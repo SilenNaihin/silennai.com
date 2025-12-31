@@ -1,3 +1,15 @@
+# Notion blog embed (local proxy)
+
+To render the Notion blog inside `/blog`, this project uses a simple Next.js Route Handler proxy at `/notion-proxy`.
+
+- Create a `.env.local` file with:
+
+```
+NOTION_PAGE_URL="https://www.notion.so/<your-public-page-id>"
+```
+
+- Or copy `env.example` → `.env.local` and fill in the value.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

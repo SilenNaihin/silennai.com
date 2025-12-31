@@ -832,6 +832,7 @@ function PodcastCover({
   useEffect(() => {
     if (isSelected) {
       // Show player immediately when opening starts
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowPlayer(true);
     } else {
       // Hide player after hinge closes (700ms animation)

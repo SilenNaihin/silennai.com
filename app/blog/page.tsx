@@ -1,28 +1,38 @@
 export default function Blog() {
+  const notionPageUrl = process.env.NOTION_PAGE_URL;
+  let iframeSrc = '/notion-proxy';
+  try {
+    if (notionPageUrl) {
+      const u = new URL(notionPageUrl);
+      iframeSrc = `${u.pathname}${u.search}`;
+    }
+  } catch {
+    // fall back to /notion-proxy
+  }
+
   return (
-    <main className="max-w-2xl mx-auto px-4 md:px-8 py-8">
-      <a
-        href="https://silen.notion.site/Silen-Naihin-2370c99ae49c4e328b66b5e0d90cae3c"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-4 transition-colors duration-200 text-lg font-medium"
-      >
-        Silen&apos;s Blog
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+    <main className="max-w-5xl mx-auto px-4 md:px-8 py-8">
+      <div className="flex items-baseline justify-between gap-4 flex-wrap mb-4">
+        <h1 className="text-2xl font-semibold">Blog</h1>
+        <a
+          href="https://silen.notion.site/Silen-Naihin-2370c99ae49c4e328b66b5e0d90cae3c"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-blue-600 hover:text-blue-800 underline underline-offset-4"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-          />
-        </svg>
-      </a>
+          Open in Notion
+        </a>
+      </div>
+
+      <div className="w-full h-[80vh] md:h-[85vh] rounded-lg overflow-hidden border border-gray-200">
+        <iframe
+          title="Silen's Blog (Notion)"
+          src={iframeSrc}
+          className="w-full h-full"
+          style={{ border: 'none' }}
+          loading="lazy"
+        />
+      </div>
     </main>
   );
 }

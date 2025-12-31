@@ -36,6 +36,7 @@ function ProjectsSection({
     const newRotations = projects.map(() => {
       return Math.random() * 30 - 15; // Range: -15 to +15 degrees
     });
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRotations(newRotations);
   }, []);
 
@@ -43,6 +44,7 @@ function ProjectsSection({
   useEffect(() => {
     if (selectedIndex !== null && displayedIndex === null) {
       // First selection - animate in
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDisplayedIndex(selectedIndex);
       setIsExiting(false);
       setHasAnimatedIn(false);
