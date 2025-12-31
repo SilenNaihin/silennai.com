@@ -1,7 +1,18 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { books, podcasts, links, Book, Podcast, Link } from './data';
+import { useSearchParams, useRouter } from 'next/navigation';
+import {
+  books,
+  podcasts,
+  links,
+  projects,
+  Book,
+  Podcast,
+  Link,
+  Project,
+} from './data';
+import ProjectsSection from '../components/projects/ProjectsSection';
 
 // Hook to calculate responsive shelf count based on screen height
 function useResponsiveShelfCount() {
@@ -26,16 +37,50 @@ function useResponsiveShelfCount() {
   return shelfCount;
 }
 
-type Section = 'books' | 'podcasts' | 'links';
-type SelectedItem = Book | Podcast | Link | null;
+type Section = 'books' | 'podcasts' | 'projects' | 'links';
+type SelectedItem = Book | Podcast | Link | Project | null;
+
+const VALID_SECTIONS: Section[] = ['books', 'podcasts', 'projects', 'links'];
+
+function getSectionFromParams(searchParams: URLSearchParams): Section {
+  // Check for section as a key (e.g., ?books, ?podcasts)
+  for (const section of VALID_SECTIONS) {
+    if (searchParams.has(section)) {
+      return section;
+    }
+  }
+  return 'books'; // default
+}
 
 export default function Content() {
-  const [activeSection, setActiveSection] = useState<Section>('books');
-  const [selectedItem, setSelectedItem] = useState<SelectedItem>(books[0]);
-  const [selectedBookIndex, setSelectedBookIndex] = useState<number | null>(0);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [activeSection, setActiveSection] = useState<Section>(() =>
+    getSectionFromParams(searchParams)
+  );
+  const [selectedItem, setSelectedItem] = useState<SelectedItem>(() => {
+    const section = getSectionFromParams(searchParams);
+    return section === 'books' ? books[0] : null;
+  });
+  const [selectedBookIndex, setSelectedBookIndex] = useState<number | null>(
+    () => {
+      const section = getSectionFromParams(searchParams);
+      return section === 'books' ? 0 : null;
+    }
+  );
   const [selectedPodcastIndex, setSelectedPodcastIndex] = useState<
     number | null
   >(null);
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState<
+    number | null
+  >(null);
+
+  // Update URL when section changes
+  const handleSectionChange = (section: Section) => {
+    setActiveSection(section);
+    router.push(`?${section}`, { scroll: false });
+  };
 
   return (
     <div className="relative">
@@ -46,7 +91,7 @@ export default function Content() {
           <ul className="space-y-2 sticky top-32">
             <li>
               <button
-                onClick={() => setActiveSection('books')}
+                onClick={() => handleSectionChange('books')}
                 className={`text-left w-full py-2 px-3 rounded transition-all ${
                   activeSection === 'books'
                     ? 'font-bold bg-gray-100'
@@ -58,7 +103,7 @@ export default function Content() {
             </li>
             <li>
               <button
-                onClick={() => setActiveSection('podcasts')}
+                onClick={() => handleSectionChange('podcasts')}
                 className={`text-left w-full py-2 px-3 rounded transition-all ${
                   activeSection === 'podcasts'
                     ? 'font-bold bg-gray-100'
@@ -70,7 +115,19 @@ export default function Content() {
             </li>
             <li>
               <button
-                onClick={() => setActiveSection('links')}
+                onClick={() => handleSectionChange('projects')}
+                className={`text-left w-full py-2 px-3 rounded transition-all ${
+                  activeSection === 'projects'
+                    ? 'font-bold bg-gray-100'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Projects
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => handleSectionChange('links')}
                 className={`text-left w-full py-2 px-3 rounded transition-all ${
                   activeSection === 'links'
                     ? 'font-bold bg-gray-100'
@@ -120,68 +177,85 @@ export default function Content() {
               selectedIndex={selectedPodcastIndex}
             />
           )}
+          {activeSection === 'projects' && (
+            <ProjectsSection
+              projects={projects}
+              onSelect={(project, index) => {
+                if (selectedProjectIndex === index) {
+                  setSelectedItem(null);
+                  setSelectedProjectIndex(null);
+                } else {
+                  setSelectedItem(project);
+                  setSelectedProjectIndex(index);
+                }
+              }}
+              selectedIndex={selectedProjectIndex}
+            />
+          )}
           {activeSection === 'links' && (
             <LinksSection onSelect={setSelectedItem} />
           )}
         </div>
 
-        {/* Detail Section - inline below content */}
-        <div
-          className="border-t border-gray-200 pt-6 transition-all duration-300"
-          style={{
-            minHeight: '200px',
-            maxHeight: selectedItem ? 'none' : '200px',
-          }}
-        >
-          {selectedItem ? (
-            <div
-              style={{
-                animation: 'fadeIn 0.3s ease-out',
-              }}
-            >
-              <div className="flex items-baseline gap-3 mb-2">
-                <h2 className="text-xl font-bold">
-                  {'title' in selectedItem
-                    ? selectedItem.title
-                    : selectedItem.name}
-                </h2>
-                {'rating' in selectedItem && selectedItem.rating && (
-                  <span className="text-gray-600 text-sm">
-                    {selectedItem.rating}/10
-                  </span>
+        {/* Detail Section - only shown for non-project sections */}
+        {activeSection !== 'projects' && (
+          <div
+            className="border-t border-gray-200 pt-6 transition-all duration-300"
+            style={{
+              minHeight: '200px',
+              maxHeight: selectedItem ? 'none' : '200px',
+            }}
+          >
+            {selectedItem ? (
+              <div
+                style={{
+                  animation: 'fadeIn 0.3s ease-out',
+                }}
+              >
+                <div className="flex items-baseline gap-3 mb-2">
+                  <h2 className="text-xl font-bold">
+                    {'title' in selectedItem
+                      ? selectedItem.title
+                      : selectedItem.name}
+                  </h2>
+                  {'rating' in selectedItem && selectedItem.rating && (
+                    <span className="text-gray-600 text-sm">
+                      {selectedItem.rating}/10
+                    </span>
+                  )}
+                </div>
+                {'author' in selectedItem && (
+                  <p className="text-gray-600 text-sm mb-4">
+                    {selectedItem.author}
+                  </p>
+                )}
+
+                {'reflections' in selectedItem && selectedItem.reflections && (
+                  <p className="text-gray-700 leading-relaxed text-sm">
+                    {selectedItem.reflections}
+                  </p>
+                )}
+
+                {'url' in selectedItem && (
+                  <div className="mt-4">
+                    <a
+                      href={selectedItem.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline text-sm"
+                    >
+                      Visit link →
+                    </a>
+                  </div>
                 )}
               </div>
-              {'author' in selectedItem && (
-                <p className="text-gray-600 text-sm mb-4">
-                  {selectedItem.author}
-                </p>
-              )}
-
-              {'reflections' in selectedItem && selectedItem.reflections && (
-                <p className="text-gray-700 leading-relaxed text-sm">
-                  {selectedItem.reflections}
-                </p>
-              )}
-
-              {'url' in selectedItem && (
-                <div className="mt-4">
-                  <a
-                    href={selectedItem.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline text-sm"
-                  >
-                    Visit link →
-                  </a>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="flex items-center justify-center h-full text-gray-400 text-sm">
-              Select an item to view details
-            </div>
-          )}
-        </div>
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-400 text-sm">
+                Select an item to view details
+              </div>
+            )}
+          </div>
+        )}
       </main>
     </div>
   );
@@ -227,6 +301,45 @@ function BooksSection({
       // Toggle off by clicking the same book again
       onSelect(books[selectedIndex], selectedIndex);
     }
+  };
+
+  // Handle book selection with auto-scroll to make shelf visible
+  const handleBookSelect = (book: Book, index: number) => {
+    const shelfIndex = Math.floor(index / booksPerShelf);
+
+    // Calculate shelf position in the scrollable content
+    // First shelf has extra 48px (pt-12) padding at top
+    const shelfTop = shelfIndex * shelfHeight + (shelfIndex > 0 ? 48 : 0);
+    const shelfBottom = shelfTop + shelfHeight + (shelfIndex === 0 ? 48 : 0);
+
+    // Current visible bounds
+    const visibleTop = scrollOffset;
+    const visibleBottom = scrollOffset + maxHeight;
+
+    // Calculate new scroll offset if shelf is not fully visible
+    let newOffset = scrollOffset;
+
+    // Add padding so the shelf isn't at the very edge (books scale up when selected)
+    const scrollPadding = 80;
+
+    if (shelfBottom > visibleBottom) {
+      // Shelf extends below visible area - scroll down to show it
+      // Add padding so shelf appears higher in the viewport
+      newOffset = Math.min(
+        maxScrollOffset,
+        shelfBottom - maxHeight + scrollPadding
+      );
+    } else if (shelfTop < visibleTop) {
+      // Shelf is above visible area - scroll up
+      // Subtract padding so shelf has room above it
+      newOffset = Math.max(0, shelfTop - scrollPadding);
+    }
+
+    if (newOffset !== scrollOffset) {
+      setScrollOffset(newOffset);
+    }
+
+    onSelect(book, index);
   };
 
   const startScrolling = (direction: 'up' | 'down') => {
@@ -328,6 +441,7 @@ function BooksSection({
           className="space-y-6"
           style={{
             transform: `translateY(-${scrollOffset}px)`,
+            transition: 'transform 0.3s ease-out',
             willChange: 'transform',
           }}
         >
@@ -383,7 +497,7 @@ function BooksSection({
                       <Book3D
                         key={`${shelfIndex}-${bookIndex}`}
                         book={book}
-                        onClick={() => onSelect(book, globalIndex)}
+                        onClick={() => handleBookSelect(book, globalIndex)}
                         isSelected={isSelected}
                         globalIndex={globalIndex}
                         hoveredIndex={hoveredIndex}

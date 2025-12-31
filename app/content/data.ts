@@ -21,6 +21,15 @@ export interface Link {
   reflections?: string;
 }
 
+export interface Project {
+  title: string;
+  description: string;
+  image: string;
+  url?: string;
+  tags?: string[];
+  reflections?: string;
+}
+
 export const books: Book[] = [
   {
     title: 'The Selfish Gene',
@@ -166,4 +175,83 @@ export const links: Link[] = [
   { name: 'Example Link 3', url: 'https://example.com', category: 'Papers' },
   { name: 'Example Link 4', url: 'https://example.com', category: 'Papers' },
   { name: 'Example Link 5', url: 'https://example.com', category: 'Tools' },
+];
+
+export const projects: Project[] = [
+  {
+    title: 'Neural Canvas',
+    description: 'AI-powered generative art platform',
+    image: '/podcasts/FoC.jpg',
+    url: 'https://example.com',
+    tags: ['AI', 'React', 'Python'],
+    reflections:
+      'Exploring the intersection of machine learning and creative expression. Built with a custom diffusion model fine-tuned on abstract art.',
+  },
+  {
+    title: 'Temporal',
+    description: 'Time-tracking with spatial memory',
+    image: '/podcasts/FoC.jpg',
+    tags: ['TypeScript', 'Three.js'],
+    reflections:
+      'A new approach to productivity that maps your work to physical spaces in your mind.',
+  },
+  {
+    title: 'Whisper Graph',
+    description: 'Voice-first knowledge management',
+    image: '/podcasts/FoC.jpg',
+    url: 'https://example.com',
+    tags: ['Swift', 'ML'],
+    reflections:
+      'Capture thoughts as audio, let AI organize them into a searchable knowledge graph.',
+  },
+  {
+    title: 'Chromatic',
+    description: 'Design system generator',
+    image: '/podcasts/FoC.jpg',
+    tags: ['Design', 'CSS'],
+  },
+  {
+    title: 'Lattice',
+    description: 'Distributed computing framework',
+    image: '/podcasts/FoC.jpg',
+    tags: ['Rust', 'Systems'],
+    reflections: 'Making distributed systems accessible to solo developers.',
+  },
+  {
+    title: 'Syntax Garden',
+    description: 'Interactive language learning',
+    image: '/podcasts/FoC.jpg',
+    url: 'https://example.com',
+    tags: ['Education', 'NLP'],
+  },
+  {
+    title: 'Syntax Garden',
+    description: 'Interactive language learning',
+    image: '/podcasts/FoC.jpg',
+    url: 'https://example.com',
+    tags: ['Education', 'NLP'],
+  },
+  {
+    title: 'Syntax Garden',
+    description:
+      'Interactive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learning',
+    image: '/podcasts/FoC.jpg',
+    url: 'https://example.com',
+    tags: ['Education', 'NLP'],
+  },
+  {
+    title: 'Syntax Garden',
+    description: 'Interactive language learning',
+    image: '/podcasts/FoC.jpg',
+    url: 'https://example.com',
+    tags: ['Education', 'NLP'],
+  },
+  {
+    title: 'Syntax Garden',
+    description:
+      'Interactive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learningInteractive language learning',
+    image: '/podcasts/FoC.jpg',
+    url: 'https://example.com',
+    tags: ['Education', 'NLP'],
+  },
 ];
