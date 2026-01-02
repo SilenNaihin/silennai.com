@@ -176,7 +176,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/FoC.jpg',
     url: 'https://open.spotify.com/show/44DE64rRpX1cFIQUlqQtvi?si=18c59f29bae248cb',
     summary:
-      "Incredibly well produced. If Christopher Nolan made podcasts about history. Voice actors that quote scripts in the native language, sound affects, compelling narration. Listening to this podcast I've played god sculpting civilizations. I've lived in different empires throughout history. I've brought civilizations to the tipping point. And nudged the domino.",
+      "Incredibly well produced. If Christopher Nolan made podcasts about history.\nVoice actors that quote scripts in the native language, sound affects, compelling narration.\nListening to this podcast I've played god sculpting civilizations.\nI've lived in different empires throughout history.\nI've brought civilizations to the tipping point. And nudged the domino.",
     recommendations: "You can't go wrong. Start with Carthage (episode 17).",
     episodes: 'All episodes',
     rating: '5/5',
@@ -187,7 +187,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/httotw.jpeg',
     url: 'https://open.spotify.com/show/1gqvQ7h7BxNSVoQVTnwihr?si=cc14c2b884d4487b',
     summary:
-      'Learn from Lee Kuan Yew, Jesus, and Caesar. Ben siphons the leverage points, obsession, and architecture of power, of the most influential people in history from many different sources. Condenses it. And hands it to you on a silver platter. If the title intrigues you give it a listen.',
+      'Learn from Lee Kuan Yew, Jesus, and Caesar.\nBen siphons the leverage points, obsession, and architecture of power, of the most influential people in history from many different sources.\nCondenses it.\nAnd hands it to you on a silver platter.\nIf the title intrigues you give it a listen.',
     recommendations:
       'The Lee Kuan Yew and Jesus episodes are great starting points.',
     episodes: 'Most episodes',
@@ -199,7 +199,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/founders.jpg',
     url: 'https://open.spotify.com/show/7txiovdzPARhjm18NwMUYj?si=953e61c311b64d36',
     summary:
-      "David is obsessed with great people. He has consumed both the canonical and obscure literature on history's most consequential founders. Once a week he adds a book to this corpus, adds in his encyclopedic knowledge, and translates into a narrative. Books have been translated specifically for his podcast. Focused on people in the business world aren't currently active.",
+      "David is obsessed with great people.\nHe has consumed both the canonical and obscure literature on history's most consequential founders.\nOnce a week he adds a book to this corpus, adds in his encyclopedic knowledge, and translates into a narrative.\nBooks have been translated specifically for his podcast.\nFocused on people in the business world aren't currently active.",
     recommendations:
       'My favorite episodes were any of those with James Dyson, Sam Zemurray, Rockefeller, Paul Graham essays, and John Malone in roughly that order.',
     episodes: '80% of episodes',
@@ -211,7 +211,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/cost-of-glory.jpg',
     url: 'https://open.spotify.com/show/4safRYjMIq51vEfNHRUCUz?si=960a30c0ac504908',
     summary:
-      "Alex Petkas has a PhD in the classics from Princeton. In this case it means something. He roughly follows Plutarch's Parallel Lives which the likes of Napoleon and Churchill thoroughly annotated in their pursuits. Every narration driven episode on a historical driven figure is exceptional. The rating reflects only those episdoes.",
+      "Alex Petkas has a PhD in the classics from Princeton.\nIn this case it means something.\nHe roughly follows Plutarch's Parallel Lives which the likes of Napoleon and Churchill thoroughly annotated in their pursuits.\nEvery narration driven episode on a historical driven figure is exceptional. The rating reflects only those episdoes.",
     recommendations: 'Gallic Wars, Agesilaus, Marius',
     episodes: 'All person related episodes',
     rating: '4.5/5',
@@ -222,7 +222,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/anthology-of-heroes.jpg',
     url: 'https://open.spotify.com/show/1hDB7ZtZBfd06S2F7Z0CIM?si=e270feff2113414d',
     summary:
-      'Consistently high quality. Reminiscent of HHTOTW. But distinguished with an Aussie accent and minimal topical overlap from a focus on events rather than people.',
+      'Consistently high quality.\nReminiscent of HHTOTW.\nBut distinguished with an Aussie accent and minimal topical overlap from a focus on events rather than people.',
     recommendations:
       'The Sobibor episodes made me tear up. Skandabeg was epic. The recent Constantinople series is incredible.',
     episodes: 'All',
@@ -234,7 +234,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/explorers.jpeg',
     url: 'https://open.spotify.com/show/6RC8NVlOzdfY8Rt4jDPNrU?si=cf473bd15d56451a',
     summary:
-      'Matt is a great narrator and good at condensing stories of exploration into enjoyable listens. Not quite as epic or high production quality as some of the earlier pods but if you have any latent interest in exploration, this is the best one.',
+      'Matt is a great narrator and good at condensing stories of exploration into enjoyable listens.\nNot quite as epic or high production quality as some of the earlier pods but if you have any latent interest in exploration, this is the best one.',
     recommendations:
       'Ernest Shackleton (please read the book), conquest of Mexico and the Incan empires.',
     episodes: '33%',
@@ -246,7 +246,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/history-of-rome.png',
     url: 'https://open.spotify.com/show/6wiEd40oPbQ9UK1rSpIy8I?si=b39bc7ea76054ffb',
     summary:
-      'The definitive podcast on Rome. No other podcast covers Rome in as much detail chronologically. I never felt like it was a slog to get through the ~180 episodes.',
+      'The definitive podcast on Rome.\nNo other podcast covers Rome in as much detail chronologically.\nI never felt like it was a slog to get through the ~180 episodes.',
     recommendations: 'All',
     episodes: 'All',
     rating: '4/5',
@@ -257,7 +257,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/revolutions.jpeg',
     url: 'https://open.spotify.com/show/05lvdf9T77KE6y4gyMGEsD?si=e91ecb79b8c8493f',
     summary:
-      "Turns out there's been a lot of civil unrest in history for some reason. Skip the English revolution (1st series) and start from the American or French revolution. Roughly equivalent to History of Rome but for Revolutions.",
+      "Turns out there's been a lot of civil unrest in history for some reason.\nSkip the English revolution (1st series) and start from the American or French revolution.\nRoughly equivalent to History of Rome but for Revolutions.",
     recommendations:
       'English revolution of 1640s, American revolution, French revolution, Haiti.',
     episodes: '~100 episodes / 400?',
@@ -269,7 +269,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/ancient-world.jpeg',
     url: 'https://open.spotify.com/show/765nK6U4KXuceyVGNco4Xo?si=f9b8f703ff654c37',
     summary:
-      "Great but it's really in the weeds and takes a while to get into. Especially the earlier episodes more closely resemble history as it was taught to me in school with a lot of date and name listing. Once I accepted that it wasn't going to be the optimal narration style, I think this is the best podcast for diving into early antiquity and some out of distribution stories. Would only recommend to listen if you're listened to all of the Fall of Civilizations.",
+      "Great but it's really in the weeds and takes a while to get into. Especially the earlier episodes more closely resemble history as it was taught to me in school with a lot of date and name listing.\nOnce I accepted that it wasn't going to be the optimal narration style, I think this is the best podcast for diving into early antiquity and some out of distribution stories.\nWould only recommend to listen if you're listened to all of the Fall of Civilizations.",
     recommendations: 'Start with his series on the bronze age (C episodes)',
     episodes: 'All episodes',
     rating: '3/5',
@@ -280,7 +280,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/bg2.jpeg',
     url: 'https://open.spotify.com/show/3dVqgYXN29DwwnqdY3YsCk?si=222f4fe7d30647dd',
     summary:
-      'I would say "5/5 hands down best podcast for macroeconomics bar none". However, Bill Gurley (co-host) recently left the show. It remains to be seen if the podcast quality remains the same. So far it seems as though it will be biased towards interviews rather than bi weekly dives and opinions on the market.',
+      'I would say "5/5 hands down best podcast for macroeconomics bar none".\nHowever, Bill Gurley (co-host) recently left the show.\nIt remains to be seen if the podcast quality remains the same.\nSo far it seems as though it will be biased towards interviews rather than bi weekly dives and opinions on the market.',
     recommendations: 'All episodes',
     episodes: 'All episodes',
     rating: '4/5',
@@ -291,7 +291,7 @@ export const podcasts: Podcast[] = [
     cover: '/podcasts/dwarkesh.jpeg',
     url: 'https://open.spotify.com/show/4JH4tybY1zX6e5hjCwU6gF?si=84e17640d89d432a',
     summary:
-      'By the nature of the format interview based podcasts are hit or miss. But this is about the best it gets. The podcast I have to slow down from 2x the most often.',
+      'By the nature of the format interview based podcasts are hit or miss. But this is about the best it gets.\nThe podcast I have to slow down from 2x the most often.',
     recommendations:
       "I've quoted his Andrej Karpathy interview on the order of tens of times. Nick Lane was interesting.",
     episodes: '1/4 of all episodes',
