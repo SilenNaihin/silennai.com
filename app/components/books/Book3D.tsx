@@ -1,4 +1,5 @@
 import { Book } from '@/app/content/data';
+import { forwardRef } from 'react';
 
 /**
  * Book3D Component - Renders a 3D book with spine and cover
@@ -9,27 +10,33 @@ import { Book } from '@/app/content/data';
  * - Books to the right shift right to make space for opened/hovered books
  * - Each book has its own perspective to ensure consistent rotation across the shelf
  */
-function Book3D({
-  book,
-  onClick,
-  isSelected,
-  globalIndex,
-  hoveredIndex,
-  selectedIndex,
-  shelfStartIndex,
-  shelfEndIndex,
-  onHoverChange,
-}: {
-  book: Book;
-  onClick: () => void;
-  isSelected: boolean;
-  globalIndex: number;
-  hoveredIndex: number | null;
-  selectedIndex: number | null;
-  shelfStartIndex: number;
-  shelfEndIndex: number;
-  onHoverChange: (index: number | null) => void;
-}) {
+const Book3D = forwardRef<
+  HTMLDivElement,
+  {
+    book: Book;
+    onClick: () => void;
+    isSelected: boolean;
+    globalIndex: number;
+    hoveredIndex: number | null;
+    selectedIndex: number | null;
+    shelfStartIndex: number;
+    shelfEndIndex: number;
+    onHoverChange: (index: number | null) => void;
+  }
+>(function Book3D(
+  {
+    book,
+    onClick,
+    isSelected,
+    globalIndex,
+    hoveredIndex,
+    selectedIndex,
+    shelfStartIndex,
+    shelfEndIndex,
+    onHoverChange,
+  },
+  ref
+) {
   // This book is hovered only if it's the hovered book AND not already selected
   const isHovered = hoveredIndex === globalIndex && !isSelected;
 
@@ -70,6 +77,7 @@ function Book3D({
 
   return (
     <div
+      ref={ref}
       className={`relative cursor-pointer transition-all duration-500 ${
         isSelected || isHovered ? 'z-50' : 'z-0'
       }`}
@@ -203,6 +211,6 @@ function Book3D({
       </div>
     </div>
   );
-}
+});
 
 export default Book3D;
