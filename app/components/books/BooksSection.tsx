@@ -104,32 +104,32 @@ function BooksSection({
       onClick={handleBackgroundClick}
     >
       {/* Sort buttons */}
-      <div className="flex justify-end gap-2 mb-4 pt-2 pr-2">
+      <div className="flex justify-end gap-1.5 pr-2">
         <button
           onClick={(e) => {
             e.stopPropagation();
             setSortMode('recency');
           }}
-          className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+          className={`px-2 py-0.5 text-xs rounded transition-colors ${
             sortMode === 'recency'
               ? 'bg-gray-900 text-white'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          By Recency
+          Recency
         </button>
         <button
           onClick={(e) => {
             e.stopPropagation();
             setSortMode('rating');
           }}
-          className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+          className={`px-2 py-0.5 text-xs rounded transition-colors ${
             sortMode === 'rating'
               ? 'bg-gray-900 text-white'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          By Rating
+          Rating
         </button>
       </div>
       <div className="space-y-6">

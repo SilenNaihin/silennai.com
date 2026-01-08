@@ -1,6 +1,18 @@
 import { Book } from '@/app/content/data';
 import { forwardRef } from 'react';
 
+// Helper to determine if spine text should be dark based on background color luminance
+function shouldUseDarkText(hexColor: string): boolean {
+  // Remove # if present
+  const hex = hexColor.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  // Calculate relative luminance
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.7; // Light backgrounds need dark text
+}
+
 /**
  * Book3D Component - Renders a 3D book with spine and cover
  *
@@ -119,32 +131,19 @@ const Book3D = forwardRef<
     >
       {/* Book Spine (front face) - 50px wide x 240px tall */}
       <div
-        className="absolute top-0 left-0 flex items-center justify-center text-white text-xs font-semibold"
+        className={`absolute top-0 left-0 flex items-center justify-center text-xs font-semibold ${shouldUseDarkText(book.spineColor) ? 'text-gray-900' : 'text-white'}`}
         style={{
           width: '50px',
           height: '240px',
           background: book.spineColor,
           backgroundImage: `
-                linear-gradient(135deg, 
-                  ${book.spineColor} 0%, 
-                  ${book.spineColor}ee 45%, 
-                  ${book.spineColor}dd 50%, 
-                  ${book.spineColor}ee 55%, 
-                  ${book.spineColor} 100%
-                ),
-                repeating-linear-gradient(
-                  0deg,
-                  transparent,
-                  transparent 3px,
-                  rgba(0,0,0,0.05) 3px,
-                  rgba(0,0,0,0.05) 6px
-                ),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E")
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.3' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.4'/%3E%3C/svg%3E")
               `,
+          backgroundBlendMode: 'hard-light',
           borderRadius: '2px 0 0 2px',
-          boxShadow:
-            'inset 3px 0 6px rgba(0,0,0,0.3), inset -2px 0 4px rgba(0,0,0,0.2), inset 0 0 20px rgba(0,0,0,0.1)',
           transformStyle: 'preserve-3d',
+          border: shouldUseDarkText(book.spineColor) ? '1px solid rgba(0,0,0,0.15)' : 'none',
+          boxShadow: shouldUseDarkText(book.spineColor) ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
         }}
       >
         <div
@@ -155,7 +154,9 @@ const Book3D = forwardRef<
             maxHeight: '230px',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+            textShadow: shouldUseDarkText(book.spineColor)
+              ? '1px 1px 2px rgba(255,255,255,0.5)'
+              : '1px 1px 2px rgba(0,0,0,0.5)',
           }}
         >
           {book.title}
@@ -172,11 +173,10 @@ const Book3D = forwardRef<
           width: '160px',
           height: '240px',
           transform: 'rotateY(90deg)',
-          transformOrigin: 'left center',
+          transformOrigin: 'left bottom',
           transformStyle: 'preserve-3d',
           opacity: isHovered || isSelected ? 1 : 0,
           transition: 'opacity 0.3s ease-out',
-          boxShadow: '0 15px 40px rgba(0,0,0,0.6)',
           borderRadius: '0 2px 2px 0',
         }}
       >
