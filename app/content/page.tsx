@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { links, projects } from './data';
 import BooksSection from '../components/books/BooksSection';
@@ -22,7 +22,7 @@ function getSectionFromParams(searchParams: URLSearchParams): Section {
   return 'books'; // default
 }
 
-export default function Content() {
+function ContentInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -176,5 +176,13 @@ export default function Content() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function Content() {
+  return (
+    <Suspense fallback={<div className="max-w-2xl mx-auto px-4 md:px-8 py-8 min-h-screen" />}>
+      <ContentInner />
+    </Suspense>
   );
 }
