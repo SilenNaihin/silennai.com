@@ -49,8 +49,8 @@ export const books: Book[] = [
   {
     title: 'Robot Visions',
     author: 'Isaac Asimov',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/robot-visions.jpg',
+    spineColor: '#4F3D31',
     rating: 5.5,
     dateRead: 'January 2026',
     reflections: `Enjoyable read. A collection of short stories centered around the exploration of Asimov's three rules of robotics.
@@ -64,8 +64,8 @@ My biggest gripe is that he presents a simplified version of the universe in his
 The application of the three rules of robotics is questioned in multiple stories, but it doesn't go far beyond a surface level. I didn't find myself pausing to ponder deeply about deontological vs utilitarian viewpoints for example.`,
   },
   {
-    title: '38 Letters from Rockefeller to his son',
-    author: 'John D. Rockefeller',
+    title: '38 Letters from Rockefeller to His Son',
+    author: 'G. Ng',
     cover: '/books/placeholder.jpg',
     spineColor: '#1E3A5F',
     rating: 9,
@@ -80,18 +80,18 @@ Even more valuable if you haven't yet solidified your intuitions around money, d
   {
     title: 'Mistborn Series 2',
     author: 'Brandon Sanderson',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/mistborn-series-2.jpg',
+    spineColor: '#87693B',
     rating: 7.5,
     dateRead: 'October 2025',
     reflections: `Less on the fantasy aspect and the scope is smaller for the first 3 books, but still enjoyable.
 More juvenile humor but it doesn't feel as forced as with the WoK series. Wayne is a standout character whose growth across the series is satisfying, and the western-meets-fantasy setting offers a fresh take on the Cosmere.`,
   },
   {
-    title: 'Thinking Fast And Slow',
+    title: 'Thinking, Fast and Slow',
     author: 'Daniel Kahneman',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/thinking-fast-slow.jpg',
+    spineColor: '#F3F0EB',
     rating: 8.5,
     dateRead: 'September 2025',
     reflections: `Thought-provoking and foundational, though unevenly paced.
@@ -105,8 +105,8 @@ It weakens toward the end, where the marginal insight diminishes and the final ~
   {
     title: 'Mistborn Series 1',
     author: 'Brandon Sanderson',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/mistborn-series-1.jpg',
+    spineColor: '#886585',
     rating: 8,
     dateRead: 'September 2025',
     reflections: `One of the most epic endings to a trilogy I've ever read. Vin is a delightful character to follow, and the progress of the stories feels interesting all the way through. Book 2 was a weak spot, but otherwise an amazing read and unique action system.`,
@@ -114,8 +114,8 @@ It weakens toward the end, where the marginal insight diminishes and the final ~
   {
     title: 'The Four Agreements',
     author: 'Don Miguel Ruiz',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/four-agreements.jpg',
+    spineColor: '#6F5029',
     rating: 6.5,
     dateRead: 'August 2025',
     reflections: `Nothing groundbreaking but from a novel perspective (Toltec spiritual tradition). Good choice to use as your socialization bible.
@@ -124,10 +124,10 @@ Moral rather than empirical.
 Encourages emotional restraint, interpretive charity, and personal accountability. Makes you a more stoic and effective participant in social life.`,
   },
   {
-    title: 'Ego Is The Enemy',
+    title: 'Ego Is the Enemy',
     author: 'Ryan Holiday',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/ego-is-the-enemy.jpg',
+    spineColor: '#3C6276',
     rating: 5.5,
     dateRead: 'July 2025',
     reflections: `Felt similar in spirit to Robert Greene's books. A story that is then polemically marshaled to support a predetermined thesis when other interpretations are abound.
@@ -150,8 +150,8 @@ Still a valuable read especially since I haven't read the Almanack at this point
   {
     title: 'Venture Deals',
     author: 'Brad Feld & Jason Mendelson',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/venture-deals.jpg',
+    spineColor: '#615C6B',
     rating: 7.5,
     dateRead: 'July 2025',
     reflections: `Prescriptive version of The Power Law. Some concepts are dated but this is a must read before raising.`,
@@ -159,8 +159,8 @@ Still a valuable read especially since I haven't read the Almanack at this point
   {
     title: 'The Power Law',
     author: 'Sebastian Mallaby',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/power-law.jpg',
+    spineColor: '#2C3642',
     rating: 8,
     dateRead: 'June 2025',
     reflections: `The definitive history of venture capital.
@@ -171,8 +171,8 @@ Useful for calibrating expectations about risk, selection, and variance.`,
   {
     title: 'Meditations',
     author: 'Marcus Aurelius',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/meditations.jpg',
+    spineColor: '#455053',
     rating: 8,
     dateRead: 'May 2025',
     reflections: `The inner exposition of a man that controlled half the world 2000 years ago.
@@ -182,10 +182,10 @@ If you're already familiar (and ideally have interest in Roman antiquity), you h
 This cannot be replicated.`,
   },
   {
-    title: 'Never Split The Difference',
+    title: 'Never Split the Difference',
     author: 'Chris Voss',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/never-split-difference.jpg',
+    spineColor: '#D7984D',
     rating: 6.5,
     dateRead: 'May 2025',
     reflections: `The core point is that effective negotiation is primarily emotional, not rational.
@@ -196,8 +196,8 @@ Could have been a long blog post. Chris Voss has a lot of interesting stories wh
   {
     title: 'What every BODY is saying',
     author: 'Joe Navarro',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/what-every-body-is-saying.jpg',
+    spineColor: '#3583A6',
     rating: 7.5,
     dateRead: 'April 2025',
     reflections: `The most practical book I've read on body language. Focuses less on theatrical "tells" and more on baseline behavior, comfort vs. discomfort cues, and probabilistic interpretation.
@@ -206,8 +206,8 @@ Emphasizes pattern recognition over certainty, which keeps it grounded and usabl
   {
     title: 'Thinking in Systems',
     author: 'Donella Meadows',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/thinking-in-systems.jpg',
+    spineColor: '#988C75',
     rating: 8,
     dateRead: 'March 2025',
     reflections: `Dense framework that demands repetition and concrete examples to internalize.
@@ -222,8 +222,8 @@ Will likely require a re-read.`,
   {
     title: 'Becoming Supernatural',
     author: 'Joe Dispenza',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/becoming-supernatural.jpg',
+    spineColor: '#BFCBB2',
     rating: 2.5,
     dateRead: 'March 2025',
     reflections: `Heavily pseudoscientific in presentation. Frequent appeals to vague neuroscience or empirical studies with substantial confounding variables. The word "quantum" is used more as mystique than mechanism.
@@ -235,8 +235,8 @@ Read if you've tried traditional self help advice and it didn't resonate or help
   {
     title: 'The Challenger Sale',
     author: 'Matthew Dixon & Brent Adamson',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/challenger-sale.jpg',
+    spineColor: '#EDECEA',
     rating: 5.5,
     dateRead: 'March 2025',
     reflections: `Out of the different sales personas, the "Challenger" does the best. They are usually an expert in the topic and can flip the dynamic to where the customer wants to be on calls as it's closer to consulting. This expertise and "challenge" is different depending on the stakeholder. Guidance > reaction. Could have been a blog post.`,
@@ -244,8 +244,8 @@ Read if you've tried traditional self help advice and it didn't resonate or help
   {
     title: 'The Transparency Sale',
     author: 'Todd Caponi',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/transparency-sale.jpg',
+    spineColor: '#867367',
     rating: 6,
     dateRead: 'February 2025',
     reflections: `For B2B sales, educating > "selling". The best way to educate is to be honest and find customers that will genuinely value your product the most.
@@ -263,8 +263,8 @@ There's good practical advice on how to run meetings and structure your sales cy
   {
     title: 'Steve Jobs',
     author: 'Walter Isaacson',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/steve-jobs.jpg',
+    spineColor: '#A6A7A8',
     rating: 8,
     dateRead: 'February 2025',
     reflections: `Caligraphy at Reed transferring later.
@@ -274,8 +274,8 @@ He had an incredible understanding of UX, both for marketing and his products. H
   {
     title: 'Crossing the Chasm',
     author: 'Geoffrey Moore',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/crossing-the-chasm.jpg',
+    spineColor: '#E46B4D',
     rating: 2,
     dateRead: 'January 2025',
     reflections: `A blog post book. A single important concept and then lots of filler. Not sure what I expected.
@@ -285,8 +285,8 @@ Companies in SF can often be bad at this. Especially novelty items as we saw wit
   {
     title: 'Way of Kings Series',
     author: 'Brandon Sanderson',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/way-of-kings.jpg',
+    spineColor: '#937679',
     rating: 8.5,
     dateRead: 'December 2024',
     reflections: `This one sucked me in. I read the first three books within a week. And the last two within another week.
@@ -298,8 +298,8 @@ If you're into deep world and character building and don't mind a slow start thi
   {
     title: 'Project Hail Mary',
     author: 'Andy Weir',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/project-hail-mary.jpg',
+    spineColor: '#433D27',
     rating: 8,
     dateRead: 'December 2024',
     reflections: `An interesting demonstration of what alternative non carbon based life could look like.
@@ -309,8 +309,8 @@ Without intellectualizing, it's just a genuinely enjoyable read.`,
   {
     title: 'Foundation Series',
     author: 'Isaac Asimov',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/foundation.jpg',
+    spineColor: '#352324',
     rating: '8.5 (trilogy), 7.5 (prequels), 6 (sequels)',
     dateRead: 'October 2024',
     reflections: `Draws certain sociological questions to their logical conclusion.
@@ -319,10 +319,10 @@ Without intellectualizing, it's just a genuinely enjoyable read.`,
 (c) Is a future that is stable, prosperous, and predictable worth the loss of meaningful individual agency? Is benevolent determinism ethically distinguishable from tyranny when its hand is sufficiently invisible?`,
   },
   {
-    title: '48 Laws of Power',
+    title: 'The 48 Laws of Power',
     author: 'Robert Greene',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/48-laws-of-power.jpg',
+    spineColor: '#954343',
     rating: 2.5,
     dateRead: 'October 2024',
     reflections: `Despite not loving The Laws of Human Nature, I read this hoping the issue was the subject matter rather than the writing.
@@ -333,8 +333,8 @@ Many of the "laws" themselves could be explored more productively in a less pole
   {
     title: 'The Almanack of Naval Ravikant',
     author: 'Eric Jorgensen',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/almanack-naval.jpg',
+    spineColor: '#F5F5F5',
     rating: 8.5,
     dateRead: 'October 2024',
     reflections: `A well-curated synthesis of Naval's thinking on leverage, wealth, and personal philosophy.
@@ -355,8 +355,8 @@ Environment > willpower. Design defaults so good behavior is easy and bad behavi
   {
     title: 'Elon Musk',
     author: 'Walter Isaacson',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/elon-musk-isaacson.jpg',
+    spineColor: '#685652',
     rating: 9,
     dateRead: 'September 2024',
     reflections: `High level notes:
@@ -370,8 +370,8 @@ A lot more depth in his early life and later life than the Vance book. Already o
   {
     title: 'Endurance',
     author: 'Alfred Lansing',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/endurance.jpg',
+    spineColor: '#363538',
     rating: 9.5,
     dateRead: 'August 2024',
     reflections: `One of my favorite books.
@@ -380,10 +380,10 @@ And it happens to be real.
 Skip all "motivation" content and read this.`,
   },
   {
-    title: 'The Fish That Ate The Whale',
+    title: 'The Fish That Ate the Whale',
     author: 'Rich Cohen',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/fish-ate-whale.jpg',
+    spineColor: '#719CCD',
     rating: 7.5,
     dateRead: 'August 2024',
     reflections: `The biography of Sam Zemurray, once owner of the largest company in the world and the country of Honduras.
@@ -422,8 +422,8 @@ But it turns out the podcast was enough to capture all the signal from the book.
   {
     title: 'The Wizard of Menlo Park',
     author: 'Randall E. Stross',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/wizard-menlo-park.jpg',
+    spineColor: '#796D64',
     rating: 6.5,
     dateRead: 'April 2024',
     reflections: `A fun read, although not the densest out there. He was incredibly tenacious, and a great marketer.
@@ -432,8 +432,8 @@ If you have abundant quantities of these two skills, you don't need much else. A
   {
     title: 'The Founders',
     author: 'Jimmy Soni',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/the-founders.jpg',
+    spineColor: '#9CB8C3',
     rating: 8,
     dateRead: 'April 2024',
     reflections: `In depth window into both the X and Paypal sides of the story.
@@ -442,8 +442,8 @@ The interplay between egos, vision, and timing. A masterclass in how great compa
   {
     title: 'Am I Being Too Subtle?',
     author: 'Sam Zell',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/am-i-being-too-subtle.jpg',
+    spineColor: '#B87826',
     rating: 5,
     dateRead: 'April 2024',
     reflections: `An autobiography from the guy that invented the REIT and sold his company for a few tens of billion dollars.
@@ -453,10 +453,10 @@ The opening chapters are engaging as narrative, while Chapters 11 and 12 stand o
 (c) the value of intellectual range. most constraints dissolve once you identify what skills transfer and, just as importantly, what you do not yet know.`,
   },
   {
-    title: 'How I Raised Myself From Failure To Success In Selling',
+    title: 'How I Raised Myself from Failure to Success in Selling',
     author: 'Frank Bettger',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/how-i-raised-myself.jpg',
+    spineColor: '#CABB2F',
     rating: 8,
     dateRead: 'March 2024',
     reflections: `A recommendation from a YC partner.
@@ -467,8 +467,8 @@ The Lindy effect is strong with this one.`,
   {
     title: 'Build',
     author: 'Tony Fadell',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/build.jpg',
+    spineColor: '#1A1A1A',
     rating: 7.5,
     dateRead: 'December 2023',
     reflections: `Enjoyable half autobiography, half philosophy and advice on building delightful products.
@@ -478,8 +478,8 @@ Practical wisdom from someone who built the iPod and Nest—grounded in real dec
   {
     title: 'Only the Paranoid Survive',
     author: 'Andy Grove',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/only-paranoid-survive.jpg',
+    spineColor: '#8D7C74',
     rating: 5.5,
     dateRead: 'December 2023',
     reflections: `A case study driven book on exploiting crisis moments, with Intel's CPU pivot from memory chips as the central example.
@@ -489,8 +489,8 @@ There's a part of me that thinks this could have been a 9/10 blog post.`,
   {
     title: 'The Founder\'s Dilemmas',
     author: 'Noam Wasserman',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/founders-dilemmas.jpg',
+    spineColor: '#D3D6D6',
     rating: 2,
     dateRead: 'November 2023',
     reflections: `Not an enjoyable read. Felt like I was reading a philosophical research paper but it was business concepts. There's valuable advice in the book (and some of the statistics I do remember from time to time) but it was so much of a pain to extract them.
@@ -499,8 +499,8 @@ Key statistics to remember: solo founders take longer to reach liquidity, foundi
   {
     title: 'Atlas Shrugged',
     author: 'Ayn Rand',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/atlas-shrugged.jpg',
+    spineColor: '#BB4C30',
     rating: 9,
     dateRead: 'November 2023',
     reflections: `A book that still frames the way I think. Must read.
@@ -509,10 +509,10 @@ It's thought provoking whether you agree or disagree with underlying premises.
 It's long and some parts can drag on (like Francisco's 80 page monologue).`,
   },
   {
-    title: 'The Three Body Problem',
+    title: 'The Three-Body Problem',
     author: 'Cixin Liu',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/three-body-problem.jpg',
+    spineColor: '#3F778E',
     rating: 9,
     dateRead: 'November 2023',
     reflections: `A recommendation from our YC partner.
@@ -523,8 +523,8 @@ A plausible and colorful exposition to the Fermi Paradox.`,
   {
     title: 'The Mom Test',
     author: 'Rob Fitzpatrick',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/mom-test.jpg',
+    spineColor: '#E04988',
     rating: 8,
     dateRead: 'November 2023',
     reflections: `Short and dense. Something that should be a long blog post, and essentially is.
@@ -533,8 +533,8 @@ Must read if you're starting a non moonshot company.`,
   {
     title: 'The CEO Within',
     author: 'Joseph L. Bower',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/ceo-within.jpg',
+    spineColor: '#376397',
     rating: 6.5,
     dateRead: 'October 2023',
     reflections: `I was just starting my company when I read this.
@@ -545,8 +545,8 @@ If you've not worked at or started a startup before, must read. If you have, loo
   {
     title: 'Zero to One',
     author: 'Peter Thiel',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/zero-to-one.jpg',
+    spineColor: '#6F8DB1',
     rating: 8.5,
     dateRead: 'September 2023',
     reflections: `I'd heard most of the advice in different forms before I read the book else it would be higher.
@@ -557,8 +557,8 @@ Core thesis: aim for monopoly through differentiation, not competition. Competit
   {
     title: "The Hitchhiker's Guide to the Galaxy",
     author: 'Douglas Adams',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/hitchhikers-guide.jpg',
+    spineColor: '#718594',
     rating: 4,
     dateRead: 'September 2023',
     reflections: `Highly acclaimed.`,
@@ -566,8 +566,8 @@ Core thesis: aim for monopoly through differentiation, not competition. Competit
   {
     title: 'A Thousand Brains',
     author: 'Jeff Hawkins',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/thousand-brains.jpg',
+    spineColor: '#EAEAEA',
     rating: 7.5,
     dateRead: 'January 2023',
     reflections: `Our brain is unified under the cortical column (and implications to AI and other neuroscience theories).
@@ -577,8 +577,8 @@ Part 1 is the novel. Parts 2 and 3 are interesting but it wasn't what I was look
   {
     title: 'On Intelligence',
     author: 'Jeff Hawkins',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/on-intelligence.jpg',
+    spineColor: '#3276AC',
     rating: 7,
     dateRead: 'December 2022',
     reflections: `This book was one of the first I read that combined the biology of the brain directly to AI.
@@ -589,8 +589,8 @@ Read from chapters "The Brain" to the end of "How The Cortex Works" here and the
   {
     title: 'Life 3.0',
     author: 'Max Tegmark',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/life-3-0.jpg',
+    spineColor: '#22223C',
     rating: 6,
     dateRead: 'November 2022',
     reflections: `The central point is life 1.0 was evolution, life 2.0 was tool use, and life 3.0 is intelligence that evolves outside of ourselves.
@@ -601,8 +601,8 @@ Read A Brief History of Intelligence instead.`,
   {
     title: 'The Brain That Changes Itself',
     author: 'Norman Doidge',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/brain-that-changes.jpg',
+    spineColor: '#D9D9D0',
     rating: 9.5,
     dateRead: 'November 2022',
     reflections: `It would be easy to for Norman to write basic prose off the back of an interesting subject.
@@ -625,8 +625,8 @@ Strong corrective to static "hardware" metaphors of the brain; closer to a conti
   {
     title: 'The Man Who Mistook His Wife for a Hat',
     author: 'Oliver Sacks',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/man-mistook-wife.jpg',
+    spineColor: '#ABA175',
     rating: 9,
     dateRead: 'November 2022',
     reflections: `A collection of clinical short stories written by a psychiatrist, each centered on a distinct neurological anomaly.
@@ -637,8 +637,8 @@ One of the most interesting books I've ever read.`,
   {
     title: 'The Stand',
     author: 'Stephen King',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/the-stand.jpg',
+    spineColor: '#3B3032',
     rating: 7.5,
     dateRead: 'June 2022',
     reflections: `Enjoyable read, very captivating. I read the whole 1000 page book in 2 days. Wasn't doing much but eating and reading. Interesting read in relation to pandemics.`,
@@ -646,8 +646,8 @@ One of the most interesting books I've ever read.`,
   {
     title: 'Dune',
     author: 'Frank Herbert',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/dune.jpg',
+    spineColor: '#CB8974',
     rating: 7,
     dateRead: 'June 2022',
     reflections: `The first two books are good.
@@ -656,8 +656,8 @@ I enjoyed the prequels more than the original Dune series. I also like the movie
   {
     title: 'Fooled by Randomness',
     author: 'Nassim Nicholas Taleb',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/fooled-by-randomness.jpg',
+    spineColor: '#F6F5F5',
     rating: 5,
     dateRead: 'June 2022',
     reflections: `I don't love Nassim's prose.
@@ -667,8 +667,8 @@ Nassim's version is more colorful. It's based on stories and is polemically word
   {
     title: 'The Laws of Human Nature',
     author: 'Robert Greene',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/laws-human-nature.jpg',
+    spineColor: '#182122',
     rating: 3.5,
     dateRead: 'April 2022',
     reflections: `I didn't finish this one. It felt unnecessarily dense and persistently negative in its framing.
@@ -677,8 +677,8 @@ While it might be an out of distribution read for the general population, it did
   {
     title: 'A History of Philosophy',
     author: 'A.C. Grayling',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/history-philosophy.jpg',
+    spineColor: '#3A2F21',
     rating: 4,
     dateRead: 'December 2021',
     reflections: `Exactly what it claims to be. A broad and chronological survey of European philosophy.
@@ -690,8 +690,8 @@ I'm sure there are others that would resonate with stronger, but it did not land
   {
     title: 'Elon Musk',
     author: 'Ashlee Vance',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/elon-musk-vance.jpg',
+    spineColor: '#1A1A1A',
     rating: 7,
     dateRead: 'December 2021',
     reflections: `Walter Isaacson's more recent version is essentially a superset of this book. Had to drop the rating due to that fact. It's still a well written book.`,
@@ -708,8 +708,8 @@ I'm sure there are others that would resonate with stronger, but it did not land
   {
     title: 'Game of Thrones',
     author: 'George R.R. Martin',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/game-of-thrones.jpg',
+    spineColor: '#15181A',
     rating: 7.5,
     dateRead: 'May 2021',
     reflections: `Would be a 9/10 if not for all the unfinished storylines that will never get resolved.
@@ -718,8 +718,8 @@ GRRM is a world builder second to none. He is also a person in perpetual imminen
   {
     title: 'Tribe of Mentors',
     author: 'Tim Ferriss',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/tribe-of-mentors.jpg',
+    spineColor: '#695716',
     rating: 3.5,
     dateRead: 'January 2020',
     reflections: `A compilation of short form advice from a wide range of high profile individuals. While occasionally interesting, the format fragments insight into decontextualized heuristics, making it difficult to extract durable mental models.
@@ -728,8 +728,8 @@ More inspirational than instructive; most of the value comes from exposure to br
   {
     title: 'The Martian',
     author: 'Andy Weir',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#2C5F2D',
+    cover: '/books/the-martian.jpg',
+    spineColor: '#CA6C2B',
     rating: 8,
     dateRead: '2019',
     reflections: `One of the foremost sci-fi books. I remember thoroughly enjoying.`,
@@ -737,8 +737,8 @@ More inspirational than instructive; most of the value comes from exposure to br
   {
     title: "God's Debris",
     author: 'Scott Adams',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/gods-debris.jpg',
+    spineColor: '#793526',
     rating: 6,
     dateRead: '2019',
     reflections: `Intriguing read. One of my first forays into philosophy.
@@ -749,8 +749,8 @@ There's holes in the argument, and it's roughly the point of the book to pose pl
   {
     title: 'How to Win Friends and Influence People',
     author: 'Dale Carnegie',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/how-to-win-friends.jpg',
+    spineColor: '#715B59',
     rating: 8,
     dateRead: '2019',
     reflections: `A sincere Lindy Effect book.
@@ -806,8 +806,8 @@ If you're just getting into product design, must read.`,
   {
     title: 'The Elephant in the Brain',
     author: 'Robin Hanson & Kevin Simler',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/elephant-in-brain.jpg',
+    spineColor: '#DEDDE4',
     rating: 6.5,
     dateRead: 'April 2019',
     reflections: `On ego, self deception, and why human dynamics play out the way they do. Was hoping for a more technical version of Sapiens, got something meaningfully different.`,
@@ -828,8 +828,8 @@ The marketing and sales you can learn JIT.`,
   {
     title: 'Sapiens',
     author: 'Yuval Noah Harari',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#8B4513',
+    cover: '/books/sapiens.jpg',
+    spineColor: '#ECE3DE',
     rating: 8,
     dateRead: '2018',
     reflections: `I enjoyed this book as it was my first deep foray into evolutionary framing.
@@ -838,8 +838,8 @@ It both informed and gave language to some of the ways I already thought.`,
   {
     title: 'Start with Why',
     author: 'Simon Sinek',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#4A5568',
+    cover: '/books/start-with-why.jpg',
+    spineColor: '#EC8FA9',
     rating: 1.5,
     dateRead: '2018',
     reflections: `The best example of a blog post book. If you've seen the TED talk you have the essence. The central idea is just an illustrative repackaging of the Socratic method.`,
@@ -847,8 +847,8 @@ It both informed and gave language to some of the ways I already thought.`,
   {
     title: 'The Power of Habit',
     author: 'Charles Duhigg',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#1E3A5F',
+    cover: '/books/power-of-habit.jpg',
+    spineColor: '#E2C91D',
     rating: 6,
     dateRead: '2018',
     reflections: `The central idea that every habit has a trigger, a routine, and a reward. The most effective way to build or replace a habit is to keep the trigger fixed while changing the response.
@@ -858,8 +858,8 @@ Could be a blog post.`,
   {
     title: 'Percy Jackson',
     author: 'Rick Riordan',
-    cover: '/books/placeholder.jpg',
-    spineColor: '#7C2D12',
+    cover: '/books/percy-jackson.jpg',
+    spineColor: '#152012',
     rating: 'Classic',
     dateRead: '2014',
     reflections: `I'm including this because it's my favorite book series from my childhood. I read all 10 books from the first and second series on the order of 5 times.`,

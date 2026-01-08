@@ -71,9 +71,13 @@ function BooksSection({
   const books = useMemo(() => {
     const sorted = [...booksData];
     if (sortMode === 'recency') {
-      sorted.sort((a, b) => parseDateForSort(b.dateRead) - parseDateForSort(a.dateRead));
+      sorted.sort(
+        (a, b) => parseDateForSort(b.dateRead) - parseDateForSort(a.dateRead)
+      );
     } else {
-      sorted.sort((a, b) => getRatingForSort(b.rating) - getRatingForSort(a.rating));
+      sorted.sort(
+        (a, b) => getRatingForSort(b.rating) - getRatingForSort(a.rating)
+      );
     }
     return sorted;
   }, [sortMode]);
@@ -241,15 +245,18 @@ function BooksSection({
         zIndex={30}
         render={(book) => (
           <div className="p-6 pt-6">
-            <div className="flex items-baseline gap-3 mb-2">
+            <div className="flex items-center gap-3">
               <h2 className="text-xl font-bold text-gray-900">{book.title}</h2>
               {book.rating !== undefined && (
-                <span className="text-gray-600 text-sm">{book.rating}</span>
+                <span className="text-gray-600 font-medium">
+                  {book.rating}/10
+                </span>
               )}
+              <span className="ml-auto text-gray-600">{book.dateRead}</span>
             </div>
-            <p className="text-gray-600 text-sm mb-4">{book.author}</p>
+            <p className="text-gray-600 mb-3">{book.author}</p>
             {book.reflections ? (
-              <p className="text-gray-700 leading-relaxed text-sm whitespace-pre-line">
+              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
                 {book.reflections}
               </p>
             ) : (
