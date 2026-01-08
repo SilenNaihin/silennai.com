@@ -64,7 +64,7 @@ My biggest gripe is that he presents a simplified version of the universe in his
 The application of the three rules of robotics is questioned in multiple stories, but it doesn't go far beyond a surface level. I didn't find myself pausing to ponder deeply about deontological vs utilitarian viewpoints for example.`,
   },
   {
-    title: '38 Letters from Rockefeller to His Son',
+    title: 'The 38 Letters From J.D Rockefeller To His Son',
     author: 'G. Ng',
     cover: '/books/38-letters-rockefeller.jpg',
     spineColor: '#2D2020',
@@ -487,7 +487,7 @@ Valuable for people running organizations where politics have come into play, an
 There's a part of me that thinks this could have been a 9/10 blog post.`,
   },
   {
-    title: 'The Founder\'s Dilemmas',
+    title: "The Founder's Dilemmas",
     author: 'Noam Wasserman',
     cover: '/books/founders-dilemmas.jpg',
     spineColor: '#FFFFFF',
