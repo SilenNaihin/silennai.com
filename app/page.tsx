@@ -72,14 +72,15 @@ export default function Home() {
         <h2 className="font-bold mb-3">Some of my thoughts</h2>
         <ul className="space-y-3 list-disc pl-5 text-gray-700">
           <li>
-            My worldview combines experiential verifiability with biologically
+            My worldview combines verifiability of experience with biologically
             grounded utilitarianism. Through this lens I practice Stoic
             asceticism: a good life is virtuous, disciplined, and conviction
             driven.
           </li>
           <li>
-            Happiness is a function of eudaemonia and hedonia (if you choose to
-            live within society).
+            Happiness is a function of eudaemonia and hedonia through the lenses
+            of your worldview. For me, this means adding value and understanding
+            the world better.
           </li>
           <li>
             I&apos;m hyper aware of my dopamine and regulate my environment as
@@ -94,7 +95,10 @@ export default function Home() {
         <ul className="space-y-3 list-disc pl-5 text-gray-700">
           <li>
             I particularly enjoy{' '}
-            <Link href="/content" className="underline hover:text-gray-900">
+            <Link
+              href="/content?podcasts"
+              className="underline hover:text-gray-900"
+            >
               history through late antiquity
             </Link>
             . The past is the present unrolled for understanding. The present is
