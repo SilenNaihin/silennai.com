@@ -3,8 +3,9 @@ export interface Book {
   author: string;
   cover: string;
   spineColor: string;
-  rating?: number;
+  rating?: number | string;
   reflections?: string;
+  dateRead?: string;
 }
 
 export interface Podcast {
@@ -46,127 +47,822 @@ export interface Project {
 
 export const books: Book[] = [
   {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.png',
-    spineColor: '#333331',
+    title: 'Robot Visions',
+    author: 'Isaac Asimov',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 5.5,
+    dateRead: 'January 2026',
+    reflections: `Enjoyable read. A collection of short stories centered around the exploration of Asimov's three rules of robotics.
+1. A robot shall not harm, or due to inaction allow a human being to come to harm.
+2. A robot will obey human orders, except when in conflict with 1.
+3. A robot will protect itself, except when in conflict with 2.
+Evidence and the Bicentennial Man were great. I teared up at some point in the latter.
+Calvin was an enjoyable character to observe throughout the book.
+My personal opinion is that we'll treat robots that exhibit conscious characteristics as conscious. Robots that clean our house will benefit economically from building an emotional connection, vs robots in the factory the inverse would hold.
+My biggest gripe is that he presents a simplified version of the universe in his stories. There's one corporation with a monopoly, and the rules of robotics always hold unconditionally.
+The application of the three rules of robotics is questioned in multiple stories, but it doesn't go far beyond a surface level. I didn't find myself pausing to ponder deeply about deontological vs utilitarian viewpoints for example.`,
+  },
+  {
+    title: '38 Letters from Rockefeller to his son',
+    author: 'John D. Rockefeller',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
     rating: 9,
-    reflections:
-      'A groundbreaking work that changed how we think about evolution and genetics. The gene-centered view of evolution is both elegant and profound.',
+    dateRead: 'November 2025',
+    reflections: `Another book that feels like a historical accident.
+Private correspondence from the richest person in the world never intended for publication, preserved by chance rather than design.
+Its value comes less from novelty than from the rare, unfiltered access it provides to a mind thinking in real time about character, responsibility, wealth, and power.
+You read it with the quiet awareness that you were never meant to be in the room.
+You'll enjoy if you're a prior fan of Rockefeller.
+Even more valuable if you haven't yet solidified your intuitions around money, duty, and the moral obligations of success.`,
   },
   {
-    title: 'The Selfish Gene: A New Perspective on Evolution',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
-    spineColor: '#8B4513',
-  },
-  {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
-    spineColor: '#2C5F2D',
-  },
-  {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
-    spineColor: '#1E3A5F',
-  },
-  {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    title: 'Mistborn Series 2',
+    author: 'Brandon Sanderson',
+    cover: '/books/placeholder.jpg',
     spineColor: '#7C2D12',
+    rating: 7.5,
+    dateRead: 'October 2025',
+    reflections: `Less on the fantasy aspect and the scope is smaller for the first 3 books, but still enjoyable.
+More juvenile humor but it doesn't feel as forced as with the WoK series. Wayne is a standout character whose growth across the series is satisfying, and the western-meets-fantasy setting offers a fresh take on the Cosmere.`,
   },
   {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    title: 'Thinking Fast And Slow',
+    author: 'Daniel Kahneman',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 8.5,
+    dateRead: 'September 2025',
+    reflections: `Thought-provoking and foundational, though unevenly paced.
+System 1 (fast, intuitive, automatic)
+System 2 (slow, deliberative, effortful) is intuitive but powerful, and serves as a useful compression of decades of behavioral research.
+Much of the value comes from cataloging where intuition systematically fails: heuristics, biases, framing effects, loss aversion, and base rate neglect.
+The errors are not random but structural, which makes them predictable and exploitable at scale.
+The book is strongest when it connects cognitive bias to real decision making under uncertainty (economics, forecasting, incentives).
+It weakens toward the end, where the marginal insight diminishes and the final ~100 pages drag.`,
+  },
+  {
+    title: 'Mistborn Series 1',
+    author: 'Brandon Sanderson',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 8,
+    dateRead: 'September 2025',
+    reflections: `One of the most epic endings to a trilogy I've ever read. Vin is a delightful character to follow, and the progress of the stories feels interesting all the way through. Book 2 was a weak spot, but otherwise an amazing read and unique action system.`,
+  },
+  {
+    title: 'The Four Agreements',
+    author: 'Don Miguel Ruiz',
+    cover: '/books/placeholder.jpg',
     spineColor: '#4A5568',
+    rating: 6.5,
+    dateRead: 'August 2025',
+    reflections: `Nothing groundbreaking but from a novel perspective (Toltec spiritual tradition). Good choice to use as your socialization bible.
+Normative rather than analytical.
+Moral rather than empirical.
+Encourages emotional restraint, interpretive charity, and personal accountability. Makes you a more stoic and effective participant in social life.`,
   },
   {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
-    spineColor: '#8B4513',
-  },
-  {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
-    spineColor: '#2C5F2D',
-  },
-  {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    title: 'Ego Is The Enemy',
+    author: 'Ryan Holiday',
+    cover: '/books/placeholder.jpg',
     spineColor: '#1E3A5F',
+    rating: 5.5,
+    dateRead: 'July 2025',
+    reflections: `Felt similar in spirit to Robert Greene's books. A story that is then polemically marshaled to support a predetermined thesis when other interpretations are abound.
+While the core principle has merit, it did not meaningfully change my thinking.
+Ego is valuable in moderation. It is a powerful motivator. Properly harnessed, it is one of the more beautiful and productive features of the human condition.
+Control your ego, rather than the inverse.`,
   },
   {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    title: 'The Tao of Charlie Munger',
+    author: 'David Clark',
+    cover: '/books/placeholder.jpg',
     spineColor: '#7C2D12',
+    rating: 7,
+    dateRead: 'July 2025',
+    reflections: `Bite sized philosophy of Charlie.
+It is a collection of excerpts, each no longer than a page, which necessarily limits contextual depth and conceptual density.
+Anecdotal rather than analytical.
+Still a valuable read especially since I haven't read the Almanack at this point.`,
   },
   {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    title: 'Venture Deals',
+    author: 'Brad Feld & Jason Mendelson',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 7.5,
+    dateRead: 'July 2025',
+    reflections: `Prescriptive version of The Power Law. Some concepts are dated but this is a must read before raising.`,
+  },
+  {
+    title: 'The Power Law',
+    author: 'Sebastian Mallaby',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 8,
+    dateRead: 'June 2025',
+    reflections: `The definitive history of venture capital.
+Strong on historical narrative and incentive structure, lighter on transferable heuristics.
+More descriptive than prescriptive, but valuable for understanding how a small number of decisions drive the majority of returns.
+Useful for calibrating expectations about risk, selection, and variance.`,
+  },
+  {
+    title: 'Meditations',
+    author: 'Marcus Aurelius',
+    cover: '/books/placeholder.jpg',
     spineColor: '#4A5568',
+    rating: 8,
+    dateRead: 'May 2025',
+    reflections: `The inner exposition of a man that controlled half the world 2000 years ago.
+The book itself is an anomalous artifact.
+If you're unfamiliar with Stoic principles, interpreting them through the lenses of another's thoughts can be ambiguous and you won't love it.
+If you're already familiar (and ideally have interest in Roman antiquity), you have the fortune of seeing the principles applied in practice (on a grand scale) outside of yourself.
+This cannot be replicated.`,
   },
   {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
-    spineColor: '#8B4513',
-  },
-  {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
-    spineColor: '#2C5F2D',
-  },
-  {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    title: 'Never Split The Difference',
+    author: 'Chris Voss',
+    cover: '/books/placeholder.jpg',
     spineColor: '#1E3A5F',
+    rating: 6.5,
+    dateRead: 'May 2025',
+    reflections: `The core point is that effective negotiation is primarily emotional, not rational.
+Tactical empathy creates leverage by making the other party feel understood rather than persuaded.
+Labeling emotions, calibrated questions, and controlled misalignment.
+Could have been a long blog post. Chris Voss has a lot of interesting stories which makes it a fun read.`,
   },
   {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    title: 'What every BODY is saying',
+    author: 'Joe Navarro',
+    cover: '/books/placeholder.jpg',
     spineColor: '#7C2D12',
+    rating: 7.5,
+    dateRead: 'April 2025',
+    reflections: `The most practical book I've read on body language. Focuses less on theatrical "tells" and more on baseline behavior, comfort vs. discomfort cues, and probabilistic interpretation.
+Emphasizes pattern recognition over certainty, which keeps it grounded and usable.`,
   },
   {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    title: 'Thinking in Systems',
+    author: 'Donella Meadows',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 8,
+    dateRead: 'March 2025',
+    reflections: `Dense framework that demands repetition and concrete examples to internalize.
+The book succeeds at starting with basic systems theory concepts and building up without losing you along the way.
+Thinking in systems → thinking in stocks and flows (accumulations and rates of change). A lot of confusion comes from mixing one and the other, and often results in second order effects you didn't expect. In general complex systems often have many stocks and flows which can lead to unexpected second and third order behaviour.
+Introduces reinforcing feedback loops (exponential growth, collapse) and balancing feedback loops (prices, regulation).
+Time is crucial, don't underestimate the effects of delay. It can cause oscillations, overshooting, or whiplash.
+Leverage points in systems, incentives > information flow > tweaking numbers.
+Other points on information flow, policy resistance, bounded rationality (systems fail from individual level rationality which is limited in information and incentive), optimization destroys resilience (like overfitting in a ml model), and more.
+Will likely require a re-read.`,
+  },
+  {
+    title: 'Becoming Supernatural',
+    author: 'Joe Dispenza',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 2.5,
+    dateRead: 'March 2025',
+    reflections: `Heavily pseudoscientific in presentation. Frequent appeals to vague neuroscience or empirical studies with substantial confounding variables. The word "quantum" is used more as mystique than mechanism.
+The underlying message is directionally positive but the conceptual framing is shallow and often misleading.
+Difficult to get through if you're sensitive to loose scientific language.
+Was recommended to me by my sister and mother who are especially spiritual.
+Read if you've tried traditional self help advice and it didn't resonate or help.`,
+  },
+  {
+    title: 'The Challenger Sale',
+    author: 'Matthew Dixon & Brent Adamson',
+    cover: '/books/placeholder.jpg',
     spineColor: '#4A5568',
+    rating: 5.5,
+    dateRead: 'March 2025',
+    reflections: `Out of the different sales personas, the "Challenger" does the best. They are usually an expert in the topic and can flip the dynamic to where the customer wants to be on calls as it's closer to consulting. This expertise and "challenge" is different depending on the stakeholder. Guidance > reaction. Could have been a blog post.`,
   },
   {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
-    spineColor: '#8B4513',
-  },
-  {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
-    spineColor: '#2C5F2D',
-  },
-  {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    title: 'The Transparency Sale',
+    author: 'Todd Caponi',
+    cover: '/books/placeholder.jpg',
     spineColor: '#1E3A5F',
+    rating: 6,
+    dateRead: 'February 2025',
+    reflections: `For B2B sales, educating > "selling". The best way to educate is to be honest and find customers that will genuinely value your product the most.
+There's good practical advice on how to run meetings and structure your sales cycle around this, but the core concept could have been a blog post.`,
   },
   {
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    cover: '/books/selfish-gene.jpg',
+    title: 'Founding Sales',
+    author: 'Pete Kazanjy',
+    cover: '/books/placeholder.jpg',
     spineColor: '#7C2D12',
+    rating: 7.5,
+    dateRead: 'February 2025',
+    reflections: `Dated in parts, but still rich in relevant heuristics and practical guidance. One of the few sales books that genuinely earns its length through idea density. You can almost treat it like a textbook.`,
+  },
+  {
+    title: 'Steve Jobs',
+    author: 'Walter Isaacson',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 8,
+    dateRead: 'February 2025',
+    reflections: `Caligraphy at Reed transferring later.
+His young life, just seems like a sociopath on a mission.
+He had an incredible understanding of UX, both for marketing and his products. He always had a reality distortion field, but his second time around...`,
+  },
+  {
+    title: 'Crossing the Chasm',
+    author: 'Geoffrey Moore',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 2,
+    dateRead: 'January 2025',
+    reflections: `A blog post book. A single important concept and then lots of filler. Not sure what I expected.
+There will be transition points for your company. The hardest one is going from your innovators to early adopters and onwards.
+Companies in SF can often be bad at this. Especially novelty items as we saw with the wearables.`,
+  },
+  {
+    title: 'Way of Kings Series',
+    author: 'Brandon Sanderson',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 8.5,
+    dateRead: 'December 2024',
+    reflections: `This one sucked me in. I read the first three books within a week. And the last two within another week.
+The world building is unparalleled, rivaling GRRM. Characters are deep and variegated. Magic system is logical and grounded in lore.
+There are chapters that solely exist to get to know a character better and have no influence on the story. Likewise with world-building. The juvenile humor can get repetitive.
+Brandon Sanderson is known for his "Sanderlanche" where not much happens for 800 pages and then you get blown around from epic impactful action scene to another for the last 200.
+If you're into deep world and character building and don't mind a slow start this series is a must read.`,
+  },
+  {
+    title: 'Project Hail Mary',
+    author: 'Andy Weir',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
+    rating: 8,
+    dateRead: 'December 2024',
+    reflections: `An interesting demonstration of what alternative non carbon based life could look like.
+And how the principles underlying evolution (second law of thermodynamics → tending towards max entropy) can act as a cosmic scale that affects us.
+Without intellectualizing, it's just a genuinely enjoyable read.`,
+  },
+  {
+    title: 'Foundation Series',
+    author: 'Isaac Asimov',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#7C2D12',
+    rating: '8.5 (trilogy), 7.5 (prequels), 6 (sequels)',
+    dateRead: 'October 2024',
+    reflections: `Draws certain sociological questions to their logical conclusion.
+(a) Very relevant in modernity if you replace psychohistory with an oracle AI controlling the vectors of humanity.
+(b) What is humanity's terminal trajectory? A future where labor is automated and civilization expands into the cosmos, what happens if we're still constrained by the same imperfect cognitive architecture? Restless desires, status seeking, ego, etc. Asimov's solution is psychohistory as a containment function and Gaea as a universal solution.
+(c) Is a future that is stable, prosperous, and predictable worth the loss of meaningful individual agency? Is benevolent determinism ethically distinguishable from tyranny when its hand is sufficiently invisible?`,
+  },
+  {
+    title: '48 Laws of Power',
+    author: 'Robert Greene',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 2.5,
+    dateRead: 'October 2024',
+    reflections: `Despite not loving The Laws of Human Nature, I read this hoping the issue was the subject matter rather than the writing.
+The historical anecdotes were particularly interesting. But then they start to repeat.
+And you can't look past the slant that's often felt repetitive and steeped in a deeply cynical view of human nature.
+Many of the "laws" themselves could be explored more productively in a less polemical framework, one that acknowledges both their constructive and destructive expressions.`,
+  },
+  {
+    title: 'The Almanack of Naval Ravikant',
+    author: 'Eric Jorgensen',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 8.5,
+    dateRead: 'October 2024',
+    reflections: `A well-curated synthesis of Naval's thinking on leverage, wealth, and personal philosophy.
+Wealth ≠ money. Wealth is owning assets that earn while you sleep. Money is a unit of account. Status is a zero sum game. Optimize for wealth, avoid status games when possible.
+Leverage is the multiplier: The biggest outcomes come from leverage, not effort: labor leverage (people), capital leverage (money), permissionless leverage (code, media). Modern leverage scales without asking anyone's approval.
+Specific knowledge is non-replicable. The most valuable skills: are highly contextual, feel like "play" to you, cannot be easily taught or credentialed. If it can be trained quickly, it will be competed away.
+Long-term games with long-term people. Compounding requires trust and repeated interaction. Reputation becomes an invisible form of leverage over time.
+Judgment > intelligence. Good decisions compound more than raw IQ. Judgment comes from: understanding incentives, reading second-order effects, and knowing when not to act.
+Accountability concentrates upside. Take responsibility in public ways (ownership, equity, authorship). Accountability lets you capture the full upside of being right.
+You get rich by owning, not renting. Equity beats salary asymmetrically. Renting your time caps upside; owning systems removes the ceiling.
+Desire is a contract you make with yourself. Every desire says: I won't be happy until X happens. Fewer desires → less suffering → more baseline happiness.
+Happiness is largely subtractive. It comes less from adding pleasure and more from removing: anxiety, unhealthy ambition, and unnecessary comparison.
+Peace beats pleasure. Sustainable happiness is calm and low-variance, not excitement-maximizing.
+Read to build judgment. Read what has survived time. The goal isn't information, it's worldview calibration.
+Basic health dominates. Sleep, movement, sunlight, and diet beat hacks. Most "optimization" is compensation for ignoring fundamentals.
+Environment > willpower. Design defaults so good behavior is easy and bad behavior is costly.`,
+  },
+  {
+    title: 'Elon Musk',
+    author: 'Walter Isaacson',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 9,
+    dateRead: 'September 2024',
+    reflections: `High level notes:
+- Sci fi and day dreaming can be valuable (the meetings about going to mars)
+- More audacity (him just cutting off the cracks in the rocket booster and launching it)
+- You can just do things. He knew nothing about rockets and put together a world class company
+- Be relentless (his fourth rocket being his last chance, failures before that)
+- His brain is built differently than mine. He can play Polytopia in the car for 5 minutes, then lock back in. I can't as readily disengage, so I don't start.
+A lot more depth in his early life and later life than the Vance book. Already outdated, I'm sure Walter will give us a 2nd edition in a decade.`,
+  },
+  {
+    title: 'Endurance',
+    author: 'Alfred Lansing',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
+    rating: 9.5,
+    dateRead: 'August 2024',
+    reflections: `One of my favorite books.
+If you set out to invent an epic of discovery and survival, you could scarcely devise a story as improbable or compelling.
+And it happens to be real.
+Skip all "motivation" content and read this.`,
+  },
+  {
+    title: 'The Fish That Ate The Whale',
+    author: 'Rich Cohen',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#7C2D12',
+    rating: 7.5,
+    dateRead: 'August 2024',
+    reflections: `The biography of Sam Zemurray, once owner of the largest company in the world and the country of Honduras.
+The narrative carries here. It's impossible to make this story uninteresting.
+The prose and tangents in the book are not phenomenal.`,
+  },
+  {
+    title: 'Manufacturing Processes',
+    author: 'Various',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 6,
+    dateRead: 'July 2024',
+    reflections: `I now broadly understand how things are made.`,
+  },
+  {
+    title: '$100M Leads',
+    author: 'Alex Hormozi',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 4.5,
+    dateRead: 'July 2024',
+    reflections: `Good practical advice if you know nothing about sales, else all the concepts in the book can be learned JIT in collaboration with ChatGPT.
+There's nothing explicitly controversial, and the main benefit is knowing what's out there and when it can be applied.`,
+  },
+  {
+    title: 'How to Make a Few Billion Dollars',
+    author: 'Brad Jacobs',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 3,
+    dateRead: 'June 2024',
+    reflections: `I was expecting a lot after listening to the Founders podcast episode on the book. Brad is an incredible founder.
+But it turns out the podcast was enough to capture all the signal from the book.`,
+  },
+  {
+    title: 'The Wizard of Menlo Park',
+    author: 'Randall E. Stross',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
+    rating: 6.5,
+    dateRead: 'April 2024',
+    reflections: `A fun read, although not the densest out there. He was incredibly tenacious, and a great marketer.
+If you have abundant quantities of these two skills, you don't need much else. And he didn't have much else, which in some ways his ego prevented him from (for example business acumen).`,
+  },
+  {
+    title: 'The Founders',
+    author: 'Jimmy Soni',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#7C2D12',
+    rating: 8,
+    dateRead: 'April 2024',
+    reflections: `In depth window into both the X and Paypal sides of the story.
+The interplay between egos, vision, and timing. A masterclass in how great companies emerge from chaos and competition.`,
+  },
+  {
+    title: 'Am I Being Too Subtle?',
+    author: 'Sam Zell',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 5,
+    dateRead: 'April 2024',
+    reflections: `An autobiography from the guy that invented the REIT and sold his company for a few tens of billion dollars.
+The opening chapters are engaging as narrative, while Chapters 11 and 12 stand out for their density of practical, transferable insight. Beyond that, the book distills to three core ideas:
+(a) the discipline to reason from first principles and diverge from consensus when informed conviction warrants it;
+(b) the primacy of information. being early to understand a law, regulation, or structural change is itself a durable asymmetric advantage;
+(c) the value of intellectual range. most constraints dissolve once you identify what skills transfer and, just as importantly, what you do not yet know.`,
+  },
+  {
+    title: 'How I Raised Myself From Failure To Success In Selling',
+    author: 'Frank Bettger',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 8,
+    dateRead: 'March 2024',
+    reflections: `A recommendation from a YC partner.
+This is the hands down best book on sales I've read even if it has little directly applicable with the modern world.
+Similar to how to win friends and influence others, it encodes the wisdom of the forefathers that still holds today.
+The Lindy effect is strong with this one.`,
+  },
+  {
+    title: 'Build',
+    author: 'Tony Fadell',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 7.5,
+    dateRead: 'December 2023',
+    reflections: `Enjoyable half autobiography, half philosophy and advice on building delightful products.
+He has the experience and the ability to communicate it.
+Practical wisdom from someone who built the iPod and Nest—grounded in real decisions rather than abstract frameworks.`,
+  },
+  {
+    title: 'Only the Paranoid Survive',
+    author: 'Andy Grove',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
+    rating: 5.5,
+    dateRead: 'December 2023',
+    reflections: `A case study driven book on exploiting crisis moments, with Intel's CPU pivot from memory chips as the central example.
+Valuable for people running organizations where politics have come into play, and those pivoting.
+There's a part of me that thinks this could have been a 9/10 blog post.`,
+  },
+  {
+    title: 'The Founder\'s Dilemmas',
+    author: 'Noam Wasserman',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#7C2D12',
+    rating: 2,
+    dateRead: 'November 2023',
+    reflections: `Not an enjoyable read. Felt like I was reading a philosophical research paper but it was business concepts. There's valuable advice in the book (and some of the statistics I do remember from time to time) but it was so much of a pain to extract them.
+Key statistics to remember: solo founders take longer to reach liquidity, founding teams with prior relationships perform better, equity splits done early tend to be more equal and sometimes problematic.`,
+  },
+  {
+    title: 'Atlas Shrugged',
+    author: 'Ayn Rand',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 9,
+    dateRead: 'November 2023',
+    reflections: `A book that still frames the way I think. Must read.
+It's well written and the story is captivating.
+It's thought provoking whether you agree or disagree with underlying premises.
+It's long and some parts can drag on (like Francisco's 80 page monologue).`,
+  },
+  {
+    title: 'The Three Body Problem',
+    author: 'Cixin Liu',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 9,
+    dateRead: 'November 2023',
+    reflections: `A recommendation from our YC partner.
+I loved this series. I couldn't rip myself away for all 3 books.
+The last book was weak on characters, but very strong on plot.
+A plausible and colorful exposition to the Fermi Paradox.`,
+  },
+  {
+    title: 'The Mom Test',
+    author: 'Rob Fitzpatrick',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 8,
+    dateRead: 'November 2023',
+    reflections: `Short and dense. Something that should be a long blog post, and essentially is.
+Must read if you're starting a non moonshot company.`,
+  },
+  {
+    title: 'The CEO Within',
+    author: 'Joseph L. Bower',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
+    rating: 6.5,
+    dateRead: 'October 2023',
+    reflections: `I was just starting my company when I read this.
+The group habits section wasn't super valuable to me at the time, but individual habits were good reminders. In particular when you say it twice write it down is something that stuck with me.
+Some of the advice felt premature for the stage the company was at and relatively straightforward (already being in the startup world previously).
+If you've not worked at or started a startup before, must read. If you have, look at the table of contents and read what intrigues you.`,
+  },
+  {
+    title: 'Zero to One',
+    author: 'Peter Thiel',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#7C2D12',
+    rating: 8.5,
+    dateRead: 'September 2023',
+    reflections: `I'd heard most of the advice in different forms before I read the book else it would be higher.
+Basically the bible for starting a venture growth company.
+Whether you agree or disagree with everything, it helps shape your thinking.
+Core thesis: aim for monopoly through differentiation, not competition. Competition is for losers. Secrets still exist—find them.`,
+  },
+  {
+    title: "The Hitchhiker's Guide to the Galaxy",
+    author: 'Douglas Adams',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 4,
+    dateRead: 'September 2023',
+    reflections: `Highly acclaimed.`,
+  },
+  {
+    title: 'A Thousand Brains',
+    author: 'Jeff Hawkins',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 7.5,
+    dateRead: 'January 2023',
+    reflections: `Our brain is unified under the cortical column (and implications to AI and other neuroscience theories).
+The theory proposes that thousands of cortical columns each build models of the world, and intelligence emerges from their voting and reference frame alignment.
+Part 1 is the novel. Parts 2 and 3 are interesting but it wasn't what I was looking from in the book and are skippable.`,
+  },
+  {
+    title: 'On Intelligence',
+    author: 'Jeff Hawkins',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 7,
+    dateRead: 'December 2022',
+    reflections: `This book was one of the first I read that combined the biology of the brain directly to AI.
+A book focused on AI or the brain will give you more dense understanding of either.
+The memory-prediction framework is the core insight: the brain is fundamentally a prediction machine that uses hierarchical temporal memory.
+Read from chapters "The Brain" to the end of "How The Cortex Works" here and then part 1 of the Thousand Brain Theory.`,
+  },
+  {
+    title: 'Life 3.0',
+    author: 'Max Tegmark',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
+    rating: 6,
+    dateRead: 'November 2022',
+    reflections: `The central point is life 1.0 was evolution, life 2.0 was tool use, and life 3.0 is intelligence that evolves outside of ourselves.
+I would read the intro chapter if nothing else. It's a thought experiment as a short story of how superintelligence leads to utopia.
+The primary sections are probably outdated.
+Read A Brief History of Intelligence instead.`,
+  },
+  {
+    title: 'The Brain That Changes Itself',
+    author: 'Norman Doidge',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#7C2D12',
+    rating: 9.5,
+    dateRead: 'November 2022',
+    reflections: `It would be easy to for Norman to write basic prose off the back of an interesting subject.
+But it's both well written, informative, and dense.
+Which makes it both a pleasurable reading experience, and immensely interesting.
+Often reference this book internally and externally.
+After reading this alongside Oliver Sacks, I began keeping a brain log and spent a year working through a tracing book with my left hand as a deliberate attempt to improve temporal processing and strengthen interhemispheric connectivity.
+Notes:
+Neuroplasticity is not an edge case or recovery mechanism but a core property of the brain throughout life; structure follows use.
+The brain reallocates cortical real estate aggressively. Functions that are trained expand, neglected ones are repurposed.
+Constraints shape plasticity: change is possible, but not arbitrary; it is path-dependent and biased by existing architecture.
+Plasticity cuts both ways. Maladaptive loops (chronic pain, OCD, addictions) are learned and reinforced through the same mechanisms as skill acquisition.
+Repetition matters less than attention + emotional salience; what the brain treats as important is what gets rewired.
+Speed of change is often underestimated. Targeted, intense intervention can produce measurable functional shifts faster than intuition suggests.
+Identity and perception are partially learned states; changing behavior can precede and reshape subjective experience rather than the reverse.
+Neuroplasticity explains both rehabilitation and performance. Recovery from injury and elite skill training are points on the same spectrum.
+The book's strength is epistemic humility: it documents mechanisms through cases rather than overextending into grand theory.
+Strong corrective to static "hardware" metaphors of the brain; closer to a continuously reconfiguring system under constraint.`,
+  },
+  {
+    title: 'The Man Who Mistook His Wife for a Hat',
+    author: 'Oliver Sacks',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 9,
+    dateRead: 'November 2022',
+    reflections: `A collection of clinical short stories written by a psychiatrist, each centered on a distinct neurological anomaly.
+Reframes your perspective on your subjective experience and consciousness.
+It provokes a sense of intellectual humility and quiet awe at how little we truly understand about the brain.
+One of the most interesting books I've ever read.`,
+  },
+  {
+    title: 'The Stand',
+    author: 'Stephen King',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 7.5,
+    dateRead: 'June 2022',
+    reflections: `Enjoyable read, very captivating. I read the whole 1000 page book in 2 days. Wasn't doing much but eating and reading. Interesting read in relation to pandemics.`,
+  },
+  {
+    title: 'Dune',
+    author: 'Frank Herbert',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 7,
+    dateRead: 'June 2022',
+    reflections: `The first two books are good.
+I enjoyed the prequels more than the original Dune series. I also like the movies more than the books.`,
+  },
+  {
+    title: 'Fooled by Randomness',
+    author: 'Nassim Nicholas Taleb',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
+    rating: 5,
+    dateRead: 'June 2022',
+    reflections: `I don't love Nassim's prose.
+I probably should've skipped this and read Thinking Fast and Slow earlier, which covers the same ground much more densely.
+Nassim's version is more colorful. It's based on stories and is polemically worded.`,
+  },
+  {
+    title: 'The Laws of Human Nature',
+    author: 'Robert Greene',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#7C2D12',
+    rating: 3.5,
+    dateRead: 'April 2022',
+    reflections: `I didn't finish this one. It felt unnecessarily dense and persistently negative in its framing.
+While it might be an out of distribution read for the general population, it didn't offer much that felt novel to me. Much of it rehashed well-worn, pessimistic interpretations of human behavior, and I found it increasingly cynicism inducing rather than insightful, so I chose not to continue.`,
+  },
+  {
+    title: 'A History of Philosophy',
+    author: 'A.C. Grayling',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 4,
+    dateRead: 'December 2021',
+    reflections: `Exactly what it claims to be. A broad and chronological survey of European philosophy.
+Informative, and occasionally interesting.
+Delivered like it was in my grade 9 history class. Dates and facts.
+A dry, encyclopedic register that prioritizes coverage over insight.
+I'm sure there are others that would resonate with stronger, but it did not land with me. I marched until the halfway point before conceding defeat.`,
+  },
+  {
+    title: 'Elon Musk',
+    author: 'Ashlee Vance',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 7,
+    dateRead: 'December 2021',
+    reflections: `Walter Isaacson's more recent version is essentially a superset of this book. Had to drop the rating due to that fact. It's still a well written book.`,
+  },
+  {
+    title: 'Fundraising',
+    author: 'Ryan Breslow',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 8,
+    dateRead: 'August 2021',
+    reflections: `How to play the game. From the master himself. Short, dense, and practical.`,
+  },
+  {
+    title: 'Game of Thrones',
+    author: 'George R.R. Martin',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
+    rating: 7.5,
+    dateRead: 'May 2021',
+    reflections: `Would be a 9/10 if not for all the unfinished storylines that will never get resolved.
+GRRM is a world builder second to none. He is also a person in perpetual imminence.`,
+  },
+  {
+    title: 'Tribe of Mentors',
+    author: 'Tim Ferriss',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#7C2D12',
+    rating: 3.5,
+    dateRead: 'January 2020',
+    reflections: `A compilation of short form advice from a wide range of high profile individuals. While occasionally interesting, the format fragments insight into decontextualized heuristics, making it difficult to extract durable mental models.
+More inspirational than instructive; most of the value comes from exposure to breadth rather than depth. Low marginal return if you already consume long-form interviews or have strong priors.`,
+  },
+  {
+    title: 'The Martian',
+    author: 'Andy Weir',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 8,
+    dateRead: '2019',
+    reflections: `One of the foremost sci-fi books. I remember thoroughly enjoying.`,
+  },
+  {
+    title: "God's Debris",
+    author: 'Scott Adams',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 6,
+    dateRead: '2019',
+    reflections: `Intriguing read. One of my first forays into philosophy.
+The thing I remember most latently is the interesting thought experiment for why we were created assuming god exists.
+If God is omnipotent, he's immortal and can know and influence anything and everything past present and future. It follows that the only thing he can't do is destroy himself as he's omnipotent. So he created us as fragments of himself to do so.
+There's holes in the argument, and it's roughly the point of the book to pose plausible sounding arguments and for you to find holes, but thought provoking nonetheless.`,
+  },
+  {
+    title: 'How to Win Friends and Influence People',
+    author: 'Dale Carnegie',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 8,
+    dateRead: '2019',
+    reflections: `A sincere Lindy Effect book.
+Good read to reinforce principles even if you're already a social whiz.
+
+Notes:
+Don't criticize, condemn, or complain; it triggers defensiveness and shuts down influence.
+Give honest and sincere appreciation; people respond to recognition more than correction.
+Arouse in the other person an eager want; influence works when it aligns with their incentives.
+
+Become genuinely interested in other people rather than trying to be interesting.
+Smile; warmth lowers social friction and signals safety.
+Remember that a person's name is, to them, the most personal sound in any language.
+Be a good listener and encourage others to talk about themselves; people like those who make them feel understood.
+Talk in terms of the other person's interests, not your own agenda.
+Make the other person feel important. And do it sincerely, without manipulation.
+
+Avoid arguments; winning the debate often loses the relationship.
+Show respect for the other person's opinions and avoid blunt contradiction.
+If you are wrong, admit it quickly and clearly; credibility compounds.
+Begin in a friendly way; tone sets the ceiling for outcomes.
+Get the other person saying "yes" early to establish psychological momentum.
+Let the other person do most of the talking; insight emerges when you listen.
+Let the other person feel the idea is theirs; ownership beats persuasion.
+Try honestly to see things from the other person's point of view, even when you disagree.
+Be sympathetic to the other person's ideas and desires; validation precedes influence.
+Appeal to nobler motives rather than base incentives when possible. This one is the most non consensus valuable point to me.
+Dramatize your ideas to make them concrete and memorable.
+Throw down a challenge when motivation lags; people respond to standards.
+
+Begin with praise and honest appreciation before offering critique.
+Call attention to mistakes indirectly to preserve dignity.
+Talk about your own mistakes before criticizing others to lower defenses.
+Ask questions instead of giving direct orders; autonomy increases buy-in.
+Let the other person save face; humiliation destroys trust.
+Praise even small improvements; encouragement accelerates progress.
+Give the other person a fine reputation to live up to; expectations shape behavior.
+Use encouragement and make faults seem correctable, not fixed.
+Make the other person feel happy about doing what you suggest.`,
+  },
+  {
+    title: 'Refactoring UI',
+    author: 'Adam Wathan & Steve Schoger',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
+    rating: 8.5,
+    dateRead: '2019',
+    reflections: `As someone learning product design for the first time, this book blew my mind.
+It trained my internal neural network at a practical level. The subtle intuitions behind color and font, etc.
+I've been using Tailwind since.
+If you're just getting into product design, must read.`,
+  },
+  {
+    title: 'The Elephant in the Brain',
+    author: 'Robin Hanson & Kevin Simler',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#7C2D12',
+    rating: 6.5,
+    dateRead: 'April 2019',
+    reflections: `On ego, self deception, and why human dynamics play out the way they do. Was hoping for a more technical version of Sapiens, got something meaningfully different.`,
+  },
+  {
+    title: 'Efficiency',
+    author: 'BowTiedBull',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#2C5F2D',
+    rating: 8,
+    dateRead: 'February 2019',
+    reflections: `This was an amazing book for my 16 year old self to read.
+Looking back it has a lot of now obvious advice. Would not recommend for anyone established.
+Some practical advice around career is probably outdated and not as good as it could be. It's heavily biased towards sales > sciences.
+I wish it talked more about maximizing your personal alpha. Be someone no one else can be by combining interests, predispositions, and a lot of hard work.
+The marketing and sales you can learn JIT.`,
+  },
+  {
+    title: 'Sapiens',
+    author: 'Yuval Noah Harari',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#8B4513',
+    rating: 8,
+    dateRead: '2018',
+    reflections: `I enjoyed this book as it was my first deep foray into evolutionary framing.
+It both informed and gave language to some of the ways I already thought.`,
+  },
+  {
+    title: 'Start with Why',
+    author: 'Simon Sinek',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#4A5568',
+    rating: 1.5,
+    dateRead: '2018',
+    reflections: `The best example of a blog post book. If you've seen the TED talk you have the essence. The central idea is just an illustrative repackaging of the Socratic method.`,
+  },
+  {
+    title: 'The Power of Habit',
+    author: 'Charles Duhigg',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#1E3A5F',
+    rating: 6,
+    dateRead: '2018',
+    reflections: `The central idea that every habit has a trigger, a routine, and a reward. The most effective way to build or replace a habit is to keep the trigger fixed while changing the response.
+It's a valuable principle I've applied many times throughout my life.
+Could be a blog post.`,
+  },
+  {
+    title: 'Percy Jackson',
+    author: 'Rick Riordan',
+    cover: '/books/placeholder.jpg',
+    spineColor: '#7C2D12',
+    rating: 'Classic',
+    dateRead: '2014',
+    reflections: `I'm including this because it's my favorite book series from my childhood. I read all 10 books from the first and second series on the order of 5 times.`,
   },
 ];
 

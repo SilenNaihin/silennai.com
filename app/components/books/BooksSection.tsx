@@ -1,8 +1,58 @@
 import { Book } from '@/app/content/data';
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import Book3D from './Book3D';
-import { books } from '@/app/content/data';
+import { books as booksData } from '@/app/content/data';
 import DetailsColumn from '@/app/components/DetailsColumn';
+
+type SortMode = 'recency' | 'rating';
+
+// Helper to parse date strings like "January 2026", "2019", "April 2019" into sortable values
+function parseDateForSort(dateStr: string | undefined): number {
+  if (!dateStr) return 0;
+
+  const months: Record<string, number> = {
+    january: 1,
+    february: 2,
+    march: 3,
+    april: 4,
+    may: 5,
+    june: 6,
+    july: 7,
+    august: 8,
+    september: 9,
+    october: 10,
+    november: 11,
+    december: 12,
+  };
+
+  // Handle "Month Year" format
+  const parts = dateStr.toLowerCase().split(' ');
+  if (parts.length === 2) {
+    const month = months[parts[0]] || 1;
+    const year = parseInt(parts[1], 10);
+    return year * 100 + month;
+  }
+
+  // Handle just year
+  const year = parseInt(dateStr, 10);
+  if (!isNaN(year)) {
+    return year * 100;
+  }
+
+  return 0;
+}
+
+// Helper to get numeric rating for sorting
+function getRatingForSort(rating: number | string | undefined): number {
+  if (rating === undefined) return -1;
+  if (typeof rating === 'number') return rating;
+  // Handle string ratings like "8.5 (trilogy), 7.5 (prequels), 6 (sequels)" - take first number
+  const match = rating.match(/[\d.]+/);
+  if (match) return parseFloat(match[0]);
+  // Handle "Classic" - sort to end
+  if (rating.toLowerCase() === 'classic') return -1;
+  return -1;
+}
 
 function BooksSection({
   onSelect,
@@ -13,8 +63,20 @@ function BooksSection({
 }) {
   // Track which book is being hovered (separate from selection)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [sortMode, setSortMode] = useState<SortMode>('recency');
   const bookRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Sort books based on current mode
+  const books = useMemo(() => {
+    const sorted = [...booksData];
+    if (sortMode === 'recency') {
+      sorted.sort((a, b) => parseDateForSort(b.dateRead) - parseDateForSort(a.dateRead));
+    } else {
+      sorted.sort((a, b) => getRatingForSort(b.rating) - getRatingForSort(a.rating));
+    }
+    return sorted;
+  }, [sortMode]);
 
   // Calculate books per shelf to fit within content width
   const booksPerShelf = 8;
@@ -37,6 +99,35 @@ function BooksSection({
       className="relative w-full -mt-6"
       onClick={handleBackgroundClick}
     >
+      {/* Sort buttons */}
+      <div className="flex justify-end gap-2 mb-4 pt-2 pr-2">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setSortMode('recency');
+          }}
+          className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+            sortMode === 'recency'
+              ? 'bg-gray-900 text-white'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          By Recency
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setSortMode('rating');
+          }}
+          className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+            sortMode === 'rating'
+              ? 'bg-gray-900 text-white'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          By Rating
+        </button>
+      </div>
       <div className="space-y-6">
         {Array.from({ length: totalShelves }).map((_, shelfIndex) => {
           const shelfBooks = books.slice(
@@ -153,12 +244,12 @@ function BooksSection({
             <div className="flex items-baseline gap-3 mb-2">
               <h2 className="text-xl font-bold text-gray-900">{book.title}</h2>
               {book.rating !== undefined && (
-                <span className="text-gray-600 text-sm">{book.rating}/10</span>
+                <span className="text-gray-600 text-sm">{book.rating}</span>
               )}
             </div>
             <p className="text-gray-600 text-sm mb-4">{book.author}</p>
             {book.reflections ? (
-              <p className="text-gray-700 leading-relaxed text-sm">
+              <p className="text-gray-700 leading-relaxed text-sm whitespace-pre-line">
                 {book.reflections}
               </p>
             ) : (
