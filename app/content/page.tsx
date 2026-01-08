@@ -10,7 +10,7 @@ import LinksSection from '../components/links/LinksSection';
 
 type Section = 'books' | 'podcasts' | 'projects' | 'links';
 
-const VALID_SECTIONS: Section[] = ['books', 'podcasts', 'projects', 'links'];
+const VALID_SECTIONS: Section[] = ['books', 'podcasts']; //, 'projects', 'links'];
 
 function getSectionFromParams(searchParams: URLSearchParams): Section {
   // Check for section as a key (e.g., ?books, ?podcasts)
@@ -82,30 +82,34 @@ export default function Content() {
                 Podcasts
               </button>
             </li>
-            <li>
-              <button
-                onClick={() => handleSectionChange('projects')}
-                className={`text-left w-full py-2 px-3 rounded transition-all ${
-                  activeSection === 'projects'
-                    ? 'font-bold bg-gray-100'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Projects
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => handleSectionChange('links')}
-                className={`text-left w-full py-2 px-3 rounded transition-all ${
-                  activeSection === 'links'
-                    ? 'font-bold bg-gray-100'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Links
-              </button>
-            </li>
+            {VALID_SECTIONS.includes('projects') && (
+              <li>
+                <button
+                  onClick={() => handleSectionChange('projects')}
+                  className={`text-left w-full py-2 px-3 rounded transition-all ${
+                    activeSection === 'projects'
+                      ? 'font-bold bg-gray-100'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Projects
+                </button>
+              </li>
+            )}
+            {VALID_SECTIONS.includes('links') && (
+              <li>
+                <button
+                  onClick={() => handleSectionChange('links')}
+                  className={`text-left w-full py-2 px-3 rounded transition-all ${
+                    activeSection === 'links'
+                      ? 'font-bold bg-gray-100'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Links
+                </button>
+              </li>
+            )}
           </ul>
         </nav>
         <div
@@ -142,20 +146,21 @@ export default function Content() {
               selectedIndex={selectedPodcastIndex}
             />
           )}
-          {activeSection === 'projects' && (
-            <ProjectsSection
-              projects={projects}
-              onSelect={(project, index) => {
-                if (selectedProjectIndex === index) {
-                  setSelectedProjectIndex(null);
-                } else {
-                  setSelectedProjectIndex(index);
-                }
-              }}
-              selectedIndex={selectedProjectIndex}
-            />
-          )}
-          {activeSection === 'links' && (
+          {activeSection === 'projects' &&
+            VALID_SECTIONS.includes('projects') && (
+              <ProjectsSection
+                projects={projects}
+                onSelect={(project, index) => {
+                  if (selectedProjectIndex === index) {
+                    setSelectedProjectIndex(null);
+                  } else {
+                    setSelectedProjectIndex(index);
+                  }
+                }}
+                selectedIndex={selectedProjectIndex}
+              />
+            )}
+          {activeSection === 'links' && VALID_SECTIONS.includes('links') && (
             <LinksSection
               links={links}
               selectedIndex={selectedLinkIndex}
