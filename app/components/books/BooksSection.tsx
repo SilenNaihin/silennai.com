@@ -1,10 +1,66 @@
 import { Book } from '@/app/content/data';
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 import Book3D from './Book3D';
 import { books as booksData } from '@/app/content/data';
 import DetailsColumn from '@/app/components/DetailsColumn';
 
 type SortMode = 'recency' | 'rating';
+
+// Hook to get responsive bookshelf dimensions
+function useResponsiveBookshelf() {
+  const [dimensions, setDimensions] = useState({
+    booksPerShelf: 8,
+    bookWidth: 50,
+    bookHeight: 240,
+    scale: 1,
+  });
+
+  useEffect(() => {
+    function updateDimensions() {
+      const width = window.innerWidth;
+
+      if (width < 400) {
+        // Very small mobile
+        setDimensions({
+          booksPerShelf: 4,
+          bookWidth: 38,
+          bookHeight: 182,
+          scale: 0.76,
+        });
+      } else if (width < 520) {
+        // Mobile
+        setDimensions({
+          booksPerShelf: 5,
+          bookWidth: 42,
+          bookHeight: 200,
+          scale: 0.84,
+        });
+      } else if (width < 680) {
+        // Large mobile / small tablet
+        setDimensions({
+          booksPerShelf: 6,
+          bookWidth: 45,
+          bookHeight: 216,
+          scale: 0.9,
+        });
+      } else {
+        // Desktop
+        setDimensions({
+          booksPerShelf: 8,
+          bookWidth: 50,
+          bookHeight: 240,
+          scale: 1,
+        });
+      }
+    }
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
+  return dimensions;
+}
 
 // Helper to parse date strings like "January 2026", "2019", "April 2019" into sortable values
 function parseDateForSort(dateStr: string | undefined): number {
@@ -67,6 +123,9 @@ function BooksSection({
   const bookRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Get responsive dimensions
+  const { booksPerShelf, bookWidth, bookHeight, scale } = useResponsiveBookshelf();
+
   // Sort books based on current mode
   const books = useMemo(() => {
     const sorted = [...booksData];
@@ -81,9 +140,6 @@ function BooksSection({
     }
     return sorted;
   }, [sortMode]);
-
-  // Calculate books per shelf to fit within content width
-  const booksPerShelf = 8;
 
   // Calculate total shelves needed
   const totalShelves = Math.ceil(books.length / booksPerShelf);
@@ -100,7 +156,7 @@ function BooksSection({
   return (
     <div
       ref={containerRef}
-      className="relative w-full -mt-6"
+      className="relative w-full -mt-6 overflow-x-hidden"
       onClick={handleBackgroundClick}
     >
       {/* Sort buttons */}
@@ -153,13 +209,14 @@ function BooksSection({
 
           // Calculate shift to keep books centered when one opens
           // Books translate RIGHT when opened, so we shift the container LEFT to compensate
+          // Scale values based on responsive dimensions
           let shelfShift = 0;
           if (hasSelectedBook && hasHoveredBook) {
-            shelfShift = -52; // Half of 105px max translation
+            shelfShift = -52 * scale; // Half of 105px max translation
           } else if (hasSelectedBook) {
-            shelfShift = -45; // Half of 90px selected translation
+            shelfShift = -45 * scale; // Half of 90px selected translation
           } else if (hasHoveredBook) {
-            shelfShift = -7; // Half of 15px hover translation
+            shelfShift = -7 * scale; // Half of 15px hover translation
           }
 
           return (
@@ -196,6 +253,9 @@ function BooksSection({
                       shelfStartIndex={shelfStartIndex}
                       shelfEndIndex={shelfEndIndex}
                       onHoverChange={setHoveredIndex}
+                      bookWidth={bookWidth}
+                      bookHeight={bookHeight}
+                      scale={scale}
                     />
                   );
                 })}

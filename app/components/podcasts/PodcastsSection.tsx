@@ -33,7 +33,7 @@ function PodcastsSection({
         className="relative"
         onClick={handleBackgroundClick}
       >
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 relative">
           {podcasts.map((podcast, index) => (
             <div
               key={index}
@@ -59,7 +59,7 @@ function PodcastsSection({
           selectedIndex={selectedIndex}
           containerRef={containerRef}
           itemRefs={podcastRefs}
-          sideOffsetPx={48}
+          sideOffsetPx={16}
           fillMode="viewport"
           zIndex={30}
           render={(podcast) => (

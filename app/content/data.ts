@@ -47,6 +47,17 @@ export interface Project {
 
 export const books: Book[] = [
   {
+    title: 'Let Them',
+    author: 'Mel Robbins',
+    cover: '/books/let-them.jpg',
+    spineColor: '#FFFFFF',
+    rating: 6,
+    dateRead: 'January 2026',
+    reflections: `"Let them, and let me." A simple framing that combines an internal locus of control with Stoic acceptance.
+The ideas aren't novel, but the strength of the book is in how digestible and actionable they are.
+Very much a "blog post as a book," yet still enjoyable, and I can easily see it being genuinely helpful for a wide audience.`,
+  },
+  {
     title: 'Robot Visions',
     author: 'Isaac Asimov',
     cover: '/books/robot-visions.jpg',
@@ -571,6 +582,25 @@ Core thesis: aim for monopoly through differentiation, not competition. Competit
     rating: 4,
     dateRead: 'May 2023',
     reflections: `A blog post book. The central idea: successful companies fail not because they ignore innovation, but because they rationally focus on serving existing customers with sustaining innovations while disruptive technologies enter from below with worse performance but different value propositions. By the time the disruption is visible, it is too late. The concept is valuable but could be communicated in a fraction of the pages.`,
+  },
+  {
+    title: 'How to Create a Mind',
+    author: 'Ray Kurzweil',
+    cover: '/books/how-to-create-mind.jpg',
+    spineColor: '#FFFFFF',
+    rating: 6,
+    dateRead: 'February 2023',
+    reflections: `Main reason it's not higher is it's not super relevant right now. On Intelligence is a superset, and A Thousand Brains is a superset of that. Some of the later sections are thought provoking.
+
+Notes:
+Pattern Recognition Theory of Mind (PRTM): The neocortex is composed of approximately 300 million pattern recognizers organized hierarchically. Each recognizer handles a specific pattern and connects to others above and below in the hierarchy.
+Hierarchical structure: Lower levels recognize simple features (edges, phonemes), higher levels recognize increasingly abstract concepts (faces, words, ideas). Information flows both up (recognition) and down (prediction).
+The neocortex is remarkably uniform in structure. The same basic algorithm processes vision, language, and abstract thought. Specialization comes from connectivity, not architecture.
+Redundancy and robustness: Multiple pattern recognizers can encode the same concept. The brain uses statistical pattern matching, not exact lookup.
+Hidden Markov models as a computational analogy for how the neocortex processes sequential patterns and makes predictions.
+Thought experiments on consciousness: If we simulate the brain neuron by neuron, at what point does consciousness emerge? Kurzweil argues it would, but the boundary is fuzzy.
+Law of Accelerating Returns applied to neuroscience: Our ability to understand and simulate the brain is growing exponentially. Kurzweil predicts we will reverse engineer the neocortex and use those principles to create human-level AI.
+The later chapters speculate on mind uploading, the singularity, and the future of intelligence. Interesting but more speculative than the neuroscience sections.`,
   },
   {
     title: 'A Thousand Brains',

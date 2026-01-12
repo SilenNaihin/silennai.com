@@ -57,12 +57,20 @@ export default function Header() {
               Blog
             </Link>
             <Link
-              href="/content"
+              href="/books"
               className={`text-sm hover:text-gray-600 ${
-                pathname === '/content' ? 'font-bold' : ''
+                pathname === '/books' ? 'font-bold' : ''
               }`}
             >
-              Content
+              Books
+            </Link>
+            <Link
+              href="/podcasts"
+              className={`text-sm hover:text-gray-600 ${
+                pathname === '/podcasts' ? 'font-bold' : ''
+              }`}
+            >
+              Podcasts
             </Link>
           </nav>
         </div>

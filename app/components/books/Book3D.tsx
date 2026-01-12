@@ -1,5 +1,5 @@
 import { Book } from '@/app/content/data';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 
 // Helper to determine if spine text should be dark based on background color luminance
 function shouldUseDarkText(hexColor: string): boolean {
@@ -11,6 +11,17 @@ function shouldUseDarkText(hexColor: string): boolean {
   // Calculate relative luminance
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   return luminance > 0.7; // Light backgrounds need dark text
+}
+
+// Hook to detect touch device
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
+  return isTouch;
 }
 
 /**
@@ -34,6 +45,9 @@ const Book3D = forwardRef<
     shelfStartIndex: number;
     shelfEndIndex: number;
     onHoverChange: (index: number | null) => void;
+    bookWidth: number;
+    bookHeight: number;
+    scale: number;
   }
 >(function Book3D(
   {
@@ -46,9 +60,14 @@ const Book3D = forwardRef<
     shelfStartIndex,
     shelfEndIndex,
     onHoverChange,
+    bookWidth,
+    bookHeight,
+    scale,
   },
   ref
 ) {
+  const isTouchDevice = useIsTouchDevice();
+
   // This book is hovered only if it's the hovered book AND not already selected
   const isHovered = hoveredIndex === globalIndex && !isSelected;
 
@@ -76,6 +95,8 @@ const Book3D = forwardRef<
   };
 
   const handleMouseEnter = () => {
+    // Skip hover effect on touch devices - they should go straight to selection on tap
+    if (isTouchDevice) return;
     // Allow hover on any book except the selected one
     if (!isSelected) {
       onHoverChange(globalIndex);
@@ -83,9 +104,29 @@ const Book3D = forwardRef<
   };
 
   const handleMouseLeave = () => {
+    // Skip hover effect on touch devices
+    if (isTouchDevice) return;
     // Clear hover state when mouse leaves
     onHoverChange(null);
   };
+
+  // Calculate scaled transform values
+  const translateZ = {
+    selected: Math.round(150 * scale),
+    hovered: Math.round(50 * scale),
+  };
+  const translateX = {
+    selectedHovered: Math.round(5 * scale),
+    selected: Math.round(-10 * scale),
+    hoveredShifted: Math.round(85 * scale),
+    hovered: Math.round(-5 * scale),
+    shiftBoth: Math.round(105 * scale),
+    shiftSelected: Math.round(90 * scale),
+    shiftHover: Math.round(15 * scale),
+  };
+
+  // Cover width is proportional to book dimensions (roughly 3.2x spine width for 2:3 aspect)
+  const coverWidth = Math.round(bookWidth * 3.2);
 
   return (
     <div
@@ -94,8 +135,8 @@ const Book3D = forwardRef<
         isSelected || isHovered ? 'z-50' : 'z-0'
       }`}
       style={{
-        width: '50px',
-        height: '240px',
+        width: `${bookWidth}px`,
+        height: `${bookHeight}px`,
         perspective: '2000px', // Each book has its own perspective for consistent rotation
         transformStyle: 'preserve-3d',
         // Transform logic (evaluated in order):
@@ -109,19 +150,19 @@ const Book3D = forwardRef<
         // 8. Default: No transform
         transform:
           isSelected && shouldShiftRightHover
-            ? 'translateZ(150px) translateX(5px) rotateY(-45deg) scale(1.15)'
+            ? `translateZ(${translateZ.selected}px) translateX(${translateX.selectedHovered}px) rotateY(-45deg) scale(1.15)`
             : isSelected
-            ? 'translateZ(150px) translateX(-10px) rotateY(-45deg) scale(1.15)'
+            ? `translateZ(${translateZ.selected}px) translateX(${translateX.selected}px) rotateY(-45deg) scale(1.15)`
             : isHovered && shouldShiftRightSelected
-            ? 'translateZ(50px) translateX(85px) rotateY(-10deg) scale(1.03)'
+            ? `translateZ(${translateZ.hovered}px) translateX(${translateX.hoveredShifted}px) rotateY(-10deg) scale(1.03)`
             : isHovered
-            ? 'translateZ(50px) translateX(-5px) rotateY(-10deg) scale(1.03)'
+            ? `translateZ(${translateZ.hovered}px) translateX(${translateX.hovered}px) rotateY(-10deg) scale(1.03)`
             : shouldShiftRightSelected && shouldShiftRightHover
-            ? 'translateX(105px)'
+            ? `translateX(${translateX.shiftBoth}px)`
             : shouldShiftRightSelected
-            ? 'translateX(90px)'
+            ? `translateX(${translateX.shiftSelected}px)`
             : shouldShiftRightHover
-            ? 'translateX(15px)'
+            ? `translateX(${translateX.shiftHover}px)`
             : 'translateZ(0px) scale(1)',
         transformOrigin: 'center center',
       }}
@@ -129,13 +170,13 @@ const Book3D = forwardRef<
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
-      {/* Book Spine (front face) - 50px wide x 240px tall */}
+      {/* Book Spine (front face) */}
       <div
         className={`absolute top-0 left-0 flex items-center justify-center text-xs font-semibold ${shouldUseDarkText(book.spineColor) ? 'text-gray-900' : 'text-white'}`}
         style={{
-          width: '50px',
-          height: '240px',
-          background: book.spineColor,
+          width: `${bookWidth}px`,
+          height: `${bookHeight}px`,
+          backgroundColor: book.spineColor,
           backgroundImage: `
                 url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.3' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.4'/%3E%3C/svg%3E")
               `,
@@ -147,13 +188,14 @@ const Book3D = forwardRef<
         }}
       >
         <div
-          className="whitespace-nowrap text-[14px] tracking-tight font-bold"
+          className="whitespace-nowrap tracking-tight font-bold"
           style={{
             writingMode: 'vertical-rl',
             transform: 'rotate(180deg)',
-            maxHeight: '230px',
+            maxHeight: `${bookHeight - 10}px`,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            fontSize: `${Math.round(14 * scale)}px`,
             textShadow: shouldUseDarkText(book.spineColor)
               ? '1px 1px 2px rgba(255,255,255,0.5)'
               : '1px 1px 2px rgba(0,0,0,0.5)',
@@ -163,15 +205,15 @@ const Book3D = forwardRef<
         </div>
       </div>
 
-      {/* Book Cover (right face) - 160px wide x 240px tall (2:3 aspect ratio)
-            Positioned at left: 50px to align flush with the right edge of spine
+      {/* Book Cover (right face) - 2:3 aspect ratio
+            Positioned at left edge of spine to align flush with the right edge
             Recommended cover image resolution: 800x1200px or 1600x2400px for retina */}
       <div
         className="absolute top-0 overflow-hidden"
         style={{
-          left: '50px',
-          width: '160px',
-          height: '240px',
+          left: `${bookWidth}px`,
+          width: `${coverWidth}px`,
+          height: `${bookHeight}px`,
           transform: 'rotateY(90deg)',
           transformOrigin: 'left bottom',
           transformStyle: 'preserve-3d',
