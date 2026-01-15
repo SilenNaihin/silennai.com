@@ -50,7 +50,7 @@ export const books: Book[] = [
     title: 'Let Them',
     author: 'Mel Robbins',
     cover: '/books/let-them.jpg',
-    spineColor: '#0D9A5F',
+    spineColor: '#01C148',
     rating: 6,
     dateRead: 'January 2026',
     reflections: `"Let them, and let me." A simple framing that combines an internal locus of control with Stoic acceptance.
