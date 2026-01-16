@@ -16,16 +16,7 @@ export default function Home() {
             >
               Genesis Mission
             </a>{' '}
-            to accelerate scientific discovery with AI. The{' '}
-            <a
-              href="https://www.whitehouse.gov/presidential-actions/2025/11/launching-the-genesis-mission/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-gray-900"
-            >
-              modern day Manhattan Project
-            </a>
-            .
+            to accelerate scientific discovery with AI.
           </li>
           <li>
             I&apos;m focused on expanding humanity&apos;s epistemic frontier.
@@ -96,7 +87,7 @@ export default function Home() {
           <li>
             I particularly enjoy{' '}
             <Link
-              href="/content?podcasts"
+              href="/podcasts"
               className="underline hover:text-gray-900"
             >
               history through late antiquity

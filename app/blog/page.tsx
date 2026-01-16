@@ -1,5 +1,11 @@
 const articles = [
   {
+    icon: '🤖',
+    title: 'Claude Code',
+    description: 'Tips and tricks for coding with Claude',
+    slug: 'claude-code',
+  },
+  {
     icon: '〰️',
     title: 'Positional Embeddings',
     description: 'First principles: sine waves to RoPE',
