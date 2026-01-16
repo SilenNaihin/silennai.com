@@ -16,7 +16,8 @@ export default function Home() {
             >
               Genesis Mission
             </a>{' '}
-            to accelerate scientific discovery with AI.
+            to accelerate scientific discovery with AI. The modern day Manhattan
+            Project.
           </li>
           <li>
             I&apos;m focused on expanding humanity&apos;s epistemic frontier.
