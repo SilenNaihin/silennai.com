@@ -160,7 +160,7 @@ export default function DetailsColumn<T>({
             e.stopPropagation();
             onClose();
           }}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+          className="absolute -top-1 -right-1 text-gray-400 hover:text-gray-600 transition-colors"
           aria-label="Close"
         >
           <svg
