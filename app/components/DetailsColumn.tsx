@@ -20,6 +20,7 @@ export default function DetailsColumn<T>({
   panelClassName = 'bg-white',
   panelStyle,
   render,
+  onClose,
 }: {
   items: T[];
   selectedIndex: number | null;
@@ -34,6 +35,7 @@ export default function DetailsColumn<T>({
   panelClassName?: string;
   panelStyle?: React.CSSProperties;
   render: (item: T, index: number) => React.ReactNode;
+  onClose?: () => void;
 }) {
   const [positions, setPositions] = useState<Position[]>([]);
   const [isExiting, setIsExiting] = useState(false);
@@ -152,6 +154,31 @@ export default function DetailsColumn<T>({
         if (stopPropagation) e.stopPropagation();
       }}
     >
+      {onClose && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+          aria-label="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      )}
       {render(displayedItem, displayedIndex ?? 0)}
     </div>
   );

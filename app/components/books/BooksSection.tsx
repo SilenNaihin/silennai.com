@@ -303,6 +303,7 @@ function BooksSection({
         sideOffsetPx={16}
         fillMode="viewport"
         zIndex={30}
+        onClose={handleBackgroundClick}
         render={(book) => (
           <div className="p-6 pt-6">
             <div className="flex items-center gap-3">

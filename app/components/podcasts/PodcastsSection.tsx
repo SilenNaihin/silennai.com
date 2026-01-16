@@ -62,6 +62,7 @@ function PodcastsSection({
           sideOffsetPx={16}
           fillMode="viewport"
           zIndex={30}
+          onClose={handleBackgroundClick}
           render={(podcast) => (
             <div className="p-6 pt-8">
               <div className="flex items-center justify-between gap-3 mb-3">
