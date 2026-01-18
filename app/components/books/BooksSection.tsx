@@ -156,7 +156,7 @@ function BooksSection({
   return (
     <div
       ref={containerRef}
-      className="relative w-full -mt-6 overflow-x-hidden"
+      className="relative w-full -mt-6"
       onClick={handleBackgroundClick}
     >
       {/* Sort buttons */}
