@@ -9,15 +9,23 @@ export default function Home() {
           <li>
             I&apos;m doing work on the{' '}
             <a
-              href="https://www.whitehouse.gov/presidential-actions/2025/11/launching-the-genesis-mission/"
+              href="https://genesis.energy.gov/"
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:text-gray-900"
             >
               Genesis Mission
             </a>{' '}
-            to accelerate scientific discovery with AI. The modern day Manhattan
-            Project.
+            to accelerate scientific discovery with AI.{' '}
+            <a
+              href="https://www.whitehouse.gov/presidential-actions/2025/11/launching-the-genesis-mission/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-900"
+            >
+              The modern day Manhattan Project
+            </a>
+            .
           </li>
           <li>
             I&apos;m focused on expanding humanity&apos;s epistemic frontier.
