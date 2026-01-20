@@ -305,7 +305,7 @@ function BooksSection({
         zIndex={30}
         onClose={handleBackgroundClick}
         render={(book) => (
-          <div className="p-6 pt-6">
+          <div className="p-6 pt-8">
             <div className="flex items-center gap-3">
               <h2 className="text-xl font-bold text-gray-900">{book.title}</h2>
               {book.rating !== undefined && (
