@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 const articles = [
   {
     icon: '🤖',
@@ -26,6 +30,7 @@ const articles = [
 ];
 
 export default function Blog() {
+  const [isLoading, setIsLoading] = useState(true);
   const notionPageUrl = process.env.NOTION_PAGE_URL;
   let iframeSrc = '/notion-proxy';
   try {
@@ -73,13 +78,21 @@ export default function Blog() {
             Open in Notion
           </a>
         </div>
-        <div className="w-full h-[80vh] rounded-lg overflow-hidden border border-gray-200">
+        <div className="w-full h-[80vh] rounded-lg overflow-hidden border border-gray-200 relative">
+          {isLoading && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-white">
+              <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mb-3" />
+              <p className="text-gray-500 text-sm">Loading Notion (this may take a sec)</p>
+              <p className="text-gray-400 text-xs mt-1">Most of my blogs are here</p>
+            </div>
+          )}
           <iframe
             title="Silen's Blog (Notion)"
             src={iframeSrc}
             className="w-full h-full"
             style={{ border: 'none' }}
             loading="lazy"
+            onLoad={() => setIsLoading(false)}
           />
         </div>
       </section>
