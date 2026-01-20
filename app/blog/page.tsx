@@ -5,8 +5,8 @@ import { useState } from 'react';
 const articles = [
   {
     icon: '🤖',
-    title: 'Claude Code Guide',
-    description: 'Why I switched from Cursor to Claude Code',
+    title: "I'm a 0.01% Cursor user. Why I switched to Claude Code.",
+    description: 'A guide after 5 years of AI coding.',
     slug: 'claude-code',
   },
   {
@@ -23,7 +23,7 @@ const articles = [
   },
   {
     icon: '✨',
-    title: 'How Do We Make Stardust Think?',
+    title: 'How Did We Make Stardust Think?',
     description: 'From neurons to neural networks',
     slug: 'stardust',
   },
@@ -31,6 +31,7 @@ const articles = [
 
 export default function Blog() {
   const [isLoading, setIsLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
   const notionPageUrl = process.env.NOTION_PAGE_URL;
   let iframeSrc = '/notion-proxy';
   try {
@@ -44,10 +45,7 @@ export default function Blog() {
 
   return (
     <main className="max-w-5xl mx-auto px-4 md:px-8 pb-8">
-      <section className="mb-6">
-        <h2 className="text-sm text-gray-500 uppercase tracking-wide mb-2">
-          Interactive
-        </h2>
+      <section className="mb-4">
         <div className="flex flex-col">
           {articles.map((article) => (
             <a
@@ -68,31 +66,48 @@ export default function Blog() {
       </section>
 
       <section>
-        <div className="flex items-baseline justify-between gap-4 flex-wrap mb-3">
-          <a
-            href="https://silen.notion.site/Silen-Naihin-2370c99ae49c4e328b66b5e0d90cae3c"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-blue-600 hover:text-blue-800 underline underline-offset-4"
-          >
-            Open in Notion
-          </a>
-        </div>
-        <div className="w-full h-[80vh] rounded-lg overflow-hidden border border-gray-200 relative">
-          {isLoading && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-white">
-              <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mb-3" />
-              <p className="text-gray-500 text-sm">Loading Notion (this may take a sec)</p>
-              <p className="text-gray-400 text-xs mt-1">Most of my blogs are here</p>
+        <div className={`w-full h-[80vh] rounded-lg overflow-hidden relative ${isLoading ? 'border border-gray-200' : ''}`}>
+          {isLoading && !loadFailed && (
+            <div className="absolute inset-0 flex flex-col items-start pt-8 px-4 bg-white">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+                <p className="text-gray-500 text-sm">Loading Notion (this may take a sec)</p>
+              </div>
+              <p className="text-gray-400 text-xs mb-2 ml-8">Most of my blogs are here</p>
+              <a
+                href="https://silen.notion.site/Silen-Naihin-2370c99ae49c4e328b66b5e0d90cae3c"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-blue-600 hover:text-blue-800 underline underline-offset-2 ml-8"
+              >
+                Open in Notion
+              </a>
+            </div>
+          )}
+          {loadFailed && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-white border border-gray-200 rounded-lg">
+              <p className="text-gray-500 text-sm mb-2">Failed to load Notion page</p>
+              <a
+                href="https://silen.notion.site/Silen-Naihin-2370c99ae49c4e328b66b5e0d90cae3c"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-blue-600 hover:text-blue-800 underline underline-offset-2"
+              >
+                Open in Notion
+              </a>
             </div>
           )}
           <iframe
             title="Silen's Blog (Notion)"
             src={iframeSrc}
-            className="w-full h-full"
+            className={`w-full h-full ${loadFailed ? 'hidden' : ''}`}
             style={{ border: 'none' }}
             loading="lazy"
             onLoad={() => setIsLoading(false)}
+            onError={() => {
+              setIsLoading(false);
+              setLoadFailed(true);
+            }}
           />
         </div>
       </section>
