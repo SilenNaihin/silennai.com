@@ -105,8 +105,16 @@ export default function Home() {
             the past rolled up for action.
           </li>
           <li>
-            I&apos;m currently working on hitting the 1000lb club and a 3 plate
-            bench press.
+            I&apos;m{' '}
+            <a
+              href="https://silen.notion.site/Fitness-1962b9e3813780788b53d5fc6d4bffd3"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-900"
+            >
+              currently working on
+            </a>{' '}
+            hitting the 1000lb club and a 3 plate bench press.
           </li>
           <li>
             I&apos;ve visited 30+ countries across 6 continents. I&apos;ve lived
