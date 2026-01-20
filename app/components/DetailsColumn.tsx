@@ -41,9 +41,11 @@ export default function DetailsColumn<T>({
   const [isExiting, setIsExiting] = useState(false);
   const [displayedIndex, setDisplayedIndex] = useState<number | null>(null);
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
+  const [contentHeight, setContentHeight] = useState<number>(0);
   const enterTimerRef = useRef<number | null>(null);
   const exitTimerRef = useRef<number | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Handle clicks outside the panel to close it
   const handleClickOutside = useCallback(
@@ -68,6 +70,25 @@ export default function DetailsColumn<T>({
       return () => document.removeEventListener('click', handleClickOutside);
     }
   }, [displayedIndex, onClose, handleClickOutside]);
+
+  // Measure content height when it changes
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    const measureHeight = () => {
+      if (contentRef.current) {
+        setContentHeight(contentRef.current.offsetHeight);
+      }
+    };
+
+    measureHeight();
+
+    // Use ResizeObserver to detect content size changes
+    const resizeObserver = new ResizeObserver(measureHeight);
+    resizeObserver.observe(contentRef.current);
+
+    return () => resizeObserver.disconnect();
+  }, [displayedIndex]);
 
   // Handle selection changes with exit animation
   useEffect(() => {
@@ -148,6 +169,8 @@ export default function DetailsColumn<T>({
   if (!displayedItem || !displayedPosition) return null;
 
   const topPx = displayedPosition.bottom + gapPx;
+  // Transition point: content height + some buffer for the fade
+  const fadeStartPx = contentHeight > 0 ? contentHeight : 200;
 
   return (
     <div
@@ -160,6 +183,12 @@ export default function DetailsColumn<T>({
         ...(fillMode === 'viewport'
           ? { bottom: '-100vh' }
           : { minHeight: `calc(100% - ${topPx}px)` }),
+        // Background: 30% at top, 100% white at 32px, stays 100% until content ends, then 75%
+        background: `linear-gradient(to bottom,
+          rgba(255, 255, 255, 0.3) 0px,
+          rgba(255, 255, 255, 1) 32px,
+          rgba(255, 255, 255, 1) ${fadeStartPx}px,
+          rgba(255, 255, 255, 0.75) ${fadeStartPx + 24}px)`,
         maskImage:
           'linear-gradient(to bottom, transparent 0%, black 12px, black 100%)',
         WebkitMaskImage:
@@ -177,14 +206,8 @@ export default function DetailsColumn<T>({
         if (stopPropagation) e.stopPropagation();
       }}
     >
-      {/* Content area - full opacity white background */}
-      <div
-        className="relative"
-        style={{
-          background:
-            'linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 1) 32px)',
-        }}
-      >
+      {/* Content wrapper for measuring */}
+      <div ref={contentRef} className="relative">
         {onClose && (
           <button
             onClick={(e) => {
@@ -212,14 +235,15 @@ export default function DetailsColumn<T>({
         )}
         {render(displayedItem, displayedIndex ?? 0)}
       </div>
-      {/* Below content - 75% opacity with blur */}
+      {/* Blur overlay for area below content */}
       <div
-        className="flex-1"
+        className="absolute left-0 right-0"
         style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+          top: `${fadeStartPx}px`,
+          bottom: 0,
           backdropFilter: 'blur(4px)',
           WebkitBackdropFilter: 'blur(4px)',
-          minHeight: '100vh',
+          pointerEvents: 'none',
         }}
       />
     </div>
