@@ -5,13 +5,13 @@ import { useState } from 'react';
 const articles = [
   {
     icon: '🤖',
-    title: 'Claude Code',
-    description: 'Tips and tricks for coding with Claude',
+    title: 'Claude Code Guide',
+    description: 'Why I switched from Cursor to Claude Code',
     slug: 'claude-code',
   },
   {
     icon: '〰️',
-    title: 'Positional Embeddings',
+    title: 'Positional Encoding',
     description: 'First principles: sine waves to RoPE',
     slug: 'positional-encoding',
   },
@@ -23,8 +23,8 @@ const articles = [
   },
   {
     icon: '✨',
-    title: 'Thinking Stardust',
-    description: 'On the history of NLP',
+    title: 'How Do We Make Stardust Think?',
+    description: 'From neurons to neural networks',
     slug: 'stardust',
   },
 ];
