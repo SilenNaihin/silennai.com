@@ -237,7 +237,7 @@ export default function DetailsColumn<T>({
       </div>
       {/* Blur overlay for area below content - fades in gradually */}
       <div
-        className="absolute left-0 right-0"
+        className="absolute left-0 right-0 cursor-pointer"
         style={{
           top: `${fadeStartPx}px`,
           bottom: 0,
@@ -245,8 +245,8 @@ export default function DetailsColumn<T>({
           WebkitBackdropFilter: 'blur(4px)',
           maskImage: 'linear-gradient(to bottom, transparent 0%, black 48px)',
           WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 48px)',
-          pointerEvents: 'none',
         }}
+        onClick={() => onClose?.()}
       />
     </div>
   );
