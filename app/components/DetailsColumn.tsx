@@ -235,7 +235,7 @@ export default function DetailsColumn<T>({
         )}
         {render(displayedItem, displayedIndex ?? 0)}
       </div>
-      {/* Blur overlay for area below content */}
+      {/* Blur overlay for area below content - fades in gradually */}
       <div
         className="absolute left-0 right-0"
         style={{
@@ -243,6 +243,8 @@ export default function DetailsColumn<T>({
           bottom: 0,
           backdropFilter: 'blur(4px)',
           WebkitBackdropFilter: 'blur(4px)',
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 48px)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 48px)',
           pointerEvents: 'none',
         }}
       />
