@@ -29,8 +29,8 @@ export default function Home() {
           </li>
           <li>
             I&apos;m focused on expanding humanity&apos;s epistemic frontier.
-            Exploring ideas in continual learning, OOD generation,
-            verifiability, and alternate architectures.
+            Currently exploring bottlenecks around verifiability and model
+            collapse (OOD generation).
           </li>
           <li>
             I ran a company that was in YC (StackwiseAI) for two years. Before
