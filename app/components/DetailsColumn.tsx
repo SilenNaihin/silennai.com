@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 
 type Position = { top: number; bottom: number };
 
@@ -43,6 +43,31 @@ export default function DetailsColumn<T>({
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false);
   const enterTimerRef = useRef<number | null>(null);
   const exitTimerRef = useRef<number | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Handle clicks outside the panel to close it
+  const handleClickOutside = useCallback(
+    (e: MouseEvent) => {
+      if (!onClose || !panelRef.current) return;
+      // Check if click is inside the panel
+      if (panelRef.current.contains(e.target as Node)) return;
+      // Check if click is on one of the items (books/podcasts)
+      const clickedOnItem = itemRefs.current.some(
+        (ref) => ref && ref.contains(e.target as Node)
+      );
+      if (clickedOnItem) return;
+      onClose();
+    },
+    [onClose, itemRefs]
+  );
+
+  // Add/remove click outside listener
+  useEffect(() => {
+    if (displayedIndex !== null && onClose) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [displayedIndex, onClose, handleClickOutside]);
 
   // Handle selection changes with exit animation
   useEffect(() => {
@@ -126,6 +151,7 @@ export default function DetailsColumn<T>({
 
   return (
     <div
+      ref={panelRef}
       className={`absolute ${panelClassName}`}
       style={{
         left: `${-sideOffsetPx}px`,
@@ -134,9 +160,6 @@ export default function DetailsColumn<T>({
         ...(fillMode === 'viewport'
           ? { bottom: '-100vh' }
           : { minHeight: `calc(100% - ${topPx}px)` }),
-        background:
-          'linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.99) 32px)',
-        backdropFilter: 'blur(2px)',
         maskImage:
           'linear-gradient(to bottom, transparent 0%, black 12px, black 100%)',
         WebkitMaskImage:
@@ -154,32 +177,51 @@ export default function DetailsColumn<T>({
         if (stopPropagation) e.stopPropagation();
       }}
     >
-      {onClose && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }}
-          className="absolute top-3 -right-1 text-gray-400 hover:text-gray-600 transition-colors"
-          aria-label="Close"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+      {/* Content area - full opacity white background */}
+      <div
+        className="relative"
+        style={{
+          background:
+            'linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 1) 32px)',
+        }}
+      >
+        {onClose && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+            className="absolute top-3 -right-1 text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="Close"
           >
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-      )}
-      {render(displayedItem, displayedIndex ?? 0)}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        )}
+        {render(displayedItem, displayedIndex ?? 0)}
+      </div>
+      {/* Below content - 75% opacity with blur */}
+      <div
+        className="flex-1"
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
+          minHeight: '100vh',
+        }}
+      />
     </div>
   );
 }
