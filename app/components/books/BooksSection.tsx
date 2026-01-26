@@ -6,6 +6,20 @@ import DetailsColumn from '@/app/components/DetailsColumn';
 
 type SortMode = 'recency' | 'rating';
 
+// Hook to detect if we're on desktop (for side panel layout)
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
+
+  return isDesktop;
+}
+
 // Hook to get responsive bookshelf dimensions
 function useResponsiveBookshelf() {
   const [dimensions, setDimensions] = useState({
@@ -43,8 +57,16 @@ function useResponsiveBookshelf() {
           bookHeight: 216,
           scale: 0.9,
         });
+      } else if (width < 1280) {
+        // Desktop below xl - 7 books to avoid overlap with side panel
+        setDimensions({
+          booksPerShelf: 7,
+          bookWidth: 48,
+          bookHeight: 230,
+          scale: 0.96,
+        });
       } else {
-        // Desktop
+        // Large desktop (xl+)
         setDimensions({
           booksPerShelf: 8,
           bookWidth: 50,
@@ -123,8 +145,9 @@ function BooksSection({
   const bookRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Get responsive dimensions
+  // Get responsive dimensions and desktop detection
   const { booksPerShelf, bookWidth, bookHeight, scale } = useResponsiveBookshelf();
+  const isDesktop = useIsDesktop();
 
   // Sort books based on current mode
   const books = useMemo(() => {
@@ -153,12 +176,12 @@ function BooksSection({
     }
   };
 
-  return (
-    <div
-      ref={containerRef}
-      className="relative w-full -mt-6"
-      onClick={handleBackgroundClick}
-    >
+  // Get selected book for side panel
+  const selectedBook = selectedIndex !== null ? books[selectedIndex] : null;
+
+  // Render the bookshelf content
+  const renderBookshelf = () => (
+    <>
       {/* Sort buttons */}
       <div className="flex justify-end gap-1.5 pr-2">
         <button
@@ -267,9 +290,9 @@ function BooksSection({
                 style={{
                   height: '12px',
                   backgroundImage: `
-                        linear-gradient(to bottom, 
-                          rgba(255,255,255,0.15) 0%, 
-                          rgba(255,255,255,0.05) 20%, 
+                        linear-gradient(to bottom,
+                          rgba(255,255,255,0.15) 0%,
+                          rgba(255,255,255,0.05) 20%,
                           transparent 40%,
                           rgba(0,0,0,0.1) 100%
                         ),
@@ -293,6 +316,99 @@ function BooksSection({
           );
         })}
       </div>
+    </>
+  );
+
+  // Desktop layout: side-by-side
+  if (isDesktop) {
+    return (
+      <div
+        ref={containerRef}
+        className="relative flex gap-8 -mt-6"
+        onClick={handleBackgroundClick}
+      >
+        {/* Bookshelf - takes left portion */}
+        <div
+          className="transition-all duration-500 ease-out"
+          style={{
+            width: '48%',
+            flexShrink: 0,
+          }}
+        >
+          {renderBookshelf()}
+        </div>
+
+        {/* Side panel for details or ratings list - desktop only */}
+        <div
+          className="transition-all duration-500 ease-out overflow-hidden"
+          style={{
+            width: '52%',
+            opacity: 1,
+          }}
+        >
+          {selectedBook ? (
+            <div className="pt-12">
+              <div className="flex items-center gap-3">
+                <h2 className="text-xl font-bold text-gray-900">
+                  {selectedBook.title}
+                </h2>
+                {selectedBook.rating !== undefined && (
+                  <span className="text-gray-600 font-medium">
+                    {selectedBook.rating}/10
+                  </span>
+                )}
+                <span className="ml-auto text-gray-600">
+                  {selectedBook.dateRead}
+                </span>
+              </div>
+              <p className="text-gray-600 mb-3">{selectedBook.author}</p>
+              {selectedBook.reflections ? (
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                  {selectedBook.reflections}
+                </p>
+              ) : (
+                <p className="text-gray-400 text-sm">No notes yet.</p>
+              )}
+            </div>
+          ) : (
+            <div className="pt-12">
+              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
+                Ratings
+              </h3>
+              <div className="space-y-2">
+                {books.map((book, index) => (
+                  <button
+                    key={index}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelect(book, index);
+                    }}
+                    className="flex items-center justify-between w-full text-left hover:bg-gray-50 rounded px-2 py-1 -mx-2 transition-colors"
+                  >
+                    <span className="text-gray-700 text-sm truncate pr-2">
+                      {book.title}
+                    </span>
+                    <span className="text-gray-500 text-sm whitespace-nowrap">
+                      {book.rating !== undefined ? `${book.rating}/10` : '—'}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Mobile layout: DetailsColumn below
+  return (
+    <div
+      ref={containerRef}
+      className="relative w-full -mt-6"
+      onClick={handleBackgroundClick}
+    >
+      {renderBookshelf()}
 
       <DetailsColumn
         items={books}
