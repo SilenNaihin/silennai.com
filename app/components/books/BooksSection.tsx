@@ -1,6 +1,6 @@
 import { Book } from '@/app/content/data';
 import { useState, useRef, useMemo, useEffect } from 'react';
-import Book3D from './Book3D';
+import Book3D, { PaperTextureFilter } from './Book3D';
 import { books as booksData } from '@/app/content/data';
 import DetailsColumn from '@/app/components/DetailsColumn';
 
@@ -8,7 +8,7 @@ type SortMode = 'recency' | 'rating';
 
 // Hook to detect if we're on desktop (for side panel layout)
 function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
@@ -182,6 +182,8 @@ function BooksSection({
   // Render the bookshelf content
   const renderBookshelf = () => (
     <>
+      {/* SVG filter for paper texture - rendered once */}
+      <PaperTextureFilter />
       {/* Sort buttons */}
       <div className="flex justify-end gap-1.5 pr-2">
         <button
@@ -231,16 +233,15 @@ function BooksSection({
             hoveredIndex <= shelfEndIndex;
 
           // Calculate shift to keep books centered when one opens
-          // Books translate RIGHT when opened, so we shift the container LEFT to compensate
-          // Scale values based on responsive dimensions
+          // Only selected book causes expansion (hovered just shifts itself left)
+          const coverWidth = bookWidth * 3.2;
+          const rightShiftSelected = coverWidth * 0.7;
+
           let shelfShift = 0;
-          if (hasSelectedBook && hasHoveredBook) {
-            shelfShift = -52 * scale; // Half of 105px max translation
-          } else if (hasSelectedBook) {
-            shelfShift = -45 * scale; // Half of 90px selected translation
-          } else if (hasHoveredBook) {
-            shelfShift = -7 * scale; // Half of 15px hover translation
+          if (hasSelectedBook) {
+            shelfShift = -rightShiftSelected / 2;
           }
+          // No shelfShift for hover - hovered book shifts left, no net expansion
 
           return (
             <div
@@ -319,6 +320,11 @@ function BooksSection({
     </>
   );
 
+  // Don't render until we know the screen size
+  if (isDesktop === null) {
+    return null;
+  }
+
   // Desktop layout: side-by-side
   if (isDesktop) {
     return (
@@ -340,14 +346,14 @@ function BooksSection({
 
         {/* Side panel for details or ratings list - desktop only */}
         <div
-          className="transition-all duration-500 ease-out overflow-hidden"
+          className="transition-all duration-500 ease-out"
           style={{
             width: '52%',
             opacity: 1,
           }}
         >
           {selectedBook ? (
-            <div className="pt-12">
+            <div className="pt-12 sticky top-8">
               <div className="flex items-center gap-3">
                 <h2 className="text-xl font-bold text-gray-900">
                   {selectedBook.title}
@@ -371,7 +377,7 @@ function BooksSection({
               )}
             </div>
           ) : (
-            <div className="pt-12">
+            <div className="pt-12 sticky top-8">
               <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
                 Ratings
               </h3>

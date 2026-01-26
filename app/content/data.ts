@@ -89,16 +89,6 @@ You'll enjoy if you're a prior fan of Rockefeller.
 Even more valuable if you haven't yet solidified your intuitions around money, duty, and the moral obligations of success.`,
   },
   {
-    title: 'Mistborn Series 2',
-    author: 'Brandon Sanderson',
-    cover: '/books/mistborn-series-2.jpg',
-    spineColor: '#87693B',
-    rating: 7.5,
-    dateRead: 'October 2025',
-    reflections: `Less on the fantasy aspect and the scope is smaller for the first 3 books, but still enjoyable.
-More juvenile humor but it doesn't feel as forced as with the WoK series. Wayne is a standout character whose growth across the series is satisfying, and the western-meets-fantasy setting offers a fresh take on the Cosmere.`,
-  },
-  {
     title: 'Thinking, Fast and Slow',
     author: 'Daniel Kahneman',
     cover: '/books/thinking-fast-slow.jpg',
@@ -114,13 +104,14 @@ The book is strongest when it connects cognitive bias to real decision making un
 It weakens toward the end, where the marginal insight diminishes and the final ~100 pages drag.`,
   },
   {
-    title: 'Mistborn Series 1',
+    title: 'Mistborn',
     author: 'Brandon Sanderson',
     cover: '/books/mistborn-series-1.jpg',
     spineColor: '#886585',
-    rating: 8,
+    rating: '8 (Era 1), 7.5 (Era 2)',
     dateRead: 'September 2025',
-    reflections: `One of the most epic endings to a trilogy I've ever read. Vin is a delightful character to follow, and the progress of the stories feels interesting all the way through. Book 2 was a weak spot, but otherwise an amazing read and unique action system.`,
+    reflections: `One of the most epic endings to a trilogy I've ever read. Vin is a delightful character to follow, and the progress of the stories feels interesting all the way through. Book 2 was a weak spot, but otherwise an amazing read and unique magic system.
+The second era is less on the fantasy aspect and the scope is smaller, but still enjoyable. Wayne is a standout character whose growth across the series is satisfying, and the western-meets-fantasy setting offers a fresh take on the Cosmere.`,
   },
   {
     title: 'The Four Agreements',

@@ -10,7 +10,7 @@ import {
 
 // Hook to detect if we're on desktop (for side panel layout)
 function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
@@ -47,7 +47,7 @@ function PodcastsSection({
   // Render the podcast grid
   const renderPodcastGrid = () => (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 relative">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 relative">
         {podcasts.map((podcast, index) => (
           <div
             key={index}
@@ -117,6 +117,11 @@ function PodcastsSection({
     </>
   );
 
+  // Don't render until we know the screen size
+  if (isDesktop === null) {
+    return null;
+  }
+
   return (
     <div className="space-y-12">
       {/* Main record player podcasts */}
@@ -131,24 +136,49 @@ function PodcastsSection({
           <div
             className="transition-all duration-500 ease-out"
             style={{
-              width: selectedIndex !== null ? '55%' : '100%',
+              width: '55%',
               flexShrink: 0,
             }}
           >
             {renderPodcastGrid()}
           </div>
 
-          {/* Side panel for details - desktop only */}
+          {/* Side panel for details or ratings list - desktop only */}
           <div
-            className="transition-all duration-500 ease-out overflow-hidden"
+            className="transition-all duration-500 ease-out"
             style={{
-              width: selectedIndex !== null ? '45%' : '0%',
-              opacity: selectedIndex !== null ? 1 : 0,
+              width: '45%',
+              opacity: 1,
             }}
           >
-            {selectedPodcast && (
-              <div className="pt-2">
+            {selectedPodcast ? (
+              <div className="pt-2 sticky top-8">
                 {renderDetailsContent(selectedPodcast)}
+              </div>
+            ) : (
+              <div className="pt-2 sticky top-8">
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
+                  Ratings
+                </h3>
+                <div className="space-y-2">
+                  {podcasts.map((podcast, index) => (
+                    <button
+                      key={index}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelect(podcast, index);
+                      }}
+                      className="flex items-center justify-between w-full text-left hover:bg-gray-50 rounded px-2 py-1 -mx-2 transition-colors"
+                    >
+                      <span className="text-gray-700 text-sm truncate pr-2">
+                        {podcast.title}
+                      </span>
+                      <span className="text-gray-500 text-sm whitespace-nowrap">
+                        {podcast.rating}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>

@@ -23,14 +23,14 @@ export default function Home() {
               rel="noopener noreferrer"
               className="underline hover:text-gray-900"
             >
-              The modern day Manhattan Project
+              It's the modern day Manhattan Project
             </a>
             .
           </li>
           <li>
             I&apos;m focused on expanding humanity&apos;s epistemic frontier.
             Currently exploring bottlenecks around verifiability and model
-            collapse (OOD generation).
+            collapse (for OOD generation).
           </li>
           <li>
             I ran a company that was in YC (StackwiseAI) for two years. Before
@@ -122,13 +122,11 @@ export default function Home() {
             months.
           </li>
           <li>
-            I have interest in quantum computing, neuroscience, bio
-            nanorobotics, and aerospace. I&apos;ve explored each at{' '}
+          I&apos;ve explored quantum computing, neuroscience, math, and philosophy at{' '}
             <Link href="/blog" className="underline hover:text-gray-900">
               varying levels of depth
             </Link>
-            . Alongside AI, these are the last frontiers towards humanity
-            immortality.
+            .
           </li>
         </ul>
       </section>

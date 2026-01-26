@@ -4,27 +4,27 @@ import { useState } from 'react';
 
 const articles = [
   {
-    icon: '🤖',
-    title: "I'm a 0.01% Cursor user. Why I switched to Claude Code.",
-    description: 'A guide after 5 years of AI coding.',
+    title: "I was a top 0.01% Cursor user. Here's why I switched to Claude Code 2.0.",
+    description:
+      "You have 6-7 articles bookmarked about Claude Code. You've seen the wave. You want to be a part of it. Here's a comprehensive guide from someone who's been using coding AI since 2021 and read all those Claude Code guides so you don't have to.",
     slug: 'claude-code',
   },
   {
-    icon: '〰️',
-    title: 'Positional Encoding',
-    description: 'First principles: sine waves to RoPE',
+    title: 'Positional encoding: how transformers know word order',
+    description:
+      'Words have meaning, but so does their order. How do transformers, which process all tokens at once, understand that "dog bites man" differs from "man bites dog"? A first principles walkthrough from sinusoidal encodings to RoPE.',
     slug: 'positional-encoding',
   },
   {
-    icon: '🔗',
-    title: 'Tied Embeddings',
-    description: 'Weight sharing in neural networks',
+    title: 'The pragmatic tradeoff of tied embeddings',
+    description:
+      'In deep learning, we commonly trade compute for accuracy. Quantization sacrifices precision for speed. Distillation trades model size for latency. Weight sharing reduces parameters at the cost of expressivity. Tied embeddings are one such tradeoff.',
     slug: 'tied-embeddings',
   },
   {
-    icon: '✨',
-    title: 'How Did We Make Stardust Think?',
-    description: 'From neurons to neural networks',
+    title: 'How did we make stardust think?',
+    description:
+      'From carbon atoms forged in dying stars to neurons firing in your skull to silicon learning to see. The improbable chain that led to artificial intelligence. A first principles and historical journey through neural foundations, backpropagation, and recurrence.',
     slug: 'stardust',
   },
 ];
@@ -46,20 +46,21 @@ export default function Blog() {
   return (
     <main className="max-w-5xl mx-auto px-4 md:px-8 pb-8">
       <section className="mb-4">
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-1">
           {articles.map((article) => (
             <a
               key={article.slug}
               href={`https://blog.silennai.com/${article.slug}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 py-2 px-2 -mx-2 rounded hover:bg-gray-50 transition-colors group"
+              className="block py-2 px-3 -mx-3 rounded-lg hover:bg-gray-50 transition-colors group"
             >
-              <span className="text-lg">{article.icon}</span>
-              <span className="font-medium">{article.title}</span>
-              <span className="text-gray-400 text-sm hidden sm:inline">
-                {article.description}
+              <span className="font-medium text-gray-900 group-hover:text-gray-700">
+                {article.title}
               </span>
+              <p className="text-gray-500 text-sm leading-relaxed mt-0.5">
+                {article.description}
+              </p>
             </a>
           ))}
         </div>
