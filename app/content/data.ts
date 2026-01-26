@@ -315,10 +315,11 @@ Without intellectualizing, it's just a genuinely enjoyable read.`,
     spineColor: '#000e35',
     rating: '8.5 (trilogy), 7.5 (prequels), 6 (sequels)',
     dateRead: 'October 2024',
-    reflections: `Draws certain sociological questions to their logical conclusion.
-(a) Very relevant in modernity if you replace psychohistory with an oracle AI controlling the vectors of humanity.
-(b) What is humanity's terminal trajectory? A future where labor is automated and civilization expands into the cosmos, what happens if we're still constrained by the same imperfect cognitive architecture? Restless desires, status seeking, ego, etc. Asimov's solution is psychohistory as a containment function and Gaea as a universal solution.
-(c) Is a future that is stable, prosperous, and predictable worth the loss of meaningful individual agency? Is benevolent determinism ethically distinguishable from tyranny when its hand is sufficiently invisible?`,
+    reflections: `As a sci-fi enjoyer, this was a fun read. 
+
+As an intellectual, I found certain sociological questions that are relevant today to their logical conclusion.
+(a) What is humanity's terminal trajectory? A future where labor is automated and civilization expands into the cosmos, what happens if we're still constrained by the same imperfect cognitive architecture? Restless desires, status seeking, ego, etc. Asimov's solution is psychohistory as a containment function and Gaea as a universal solution.
+(b) Is a future that is stable, prosperous, and predictable worth the loss of meaningful individual agency? Is benevolent determinism ethically distinguishable from tyranny? What about when its hand is sufficiently invisible?`,
   },
   {
     title: 'The 48 Laws of Power',
