@@ -179,40 +179,43 @@ function BooksSection({
   // Get selected book for side panel
   const selectedBook = selectedIndex !== null ? books[selectedIndex] : null;
 
+  // Sort buttons component
+  const renderSortButtons = () => (
+    <div className="flex gap-1.5 -mt-8 -mb-4">
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setSortMode('recency');
+        }}
+        className={`px-2 py-0.5 text-xs rounded transition-colors ${
+          sortMode === 'recency'
+            ? 'bg-gray-900 text-white'
+            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        }`}
+      >
+        Recency
+      </button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setSortMode('rating');
+        }}
+        className={`px-2 py-0.5 text-xs rounded transition-colors ${
+          sortMode === 'rating'
+            ? 'bg-gray-900 text-white'
+            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        }`}
+      >
+        Rating
+      </button>
+    </div>
+  );
+
   // Render the bookshelf content
   const renderBookshelf = () => (
     <>
       {/* SVG filter for paper texture - rendered once */}
       <PaperTextureFilter />
-      {/* Sort buttons */}
-      <div className="flex justify-end gap-1.5 pr-2">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setSortMode('recency');
-          }}
-          className={`px-2 py-0.5 text-xs rounded transition-colors ${
-            sortMode === 'recency'
-              ? 'bg-gray-900 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          Recency
-        </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setSortMode('rating');
-          }}
-          className={`px-2 py-0.5 text-xs rounded transition-colors ${
-            sortMode === 'rating'
-              ? 'bg-gray-900 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          Rating
-        </button>
-      </div>
       <div className="space-y-6">
         {Array.from({ length: totalShelves }).map((_, shelfIndex) => {
           const shelfBooks = books.slice(
@@ -330,30 +333,34 @@ function BooksSection({
     return (
       <div
         ref={containerRef}
-        className="relative flex gap-8 -mt-6"
+        className="relative"
         onClick={handleBackgroundClick}
       >
-        {/* Bookshelf - takes left portion */}
-        <div
-          className="transition-all duration-500 ease-out"
-          style={{
-            width: '48%',
-            flexShrink: 0,
-          }}
-        >
-          {renderBookshelf()}
-        </div>
+        <div className="flex gap-8 -mt-2">
+          {/* Bookshelf - takes left portion */}
+          <div
+            className="transition-all duration-500 ease-out"
+            style={{
+              width: '48%',
+              flexShrink: 0,
+            }}
+          >
+            {renderSortButtons()}
+            {renderBookshelf()}
+          </div>
 
         {/* Side panel for details or ratings list - desktop only */}
         <div
-          className="transition-all duration-500 ease-out"
+          className="transition-all duration-500 ease-out -mt-8"
           style={{
             width: '52%',
             opacity: 1,
           }}
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
         >
           {selectedBook ? (
-            <div className="pt-12 sticky top-8">
+            <div className="pt-12 sticky top-8" onClick={(e) => e.stopPropagation()}>
               <div className="flex items-center gap-3">
                 <h2 className="text-xl font-bold text-gray-900">
                   {selectedBook.title}
@@ -378,9 +385,6 @@ function BooksSection({
             </div>
           ) : (
             <div className="pt-12 sticky top-8">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
-                Ratings
-              </h3>
               <div className="space-y-2">
                 {books.map((book, index) => (
                   <button
@@ -403,6 +407,7 @@ function BooksSection({
             </div>
           )}
         </div>
+        </div>
       </div>
     );
   }
@@ -414,6 +419,7 @@ function BooksSection({
       className="relative w-full -mt-6"
       onClick={handleBackgroundClick}
     >
+      {renderSortButtons()}
       {renderBookshelf()}
 
       <DetailsColumn

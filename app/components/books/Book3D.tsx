@@ -217,8 +217,9 @@ const Book3D = forwardRef<
       >
         {/* Book Spine - rotates around RIGHT edge */}
         <div
-          className={`absolute top-0 left-0 flex items-center justify-center ${shouldUseDarkText(book.spineColor) ? 'text-gray-900' : 'text-white'}`}
+          className="absolute top-0 left-0 flex items-center justify-center"
           style={{
+            color: book.spineTextColor || (shouldUseDarkText(book.spineColor) ? '#111827' : '#ffffff'),
             width: `${bookWidth}px`,
             height: `${bookHeight}px`,
             backgroundColor: book.spineColor,
@@ -250,7 +251,7 @@ const Book3D = forwardRef<
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               fontSize: `${Math.round(14 * scale)}px`,
-              textShadow: shouldUseDarkText(book.spineColor)
+              textShadow: (book.spineTextColor === '#000000' || book.spineTextColor === 'black' || (!book.spineTextColor && shouldUseDarkText(book.spineColor)))
                 ? '1px 1px 2px rgba(255,255,255,0.5)'
                 : '1px 1px 2px rgba(0,0,0,0.5)',
             }}

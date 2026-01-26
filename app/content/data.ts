@@ -3,6 +3,7 @@ export interface Book {
   author: string;
   cover: string;
   spineColor: string;
+  spineTextColor?: string;
   rating?: number | string;
   reflections?: string;
   dateRead?: string;
@@ -46,6 +47,20 @@ export interface Project {
 }
 
 export const books: Book[] = [
+  {
+    title: 'The Beginning of Infinity',
+    author: 'David Deutsch',
+    cover: '/books/beginning-of-infinity.jpg',
+    spineColor: '#d1a34b',
+    spineTextColor: '#000000',
+    rating: 7.5,
+    dateRead: 'January 2026',
+    reflections: `Starts with universality, the Enlightenment, and fallibilism (no theory is final, anything can be questioned) in the first part of the book. 
+    
+Then ventures into more speculative territory covering multiverse interpretation, aesthetics, and sustainability. The core insight that good explanations are "hard to vary" is powerful and I've brought it up in conversations with friends.
+
+Sometimes unnecessarily extensive explanation and examples for a relatively simple concept. The book could have been 1/3 the size. The examples were interesting, and the concept is both valuable and complex enough to merit the rigour.`,
+  },
   {
     title: 'Let Them',
     author: 'Mel Robbins',
