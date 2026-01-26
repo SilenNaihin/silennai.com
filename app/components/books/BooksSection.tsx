@@ -361,20 +361,22 @@ function BooksSection({
         >
           {selectedBook ? (
             <div className="pt-12 sticky top-8" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center gap-3">
+              <div className="flex items-baseline gap-3 mb-1">
                 <h2 className="text-xl font-bold text-gray-900">
                   {selectedBook.title}
                 </h2>
                 {selectedBook.rating !== undefined && (
-                  <span className="text-gray-600 font-medium">
+                  <span className="text-gray-500 text-base ml-auto whitespace-nowrap">
                     {selectedBook.rating}/10
                   </span>
                 )}
-                <span className="ml-auto text-gray-600">
+              </div>
+              <div className="flex items-center justify-between text-gray-500 text-base mb-3">
+                <span>{selectedBook.author}</span>
+                <span className="whitespace-nowrap">
                   {selectedBook.dateRead}
                 </span>
               </div>
-              <p className="text-gray-600 mb-3">{selectedBook.author}</p>
               {selectedBook.reflections ? (
                 <p className="text-gray-700 leading-relaxed whitespace-pre-line">
                   {selectedBook.reflections}
