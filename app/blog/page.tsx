@@ -10,6 +10,12 @@ const articles = [
     slug: 'claude-code',
   },
   {
+    title: 'I spent 2 weeks playing god using genetic algorithms. Here are my learnings.',
+    description:
+      'A 2-week journey building an evolution simulator with NEAT, PyTorch, and Claude Code. Bugs, breakthroughs, and counterintuitive findings.',
+    slug: 'genetic-algorithm',
+  },
+  {
     title: 'Positional encoding: how transformers know word order',
     description:
       'Words have meaning, but so does their order. How do transformers, which process all tokens at once, understand that "dog bites man" differs from "man bites dog"? A first principles walkthrough from sinusoidal encodings to RoPE.',
