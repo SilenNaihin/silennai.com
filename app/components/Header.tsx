@@ -37,6 +37,14 @@ export default function Header() {
               >
                 email
               </a>
+              <a
+                href="https://github.com/SilenNaihin"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-gray-900"
+              >
+                git
+              </a>
             </div>
           </div>
           <nav className="flex gap-6">
