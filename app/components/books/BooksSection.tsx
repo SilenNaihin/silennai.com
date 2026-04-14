@@ -181,7 +181,7 @@ function BooksSection({
 
   // Sort buttons component
   const renderSortButtons = () => (
-    <div className="flex gap-1.5 -mt-8 -mb-4">
+    <div className="flex gap-1.5 -mt-8 -mb-4 relative z-10">
       <button
         onClick={(e) => {
           e.stopPropagation();
