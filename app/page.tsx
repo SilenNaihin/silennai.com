@@ -7,62 +7,49 @@ export default function Home() {
         <h2 className="font-bold mb-3">Some of my journey</h2>
         <ul className="space-y-3 list-disc pl-5 text-gray-700">
           <li>
-            I&apos;m doing work on the{' '}
+            Currently building a fast and realistic simulator of reality for hypothesis testing at Experiential Labs. We&apos;ve raised YC and angels across Meta, TBD, GDM, Nvidia, Waabi, etc.{' '}
             <a
-              href="https://genesis.energy.gov/"
+              href="https://github.com/experientiallabs/world-model-harness"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-gray-900"
+              className="inline-flex items-center gap-1 underline hover:text-gray-900"
             >
-              Genesis Mission
-            </a>{' '}
-            to accelerate scientific discovery with AI.{' '}
-            <a
-              href="https://www.whitehouse.gov/presidential-actions/2025/11/launching-the-genesis-mission/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-gray-900"
-            >
-              It's the modern day Manhattan Project
+              <svg className="w-4 h-4 inline" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              Star our repo
             </a>
-            .
           </li>
           <li>
-            I&apos;m focused on expanding humanity&apos;s epistemic frontier.
-            Currently exploring continual learning (sample efficiency, credit assignment, etc).
+            I currently do work in{' '}
+            <a
+              href="https://arxiv.org/abs/2606.05559"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-900"
+            >
+              continual learning
+            </a>
+            , world models, and mech interp (
+            <a
+              href="https://arxiv.org/abs/2606.15054"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-900"
+            >
+              ex ICML spotlight
+            </a>
+            ).
           </li>
           <li>
-            I ran a company that was in YC (StackwiseAI) for two years. Before
-            that, I helped build{' '}
+            I did{' '}
             <a
-              href="https://github.com/Significant-Gravitas/Auto-GPT"
+              href="https://genesis.doe.gov"
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:text-gray-900"
             >
-              AutoGPT
-            </a>
-            , built the first{' '}
-            <a
-              href="https://github.com/Significant-Gravitas/Auto-GPT-Benchmarks"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-gray-900"
-            >
-              agentic benchmark
-            </a>
-            , and published a{' '}
-            <a
-              href="https://neurips.cc/virtual/2023/78940"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-gray-900"
-            >
-              paper
+              work with the DOE
             </a>{' '}
-            on a portion of that work. I&apos;ve also done various ML and AI eng
-            jobs as a contractor/founding engineer. I dropped out of a CS degree
-            at Minerva University.
+            to accelerate scientific discovery with AI. I ran a company that was in YC (StackwiseAI) for two years. Before that, I helped build AutoGPT to 160k stars, built the first agentic benchmark, and published it at NeurIPS. I&apos;ve also done various ML and AI eng jobs as a contractor/founding engineer. I dropped out of a CS degree at Minerva University.
           </li>
         </ul>
       </section>
