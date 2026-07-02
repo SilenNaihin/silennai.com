@@ -7,7 +7,7 @@ export default function Home() {
         <h2 className="font-bold mb-3">Some of my journey</h2>
         <ul className="space-y-3 list-disc pl-5 text-gray-700">
           <li>
-            Currently building a fast and realistic simulator of reality for hypothesis testing at Experiential Labs. We&apos;ve raised YC and angels across Meta, TBD, GDM, Nvidia, Waabi, etc.{' '}
+            Currently simulating reality for hypothesis testing at Experiential Labs. We&apos;ve raised from YC and angels at Meta, TBD, GDM, Nvidia, Waabi, etc.{' '}
             <a
               href="https://github.com/experientiallabs/world-model-harness"
               target="_blank"
