@@ -19,7 +19,7 @@ export default function Home() {
             </a>
           </li>
           <li>
-            I currently do work in{' '}
+            I work on{' '}
             <a
               href="https://arxiv.org/abs/2606.05559"
               target="_blank"
@@ -35,14 +35,14 @@ export default function Home() {
               rel="noopener noreferrer"
               className="underline hover:text-gray-900"
             >
-              ex ICML spotlight
+              ICML spotlight
             </a>
             ).
           </li>
           <li>
             I did{' '}
             <a
-              href="https://genesis.doe.gov"
+              href="https://genesis.energy.gov/"
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:text-gray-900"
